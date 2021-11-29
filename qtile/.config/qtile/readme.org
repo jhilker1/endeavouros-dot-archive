@@ -1,0 +1,289 @@
+#+TITLE: Qtile
+#+Subtitle: Like XMonad, but in python.
+#+property: header-args :mkdirp yes
+#+property: header-args:python :tangle config.py
+
+This file serves as the documentation and source code for my configuration of Qtile.
+
+* Global Imports
+
+#+begin_src python
+from typing import List  # noqa: F401
+
+from libqtile import bar, layout, widget
+from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.lazy import lazy
+from keybinds import mod, keys
+from theme.colors import gruvbox
+from theme.layout import layouts
+from theme.bars import mainbar, widget_defaults, extension_defaults
+from groups import groups
+#+end_src
+
+* Colors
+:PROPERTIES:
+:header-args:python: :tangle theme/colors.py
+:END:
+** Gruvbox
+I've been using gruvbox as my colorscheme for about a year now, and I really like it.
+#+begin_src python
+gruvbox = {
+    "bg": "#282828",
+    "bg-bright": "#32302f",
+    "bg-dark": "#1d2021",
+    "fg": "#ebdbb2",
+    "red": "#cc241d",
+    "green": "#98971a",
+    "yellow": "#d7921",
+    "blue": "#458588",
+    "purple": "#b16286",
+    "teal": "#689d6a",
+    "orange": "#d65d0e"
+    }
+#+end_src
+
+
+
+
+
+* Layouts
+:PROPERTIES:
+:header-args:python: :tangle theme/layout.py
+:END:
+My layouts are not super fancy - just a master/stack layout and a max layout.
+** Imports
+#+begin_src python
+from libqtile import layout
+from theme.colors import gruvbox
+#+end_src
+
+** Layout Theming
+I have a few variables I'd like to set for theming my layouts.
+#+begin_src python
+layout_theme = {
+    "margin": 8,
+    "border_focus": gruvbox['purple'],
+    "border_normal": gruvbox['bg-dark'],
+    "border_width": 2
+}
+#+end_src
+
+** My Layouts of Choice
+#+begin_src python
+layouts = [
+    layout.MonadTall(**layout_theme),
+    layout.Max(**layout_theme)
+]
+#+end_src
+
+
+* Keybindings
+:PROPERTIES:
+:header-args:python: :tangle keybinds.py
+:END:
+My keybindings are nothing special, mostly vim inspired. However, first, I need to actually set some constant values so that qtile knows what to use.
+** Imports
+#+begin_src python
+from libqtile.config import EzKey as Key
+from libqtile.lazy import lazy
+#+end_src
+
+** A Few Variables
+These variables just contain the programs I primarily use - alacritty is my terminal emulator of choice, and my browser is firefox.
+#+begin_src python
+mod = "mod4"
+terminal = "alacritty"
+#+end_src
+
+Now, I can finally set my actual keybindings.
+#+begin_src python
+keys = [
+    # Switch between windows
+    Key("M-h", lazy.layout.left(), desc="Move focus to left"),
+    Key("M-l", lazy.layout.right(), desc="Move focus to right"),
+    Key("M-j", lazy.layout.down(), desc="Move focus down"),
+    Key("M-k", lazy.layout.up(), desc="Move focus up"),
+    Key("M-<space>", lazy.layout.next(), desc="Move window focus to other window"),
+        # Move windows between left/right columns or move up/down in current stack.
+    # Moving out of range in Columns layout will create new column.
+    Key("M-S-h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key("M-S-l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key("M-S-j", lazy.layout.shuffle_down(),
+        desc="Move window down"),
+    Key("M-S-k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key("M-C-h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key("M-C-l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key("M-C-j", lazy.layout.grow_down(),
+        desc="Grow window down"),
+    Key("M-C-k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key("M-n", lazy.layout.normalize(), desc="Reset all window sizes"),
+
+    # Toggle between split and unsplit sides of stack.
+    # Split = all windows displayed
+    # Unsplit = 1 window displayed, like Max layout, but still with
+    # multiple stack panes
+    Key("M-S-<Return>", lazy.layout.toggle_split(), desc="Toggle between split and unsplit sides of stack"),
+    Key("M-<Return>", lazy.spawn(terminal), desc="Launch terminal"),
+
+    # Toggle between different layouts as defined below
+    Key("M-<Tab>", lazy.next_layout(), desc="Toggle between layouts"),
+    Key("M-w", lazy.window.kill(), desc="Kill focused window"),
+       Key("M-S-r", lazy.restart(), desc="Restart Qtile"),
+    Key("M-C-q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key("M-r", lazy.spawn("rofi -show drun"), desc="Spawn a command using a prompt widget"),
+    Key("<XF86AudioRaiseVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +2%"), "Raise Volume"),
+    Key("<XF86AudioLowerVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -2%"), "Lower Volume"),
+    Key("<XF86AudioMute>", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
+
+]
+#+end_src
+
+* Groups
+:PROPERTIES:
+:header-args:python: :tangle groups.py
+:END:
+Groups are really just workspaces.
+#+begin_src python
+from libqtile.config import Group, Key
+from keybinds import keys
+groups = [Group("WEB", layout='monadtall'),
+          Group("DEV", layout='monadtall'),
+          Group("TRM", layout='monadtall'),
+          Group("SOC", layout='monadtall'),
+          Group("SYS", layout='monadtall'),
+          Group("DOC", layout='monadtall'),
+          Group("MUS", layout='monadtall'),
+          Group("GFX", layout='monadtall'),
+          Group("SCR", layout='max')]
+
+#+end_src
+
+** Bindings
+#+begin_src python :tangle config.py
+from libqtile.dgroups import simple_key_binder
+dgroups_key_binder = simple_key_binder("mod4")
+#+end_src
+
+
+
+* Bars
+:PROPERTIES:
+:header-args:python: :tangle theme/bars.py
+:END:
+** Imports
+#+begin_src python
+from libqtile import bar, widget
+from theme.colors import gruvbox
+#+end_src
+
+** Defaults
+#+begin_src python
+widget_defaults = dict(
+    font='Iosevka Nerd Font',
+    fontsize=16,
+    padding=3,
+    background = gruvbox['bg'],
+    foreground = gruvbox['fg']
+)
+extension_defaults = widget_defaults.copy()
+#+end_src
+
+** Arrow Functions
+Since I am using a nerd font, I'd like to be able to have a powerline status effect.
+#+begin_src python
+def draw_arrow_right(bg,fg,font_size=24):
+    "Creates a textbox widget with a right-pointing arrow."
+    return widget.TextBox(text="",
+                          padding=0,
+                          fontsize=font_size,
+                          background=bg,
+                          foreground=fg)
+
+def draw_arrow_left(bg,fg,font_size=24):
+    "Creates a textbox widget with a right-pointing arrow."
+    return widget.TextBox(text="\ue0b2",
+                          padding=0,
+                          fontsize=font_size,
+                          background=bg,
+                          foreground=fg)
+#+end_src
+
+** Main Bar
+My main bar contains most of the information I need.
+#+begin_src python
+mainbar = bar.Bar([
+    widget.CurrentLayoutIcon(scale=0.5, background=gruvbox['purple']),
+    widget.CurrentLayout(background=gruvbox['purple']),
+    draw_arrow_right(gruvbox['bg'],gruvbox['purple']),
+    widget.GroupBox(),
+    #draw_arrow_right(gruvbox['orange'],gruvbox['bg']),
+
+    widget.WindowName(),
+    #draw_arrow_left(gruvbox['orange'],gruvbox['blue']),
+    widget.Clock(format="%H:%M - %a, %d %b", background=gruvbox['blue']),
+    #widget.BatteryIcon(),
+    widget.Battery(),
+    widget.PulseVolume(),
+], 33, background=gruvbox['bg'])
+#+end_src
+
+* Screens
+Screens are your monitors in qtile.
+#+begin_src python
+
+
+screens = [
+    Screen(top=mainbar),
+]
+
+#+end_src
+
+
+* Mouse Setup
+#+begin_src python
+# Drag floating layouts.
+mouse = [
+    Drag([mod], "Button1", lazy.window.set_position_floating(),
+         start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(),
+         start=lazy.window.get_size()),
+    Click([mod], "Button2", lazy.window.bring_to_front())
+]
+#+end_src
+
+
+* Floating Layouts, Mouse, Etc.
+#+begin_src python
+dgroups_app_rules = []  # type: List
+follow_mouse_focus = True
+bring_front_click = False
+cursor_warp = False
+floating_layout = layout.Floating(float_rules=[
+    # Run the utility of `xprop` to see the wm class and name of an X client.
+    *layout.Floating.default_float_rules,
+    Match(wm_class='confirmreset'),  # gitk
+    Match(wm_class='makebranch'),  # gitk
+    Match(wm_class='maketag'),  # gitk
+    Match(wm_class='ssh-askpass'),  # ssh-askpass
+    Match(title='branchdialog'),  # gitk
+    Match(title='pinentry'),  # GPG key password entry
+])
+auto_fullscreen = True
+focus_on_window_activation = "smart"
+reconfigure_screens = True
+
+# If things like steam games want to auto-minimize themselves when losing
+# focus, should we respect this or not?
+auto_minimize = True
+
+# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
+# string besides java UI toolkits; you can see several discussions on the
+# mailing lists, GitHub issues, and other WM documentation that suggest setting
+# this string if your java app doesn't work correctly. We may as well just lie
+# and say that we're a working one by default.
+#
+# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
+# java that happens to be on java's whitelist.
+wmname = "LG3D"
+
+#+end_src
