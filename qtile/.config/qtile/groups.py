@@ -7,5 +7,5 @@ groups = [Group("WEB", layout='monadtall'),
           Group("SYS", layout='monadtall'),
           Group("DOC", layout='monadtall'),
           Group("MUS", layout='monadtall'),
-          Group("GFX", layout='monadtall'),
+          Group("GFX", layout='max'),
           Group("SCR", layout='max')]

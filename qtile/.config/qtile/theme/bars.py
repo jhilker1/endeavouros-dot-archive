@@ -32,7 +32,6 @@ mainbar = bar.Bar([
     draw_arrow_right(gruvbox['bg'],gruvbox['purple']),
     widget.GroupBox(disable_drag = True,
                     active=gruvbox['fg']),
-    widget.Prompt(),
     #draw_arrow_right(gruvbox['orange'],gruvbox['bg']),
 
     #draw_arrow_left(gruvbox['orange'],gruvbox['blue']),
