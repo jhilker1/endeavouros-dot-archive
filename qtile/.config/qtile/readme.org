@@ -94,8 +94,7 @@ These variables just contain the programs I primarily use - alacritty is my term
 mod = "mod4"
 terminal = "alacritty"
 #+end_src
-
-Now, I can finally set my actual keybindings.
+** Actual Bindings
 #+begin_src python
 keys = [
     # Switch between windows
@@ -127,10 +126,11 @@ keys = [
 
     # Toggle between different layouts as defined below
     Key("M-<Tab>", lazy.next_layout(), desc="Toggle between layouts"),
-    Key("M-w", lazy.window.kill(), desc="Kill focused window"),
+    Key("M-S-q", lazy.window.kill(), desc="Kill focused window"),
        Key("M-S-r", lazy.restart(), desc="Restart Qtile"),
     Key("M-C-q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key("M-r", lazy.spawn("rofi -show drun"), desc="Spawn a command using a prompt widget"),
+    Key("M-C-r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key("<XF86AudioRaiseVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +2%"), "Raise Volume"),
     Key("<XF86AudioLowerVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -2%"), "Lower Volume"),
     Key("<XF86AudioMute>", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
@@ -215,15 +215,17 @@ mainbar = bar.Bar([
     widget.CurrentLayoutIcon(scale=0.5, background=gruvbox['purple']),
     widget.CurrentLayout(background=gruvbox['purple']),
     draw_arrow_right(gruvbox['bg'],gruvbox['purple']),
-    widget.GroupBox(),
+    widget.GroupBox(disable_drag = True,
+                    active=gruvbox['fg']),
+    widget.Prompt(),
     #draw_arrow_right(gruvbox['orange'],gruvbox['bg']),
 
-    widget.WindowName(),
     #draw_arrow_left(gruvbox['orange'],gruvbox['blue']),
     widget.Clock(format="%H:%M - %a, %d %b", background=gruvbox['blue']),
-    #widget.BatteryIcon(),
+    widget.BatteryIcon(),
     widget.Battery(),
-    widget.PulseVolume(),
+    widget.TextBox(text=""),
+    widget.PulseVolume(fmt="{}"),
 ], 33, background=gruvbox['bg'])
 #+end_src
 
@@ -284,6 +286,6 @@ auto_minimize = True
 #
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
-wmname = "LG3D"
+wmname = "Qtile"
 
 #+end_src

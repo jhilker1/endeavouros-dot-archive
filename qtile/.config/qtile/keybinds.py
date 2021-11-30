@@ -34,10 +34,11 @@ keys = [
 
     # Toggle between different layouts as defined below
     Key("M-<Tab>", lazy.next_layout(), desc="Toggle between layouts"),
-    Key("M-w", lazy.window.kill(), desc="Kill focused window"),
+    Key("M-S-q", lazy.window.kill(), desc="Kill focused window"),
        Key("M-S-r", lazy.restart(), desc="Restart Qtile"),
     Key("M-C-q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key("M-r", lazy.spawn("rofi -show drun"), desc="Spawn a command using a prompt widget"),
+    Key("M-C-r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key("<XF86AudioRaiseVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +2%"), "Raise Volume"),
     Key("<XF86AudioLowerVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -2%"), "Lower Volume"),
     Key("<XF86AudioMute>", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
