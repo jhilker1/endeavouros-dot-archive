@@ -9,3 +9,6 @@ configuration {
     drun-match-fields: "name";
 }
 @theme "~/.config/rofi/themes/jh-grid.rasi"
+listview {
+  columns: 3;
+}
