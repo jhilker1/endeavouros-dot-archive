@@ -1,8 +1,9 @@
 configuration {
-    font: "Iosevka Nerd Font 14";
-    theme: "~/.config/rofi/themes/jh-gruvbox.rasi";
+    theme: "~/.config/rofi/themes/jh-grid.rasi";
     show-icons: true;
     icon-theme: "Paper";
+    drun-display-format: "{icon} {name}";
+    display-drun: "";
 }
 
 

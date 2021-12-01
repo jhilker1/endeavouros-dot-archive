@@ -4,3 +4,93 @@
  * User: Jacob Hilker
 */
 
+* {
+  background: #282828;
+  bg-bright: #32302f;
+  foreground: #ebdbb2;
+  red: #cc241d;
+  purple: #b16286;
+  blue: #458588;
+
+  font: "Iosevka Nerd Font 14";
+  background-color: @background;
+  text-color: @foreground;
+}
+
+#window {
+  width: 55%;
+  height: 65%;
+  border: 2px;
+  border-color: @bg-bright;
+  border-radius: 4px;
+  padding: 20px 10px 0px 20px;
+}
+
+inputbar,
+prompt,
+textbox-prompt-colon,
+entry {
+  background-color: @bg-bright;
+}
+
+#inputbar {
+    children: [ prompt, textbox-prompt-colon, entry ];
+    expand: false;
+}
+
+#textbox-prompt-colon {
+  expand: false;
+  str: "";
+}
+
+#prompt {
+  padding: 10px 20px 10px 10px;
+  background-color: @blue;
+
+  font: "Iosevka Nerd Font 14";
+}
+
+#entry {
+  padding: 10px;
+  placeholder: "Search Apps";
+  placeholder-color: #a89984;
+}
+
+#element {
+  padding: 10px;
+  margin: 5px 3px;
+  background-color: @background;
+  border-color: @background;
+}
+
+#element-icon {
+  margin: 3px;
+  size: 20px;
+}
+
+#element-text.selected {
+  background-color: @bg-bright;
+}
+
+#element.selected {
+  background-color: @bg-bright;
+  border: 0px 0px 0px 4px;
+  border-color: @blue;
+}
+
+#element.selected.urgent {
+  background-color: @background;
+  text-color: #fb4934;
+  border-color: @red;
+
+}
+
+listview {
+  columns: 3;
+  fixed-height: true;
+  dynamic: true;
+  padding: 1px 0px 0px 0px;
+  margin: 0px 0px 1px 0px;
+  spacing: 0px;
+  background-color: @background;
+}
