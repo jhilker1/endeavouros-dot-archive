@@ -35,6 +35,7 @@ mainbar = bar.Bar([
     #draw_arrow_right(gruvbox['orange'],gruvbox['bg']),
 
     #draw_arrow_left(gruvbox['orange'],gruvbox['blue']),
+    widget.WindowName(),
     widget.Clock(format="%H:%M - %a, %d %b", background=gruvbox['blue']),
     widget.BatteryIcon(),
     widget.Battery(),
