@@ -1,3 +1,29 @@
 use_nerdfont = true
 volume = 75
 repeat = "playlist"
+
+[theme]
+title = "light blue"
+playing = "#b16286"
+playing_selected = "#ffffff"
+highlight = "#ebdbb2"
+highlight_bg = "#076678"
+statusbar_progress = "#458588"
+statusbar_bg = "black"
+cmdline = "light white"
+cmdline_bg = "black"
+
+
+[keybindings]
+" " = "playpause"
+"n" = "next"
+"p" = "previous"
+"Esc" = "back"
+"=" = "volup"
+"gg" = "move top"
+"Shift+g" = "move bottom"
+"q" = "queue"
+"Shift+q" = "quit"
+"1" = "focus queue"
+"3" = "focus library"
+

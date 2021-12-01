@@ -1,3 +1,8 @@
 configuration {
-    font: "Iosevka Aile 12";
+    font: "Iosevka Nerd Font 14";
+    theme: "~/.config/rofi/themes/jh-gruvbox.rasi";
+    show-icons: true;
+    icon-theme: "Paper";
 }
+
+
