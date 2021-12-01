@@ -14,7 +14,6 @@
 
 #window {
   width: 55%;
-  height: 65%;
   border: 2px;
   border-color: @bg-bright;
   border-radius: 4px;
@@ -81,7 +80,7 @@ entry {
 }
 
 listview {
-  fixed-height: true;
+  /*fixed-height: true;*/
   dynamic: true;
   padding: 1px 0px 0px 0px;
   margin: 0px 0px 1px 0px;
