@@ -1,9 +1,13 @@
 configuration {
+    modi: "window,run,ssh,drun";
     theme: "~/.config/rofi/themes/jh-grid.rasi";
     show-icons: true;
     icon-theme: "Paper";
     drun-display-format: "{icon} {name}";
     display-drun: "";
+    combi-modi: "window,drun,run,ssh,combi";
+    matching: "fuzzy";
+    drun-match-fields: "name";
 }
 
 

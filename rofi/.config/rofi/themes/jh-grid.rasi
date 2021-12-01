@@ -4,14 +4,9 @@
  * User: Jacob Hilker
 */
 
-* {
-  background: #282828;
-  bg-bright: #32302f;
-  foreground: #ebdbb2;
-  red: #cc241d;
-  purple: #b16286;
-  blue: #458588;
+@import "colors/gruvbox.rasi"
 
+* {
   font: "Iosevka Nerd Font 14";
   background-color: @background;
   text-color: @foreground;
@@ -86,7 +81,6 @@ entry {
 }
 
 listview {
-  columns: 3;
   fixed-height: true;
   dynamic: true;
   padding: 1px 0px 0px 0px;

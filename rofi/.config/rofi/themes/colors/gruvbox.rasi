@@ -1,0 +1,9 @@
+* {
+
+  background: #282828;
+  bg-bright: #32302f;
+  foreground: #ebdbb2;
+  red: #cc241d;
+  purple: #b16286;
+  blue: #458588;
+}
