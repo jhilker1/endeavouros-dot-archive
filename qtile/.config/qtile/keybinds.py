@@ -3,9 +3,9 @@ from libqtile.lazy import lazy
 
 mod = "mod4"
 terminal = "alacritty"
+browser = "firefox"
 
-keys = [
-    # Switch between windows
+core_binds = [
     EzKey("M-h", lazy.layout.left(), desc="Move focus to left"),
     EzKey("M-l", lazy.layout.right(), desc="Move focus to right"),
     EzKey("M-j", lazy.layout.down(), desc="Move focus down"),
@@ -21,27 +21,24 @@ keys = [
     EzKey("M-C-l", lazy.layout.grow_right(), desc="Grow window to the right"),
     EzKey("M-C-j", lazy.layout.grow_down(), desc="Grow window down"),
     EzKey("M-C-k", lazy.layout.grow_up(), desc="Grow window up"),
-    EzKey("M-n", lazy.layout.normalize(), desc="Reset all window sizes"),
-
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    EzKey("M-S-<Return>", lazy.layout.toggle_split(), desc="Toggle between split and unsplit sides of stack"),
-    EzKey("M-<Return>", lazy.spawn(terminal), desc="Launch terminal"),
-
-    # Toggle between different layouts as defined below
-    EzKey("M-<Tab>", lazy.next_layout(), desc="Toggle between layouts"),
-
-    EzKey("A-<Tab>", lazy.spawn("rofi -show window -p 'Windows'"), desc="Toggle between windows"),
-    EzKey("M-S-p", lazy.spawn("rofi -show powermenu -modi powermenu:~/.dotfiles/rofi/.config/rofi/scripts/power.sh -theme-str '#window { height: 55%;} listview { columns: 1;}'"), desc="Manage machine power state"),
+     EzKey("M-<equal>", lazy.layout.grow()),
+    EzKey("M-<minus>", lazy.layout.shrink()),
+    EzKey("M-0", lazy.layout.normalize()),
     EzKey("M-S-q", lazy.window.kill(), desc="Kill focused window"),
     EzKey("M-S-r", lazy.restart(), desc="Restart Qtile"),
     EzKey("M-S-p", lazy.spawn("rofi -show powermenu -modi powermenu:~/.dotfiles/rofi/.config/rofi/scripts/power.sh -theme-str '#window { height: 55%;} listview { columns: 1;}'"), desc="Manage machine power state"),
-    #EzKey("M-a", lazy.spawn("rofi -show combi -sidebar-mode")),
-    EzKey("M-r", lazy.spawn("rofi -show drun"), desc="Launch app with Rofi"),
-    EzKey("<XF86AudioRaiseVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +2%"), "Raise Volume"),
-    EzKey("<XF86AudioLowerVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -2%"), "Lower Volume"),
-    EzKey("<XF86AudioMute>", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
-
+    EzKey("M-<equal>", lazy.layout.grow()),
+    EzKey("M-<minus>", lazy.layout.shrink()),
+    EzKey("M-0", lazy.layout.normalize()),
 ]
+
+keys = core_binds.copy()
+
+app_bindings = [
+    EzKey("M-r", lazy.spawn("rofi -show drun")),
+    EzKey("M-<Return>", lazy.spawn(terminal), desc="Launch terminal"),
+    EzKey("M-S-<Return>", lazy.spawn(browser), desc="Open Firefox"),
+    ]
+
+for keybind in app_bindings:
+    keys.append(keybind)

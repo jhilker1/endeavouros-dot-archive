@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 xset b off
-xrandr --output eDP1 --mode 1600x900
+xrandr --output eDP1 --mode 1368x768
 feh --bg-center ~/.dotfiles/wallpapers/gruvbox/pacman.png
