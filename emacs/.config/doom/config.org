@@ -16,3 +16,15 @@ I am using Iosevka Nerd Font as my font.
       doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 15)
       doom-big-font (font-spec :family "Iosevka Nerd Font" :size 24))
 #+end_src
+
+
+
+* Application
+** Elfeed
+#+begin_src elisp
+(after! elfeed
+  (elfeed-goodies/setup)
+  (setq elfeed-search-filter "@1-week-ago +unread"
+      elfeed-goodies/feed-source-column-width 30
+      elfeed-goodies/tag-column-width 16))
+#+end_src
