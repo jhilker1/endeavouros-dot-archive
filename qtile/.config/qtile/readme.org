@@ -90,7 +90,7 @@ layouts = [
 My keybindings are nothing special, mostly vim inspired. However, first, I need to actually set some constant values so that qtile knows what to use.
 ** Imports
 #+begin_src python
-from libqtile.config import Key, EzKey
+from libqtile.config import KeyChord, EzKey
 from libqtile.lazy import lazy
 #+end_src
 
@@ -125,13 +125,14 @@ core_binds = [
     EzKey("M-C-k", lazy.layout.grow_up(), desc="Grow window up"),
      EzKey("M-<equal>", lazy.layout.grow()),
     EzKey("M-<minus>", lazy.layout.shrink()),
-    EzKey("M-0", lazy.layout.normalize()),
+    EzKey("M-0", lazy.layout.reset()),
     EzKey("M-S-q", lazy.window.kill(), desc="Kill focused window"),
     EzKey("M-S-r", lazy.restart(), desc="Restart Qtile"),
     EzKey("M-S-p", lazy.spawn("rofi -show powermenu -modi powermenu:~/.dotfiles/rofi/.config/rofi/scripts/power.sh -theme-str '#window { height: 55%;} listview { columns: 1;}'"), desc="Manage machine power state"),
-    EzKey("M-<equal>", lazy.layout.grow()),
-    EzKey("M-<minus>", lazy.layout.shrink()),
-    EzKey("M-0", lazy.layout.normalize()),
+    EzKey("<XF86AudioLowerVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
+    EzKey("<XF86AudioRaiseVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")),
+
+    EzKey("<XF86AudioMute>", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
 ]
 
 keys = core_binds.copy()
@@ -150,30 +151,57 @@ for keybind in app_bindings:
     keys.append(keybind)
 #+end_src
 
+*** Emacs Apps
+#+begin_src python
+emacs_apps = KeyChord([mod],"e", [
+             EzKey("n", lazy.spawn("emacsclient -c -a 'elfeed"), desc='Launch Elfeed'),
+    ],mode="Emacs")
+keys.append(emacs_apps)
+
+#+end_src
+
+
 * Groups
 :PROPERTIES:
 :header-args:python: :tangle groups.py
 :END:
 Groups are really just workspaces.
 #+begin_src python
-from libqtile.config import Group, Key
-from keybinds import keys
-groups = [Group("WEB", layout='monadtall'),
-          Group("DEV", layout='monadtall'),
-          Group("TRM", layout='monadtall'),
-          Group("SOC", layout='monadtall'),
-          Group("SYS", layout='monadtall'),
-          Group("DOC", layout='monadtall'),
-          Group("MUS", layout='monadtall'),
-          Group("GFX", layout='max'),
-          Group("SCR", layout='max')]
+from libqtile.config import Group, Key, DropDown, ScratchPad
+from keybinds import keys, mod
+groups = [Group("1",label="WEB", layout='monadtall'),
+          Group("2",label="DEV", layout='monadtall'),
+          Group("3",label="TRM", layout='monadtall'),
+          Group("4",label="SOC", layout='monadtall'),
+          Group("5",label="SYS", layout='monadtall'),
+          Group("6",label="DOC", layout='monadtall'),
+          Group("7",label="MUS", layout='monadtall'),
+          Group("8",label="GFX", layout='max'),
+          Group("9",label="SCR", layout='max')]
+              
+
+
 
 #+end_src
 
 ** Bindings
 #+begin_src python :tangle config.py
-from libqtile.dgroups import simple_key_binder
-dgroups_key_binder = simple_key_binder("mod4")
+dgroups_key_binder = None
+for i in groups:
+    keys.extend([
+        # mod1 + letter of group = switch to group
+        Key([mod], i.name, lazy.group[i.name].toscreen(),
+            desc="Switch to group {}".format(i.name)),
+
+        # mod1 + shift + letter of group = switch to & move focused window to group
+        Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
+            desc="Switch to & move focused window to group {}".format(i.name)),
+        # Or, use below if you prefer not to switch to that group.
+        # # mod1 + shift + letter of group = move focused window to group
+        # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+        #     desc="move focused window to group {}".format(i.name)),
+    ])
+
 #+end_src
 
 
@@ -186,6 +214,8 @@ dgroups_key_binder = simple_key_binder("mod4")
 #+begin_src python
 from libqtile import bar, widget
 from theme.colors import gruvbox
+import os
+import subprocess
 #+end_src
 
 ** Defaults
@@ -195,7 +225,7 @@ widget_defaults = dict(
     fontsize=16,
     padding=3,
     background = gruvbox['bg'],
-    foreground = gruvbox['fg']
+    foreground = gruvbox['fg'],
 )
 extension_defaults = widget_defaults.copy()
 #+end_src
@@ -224,21 +254,11 @@ def draw_arrow_left(bg,fg,font_size=24):
 My main bar contains most of the information I need.
 #+begin_src python
 mainbar = bar.Bar([
-    widget.CurrentLayoutIcon(scale=0.5, background=gruvbox['purple']),
-    widget.CurrentLayout(background=gruvbox['purple']),
-    draw_arrow_right(gruvbox['bg'],gruvbox['purple']),
-    widget.GroupBox(disable_drag = True,
-                    active=gruvbox['fg']),
-    #draw_arrow_right(gruvbox['orange'],gruvbox['bg']),
-
-    #draw_arrow_left(gruvbox['orange'],gruvbox['blue']),
-    widget.WindowName(),
-    widget.Clock(format="%H:%M - %a, %d %b", background=gruvbox['blue']),
-    widget.BatteryIcon(),
-    widget.Battery(),
-    widget.TextBox(text=""),
-    widget.PulseVolume(fmt="{}"),
-], 33, background=gruvbox['bg'])
+    widget.GroupBox(disable_drag=True),
+    widget.Chord(),
+    widget.PulseVolume(emoji=True, fontsize=14), 
+    widget.GenPollText(update_interval=None, func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/printvol.sh")).decode('utf-8')),
+    ], 33, background=gruvbox['bg'])
 #+end_src
 
 * Screens
@@ -292,7 +312,8 @@ auto_minimize = True
 #+end_src
 
 
-* Startup Applications
+* Scripts
+** Startup Applications
 These applications are ones I want to immediately start when I log in to Qtile - such as disabling the bell, and setting a wallpaper. I need to add a hook to my qtile config that says "hey, any time I log in to Qtile, I want you to run these applications."
 #+begin_src python
 @hook.subscribe.startup_once
@@ -316,8 +337,28 @@ wmname = "Qtile"
 :header-args: :tangle scripts/autostart.sh
 :END:
 
-#+begin_src sh :shebang "#!/usr/bin/env zsh"
+#+begin_src sh :shebang "#!/usr/bin/env bash"
 xset b off
 xrandr --output eDP1 --mode 1368x768
 feh --bg-center ~/.dotfiles/wallpapers/gruvbox/pacman.png
+redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | jq '.location.lat, .location.lng' | tr '\n' ':' | sed 's/:$//') &
+#+end_src
+
+** Volume Status
+:PROPERTIES:
+:header-args: :tangle scripts/printvol.sh
+:END:
+#+begin_src sh :shebang "#!/usr/bin/env bash"
+
+VOL=$(pacmd list-sinks|grep -A 15 '* index'| awk '/volume: front/{ print $5 }' | sed 's/[%|,]//g' | xargs)
+
+MUTED=$(pacmd list-sinks|grep -A 15 '* index'|awk '/muted:/{ print $2 }')
+
+if [[ $MUTED == "yes" ]] 
+then
+    printf "%s" "Muted"
+else
+    printf "%s%%" "$VOL"
+fi
+
 #+end_src

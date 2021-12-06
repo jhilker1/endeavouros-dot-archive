@@ -1,12 +1,14 @@
 from libqtile import bar, widget
 from theme.colors import gruvbox
+import os
+import subprocess
 
 widget_defaults = dict(
     font='Iosevka Nerd Font',
     fontsize=16,
     padding=3,
     background = gruvbox['bg'],
-    foreground = gruvbox['fg']
+    foreground = gruvbox['fg'],
 )
 extension_defaults = widget_defaults.copy()
 
@@ -27,18 +29,8 @@ def draw_arrow_left(bg,fg,font_size=24):
                           foreground=fg)
 
 mainbar = bar.Bar([
-    widget.CurrentLayoutIcon(scale=0.5, background=gruvbox['purple']),
-    widget.CurrentLayout(background=gruvbox['purple']),
-    draw_arrow_right(gruvbox['bg'],gruvbox['purple']),
-    widget.GroupBox(disable_drag = True,
-                    active=gruvbox['fg']),
-    #draw_arrow_right(gruvbox['orange'],gruvbox['bg']),
-
-    #draw_arrow_left(gruvbox['orange'],gruvbox['blue']),
-    widget.WindowName(),
-    widget.Clock(format="%H:%M - %a, %d %b", background=gruvbox['blue']),
-    widget.BatteryIcon(),
-    widget.Battery(),
-    widget.TextBox(text=""),
-    widget.PulseVolume(fmt="{}"),
-], 33, background=gruvbox['bg'])
+    widget.GroupBox(disable_drag=True),
+    widget.Chord(),
+    widget.PulseVolume(emoji=True, fontsize=14), 
+    widget.GenPollText(update_interval=None, func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/printvol.sh")).decode('utf-8')),
+    ], 33, background=gruvbox['bg'])

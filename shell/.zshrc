@@ -7,3 +7,4 @@ export PATH=~/.local/bin:~/.npm-global:$PATH
 eval "$(starship init zsh)"
 
 export EDITOR=nvim
+source ~/.aliases

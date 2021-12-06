@@ -144,3 +144,10 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
+emacs/.config/jmacs/straight/
+emacs/.config/jmacs/auto-save-list/
+*~
+/emacs/.config/jmacs/recentf
+/emacs/.config/jmacs/forge-database.sqlite
+/emacs/.config/jmacs/transient/
+*.eld

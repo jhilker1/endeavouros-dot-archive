@@ -1,4 +1,4 @@
-from libqtile.config import Key, EzKey
+from libqtile.config import KeyChord, EzKey
 from libqtile.lazy import lazy
 
 mod = "mod4"
@@ -23,13 +23,14 @@ core_binds = [
     EzKey("M-C-k", lazy.layout.grow_up(), desc="Grow window up"),
      EzKey("M-<equal>", lazy.layout.grow()),
     EzKey("M-<minus>", lazy.layout.shrink()),
-    EzKey("M-0", lazy.layout.normalize()),
+    EzKey("M-0", lazy.layout.reset()),
     EzKey("M-S-q", lazy.window.kill(), desc="Kill focused window"),
     EzKey("M-S-r", lazy.restart(), desc="Restart Qtile"),
     EzKey("M-S-p", lazy.spawn("rofi -show powermenu -modi powermenu:~/.dotfiles/rofi/.config/rofi/scripts/power.sh -theme-str '#window { height: 55%;} listview { columns: 1;}'"), desc="Manage machine power state"),
-    EzKey("M-<equal>", lazy.layout.grow()),
-    EzKey("M-<minus>", lazy.layout.shrink()),
-    EzKey("M-0", lazy.layout.normalize()),
+    EzKey("<XF86AudioLowerVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
+    EzKey("<XF86AudioRaiseVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")),
+
+    EzKey("<XF86AudioMute>", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
 ]
 
 keys = core_binds.copy()
@@ -42,3 +43,8 @@ app_bindings = [
 
 for keybind in app_bindings:
     keys.append(keybind)
+
+emacs_apps = KeyChord([mod],"e", [
+             EzKey("n", lazy.spawn("emacsclient -c -a 'elfeed"), desc='Launch Elfeed'),
+    ],mode="Emacs")
+keys.append(emacs_apps)

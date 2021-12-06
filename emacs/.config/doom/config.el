@@ -7,5 +7,6 @@
 (after! elfeed
   (elfeed-goodies/setup)
   (setq elfeed-search-filter "@1-week-ago +unread"
-      elfeed-goodies/feed-source-column-width 30
-      elfeed-goodies/tag-column-width 16))
+        elfeed-goodies/feed-source-column-width 30
+        elfeed-goodies/tag-column-width 16
+        rmh-elfeed-org-files '("~/Dropbox/org/elfeed.org")))

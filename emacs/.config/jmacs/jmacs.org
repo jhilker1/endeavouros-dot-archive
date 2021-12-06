@@ -1,0 +1,1354 @@
+#+title: Jmacs
+#+subtitle: Jacob's Literate Emacs Config
+#+author: Jacob Hilker
+#+startup: fold
+#+property: header-args:elisp :tangle jmacs.el 
+#+property: header-args:emacs-lisp :tangle jmacs.el 
+
+
+* Initialization
+** Early Initialization
+:properties:
+:header-args:elisp: :tangle early-init.el
+:end:
+*** Disabling Package.el 
+By default, I want to use straight.el as my package manager.
+#+begin_src elisp
+(setq package-enable-at-startup nil)
+#+end_src
+
+*** UTF-8
+I want UTF-8 characters for my files.
+#+begin_src elisp
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-language-environment 'utf-8)
+(set-selection-coding-system 'utf-8)
+(set-default buffer-file-coding-system 'utf-8)
+#+end_src
+
+** General Initialization
+:properties:
+:header-args:elisp: :tangle init.el :lexical t
+:end:
+*** Lexical Binding and Unicode
+This is the header-line for my =init.el=. It just sets unicode and lexical binding.
+#+begin_src elisp
+;;; init.el --- -*- lexical-binding: t; coding: utf-8; -*-
+#+end_src
+
+
+*** Setting Up Straight.el
+I am using straight.el for my packages.
+#+begin_src elisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+              (url-retrieve-synchronously
+                       "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+                                'silent 'inhibit-cookies)
+                    (goto-char (point-max))
+                          (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+#+end_src
+
+*** Setting Up Use-Package with Straight.el
+Use-package provides an easy-to-use macro - I like that, but want the functionality of straight.el.
+#+begin_src elisp
+(straight-use-package 'use-package)
+#+end_src
+
+And finally, I always want it to use straight.el.
+#+begin_src elisp
+(setq straight-use-package-by-default t)
+#+end_src
+
+*** Performance Improvements
+*** UI Setup
+**** Cleaner Title Format
+#+begin_src elisp
+(setq frame-title-format '("%b@" (:eval (or (file-remote-p default-directory 'host) system-name)) " - Emacs"))
+#+end_src
+
+**** Minimal UI
+I really hate seeing the menu bar, scrollbar, etc. I'm disabling those items here.
+#+begin_src elisp
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(menu-bar-mode -1)
+#+end_src
+
+**** Theme
+***** Doom Themes
+Doom Themes is a nice collection of themes for emacs. I am using the Doom-one theme, based one the OneDark colors in Atom.
+‪湉瑩慩⁬敓畴ੰ⨪䰠硥捩污䈠湩楤杮愠摮唠楮潣敤伊据⁥条楡Ɱ琠楨⁳番瑳猠瑥⁳灵甠楮潣敤攠据摯湩⁧湡⁤敬楸慣⁬楢摮湩⹧⌊戫来湩獟捲攠楬灳㬊㬻ⴠ⴪氠硥捩污戭湩楤杮›㭴挠摯湩㩧甠晴ㄭⴶ敬※⨭‭⌊攫摮獟捲ਊ⨪倠牥潳慮⁬湉潦浲瑡潩੮†桔獩椠⁳桷牥⁥⁉敳畴⁰祭椠楮楴污瀠牥潳慮⁬湩潦浲瑡潩Ɱ愠⁳敷汬愠⁳⁡業楮慭⁬䥕愠摮攠慮汢湩⁧桴⁥楶畳污戠汥⹬䤠洧愠獬⁯敳瑴湩⁧灵攠慭獣琠⁯獵⁥瑩猧漠湷挠獵潴業敺映汩⁥湩瑳慥⁤景㴠湩瑩攮㵬‮瑉眠汩⁬湯祬氠慯⁤晩琠慨⁴楦敬攠楸瑳⹳⌊戫来湩獟捲攠楬灳⠊敳煴甠敳⵲畦汬渭浡⁥䨢捡扯䠠汩敫≲ ††甠敳⵲慭汩愭摤敲獳∠慪潣⹢楨歬牥䀲浧楡⹬潣≭ ††瘠獩扩敬戭汥⁬⥴ਊ猨瑥⵱敤慦汵⁴畣瑳浯昭汩⁥攨灸湡ⵤ楦敬渭浡⁥⸢畣瑳浯攮≬甠敳⵲浥捡⵳楤敲瑣牯⥹਩⬣湥彤牳੣ਊ‪楍潮⁲睔慥獫⨊‪慍楫杮㴠䅔㵂䜠敲瑡䄠慧湩⨊⨪䐠獩扡楬杮䄠瑵浯瑡捩吠扡ੳ⁉浡搠獩扡楬杮愠瑵浯瑡捩椠摮湥慴楴湯眠瑩⁨汥捥牴捩椭摮湥⵴潭敤‬湡⁤楤慳汢湩⁧慴獢ਮ⬣敢楧彮牳⁣汥獩ੰ攨敬瑣楲ⵣ湩敤瑮洭摯⁥ㄭ਩猨瑥⵱敤慦汵⁴湩敤瑮琭扡⵳潭敤渠汩਩猨瑥ⁱ慴ⵢ污慷獹椭摮湥⁴挧浯汰瑥⥥⌊攫摮獟捲ਊ⨪‪浉牰癯湩⁧慔⁢敋⁹畆据楴湯污瑩੹⁉慷瑮琠⁯獵⁥′灳捡獥映牯琠扡⁳潦⁲㤹‥景琠敨氠湡畧条獥䤠甠敳‮湉愠摤瑩潩Ɱ䤠眠湡⁴潳牵散戠潬正⁳湩漠杲洭摯⁥潴欠敥⁰祭爠来汵牡椠摮湥慴楴湯ਮ⬣敢楧彮牳⁣浥捡⵳楬灳⠊敳煴漠杲猭捲瀭敲敳癲ⵥ湩敤瑮瑡潩⁮ੴ†††牯ⵧ牳ⵣ潦瑮晩⵹慮楴敶祬琠 ††漠杲猭捲琭扡愭瑣⵳慮楴敶祬琠਩⠊敳煴搭晥畡瑬琠扡眭摩桴㈠਩⬣湥彤牳੣⌊攫摮獟捲ਊ⨪夠丯映牯夠獥丯੯⁉污潳眠湡⁴潴甠敳礠港映牯愠獮敷楲杮礠獥漠⁲潮ਮ⬣敢楧彮牳⁣汥獩ੰ搨晥污慩⁳礧獥漭⵲潮瀭✠⵹牯渭瀭਩⬣湥彤牳੣⨊‪捓慲捴⁨畂晦牥唠敳⁳牏⁧潍敤䤊眠湡⁴祭猠牣瑡档戠晵敦⁲潴甠敳漠杲洭摯⹥䤠愠獬⁯慷瑮渠⁯敭獳条⁥潦⁲祭猠牣瑡档戠晵敦⹲⌊戫来湩獟捲攠楬灳⠊敳煴椠楮楴污洭橡牯洭摯⁥漧杲洭摯⥥⌊攫摮獟捲ਊ⨪䤠潣獮䤊眠湡⁴潴甠敳椠潣獮漠捣獡潩慮汬⹹䴠杩瑨渠瑯戠⁥敶祲漠瑦湥‬畢⁴潳敭楴敭⁳瑩猧渠捩⁥潴栠癡⹥⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥污⵬桴ⵥ捩湯ੳ††椺⁦搨獩汰祡札慲桰捩瀭⤩⌊攫摮獟捲ਊ⨪䔠潭楪匊浯瑥浩獥䤠眠湡⁴潴愠摤愠⁮浥橯⹩⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥浥橯晩⥹⌊攫摮獟捲ਊ‪潃敲䘠湵瑣潩慮楬祴††††††††††††††††††††††††††ਠ⨪倠捡慫敧ੳ⨪‪湕潤吠敲⁥††††††††††††††††††††††††††††唊摮⁯牔敥氠瑥⁳敭甠敳洠牯⁥景䔠楶⁬潭敤猧爠摥⁯畦据楴湯污瑩⹹⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥湵潤琭敲੥†挺湯楦੧†木潬慢⵬湵潤琭敲ⵥ潭敤⤩⌊攫摮獟捲ਊ⨪‪癅汩䴠摯੥癅汩洠摯⁥敬獴洠⁥獵⁥桴⁥猨灵牥潩⥲嘠浩戠湩楤杮⁳潴琠敨䔠慭獣漠敮⹳䤠⁮摡楤楴湯‬⁉潤❮⁴慷瑮㨠ⁱ潴欠汩⁬浥捡ⱳ戠瑵爠瑡敨⁲桴⁥畣牲湥⁴畢晦牥䤠愠⁭湩⠠楳業慬⁲潴嘠浩⸩⨊⨪‪癅汩洭摯⁥潃敲吊楨⁳獩琠敨挠牯⁥景攠楶⁬潭敤ਮ⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧攠楶੬†椺楮ੴ†猨瑥ⁱ癥汩甭摮ⵯ祳瑳浥✠湵潤琭敲⥥ ⠠敳煴攠楶⵬慷瑮䌭椭樭浵⁰楮⥬ਠ†猨瑥ⁱ癥汩眭湡⵴ⵃ⵵捳潲汬琠਩†猨瑥ⁱ癥汩眭湡⵴湩整牧瑡潩⁮⥴㬠※桔獩椠⁳灯楴湯污猠湩散椠❴⁳污敲摡⁹敳⁴潴琠戠⁹敤慦汵⹴ ⠠敳煴攠楶⵬慷瑮欭祥楢摮湩⁧楮⥬ 㨠潣普杩 ⠠癥汩洭摯⁥⤱ 㨠牰晥捡੥†搨晥湵椠湡猯癡ⵥ湡ⵤ楫汬琭楨⵳畢晦牥⠠਩††椨瑮牥捡楴敶਩††猨癡ⵥ畢晦牥਩††欨汩⵬桴獩戭晵敦⥲਩†挺湯楦੧†眨瑩⵨癥污愭瑦牥氭慯⁤攧楶⵬慭獰㬠愠潶摩挠湯汦捩⁴楷桴挠浯慰祮琠潯瑬灩猠汥捥楴湯 †⠠敤楦敮欭祥攠楶⵬湩敳瑲猭慴整洭灡⠠扫⁤䌢渭⤢渠汩਩††搨晥湩ⵥ敫⁹癥汩椭獮牥⵴瑳瑡ⵥ慭⁰欨摢∠ⵃ≰ 楮⥬਩†攨楶⵬硥搭晥湩ⵥ浣⁤焢•✣楫汬琭楨⵳畢晦牥਩†攨楶⵬硥搭晥湩ⵥ浣⁤眢≱⌠椧湡猯癡ⵥ湡ⵤ楫汬琭楨⵳畢晦牥⤩⌊攫摮獟捲ਊ⨪⨪䔠楶⵬潭敤䌠汯敬瑣潩੮桔獩瀠潲楶敤⁳⁡潣汬捥楴湯漠⁦潭畤敬⁳潦⁲獵湩⁧癥汩洠摯⁥湩漠桴牥攠慭獣瀠潲牧浡⹳⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥癥汩挭汯敬瑣潩੮†愺瑦牥攠楶੬†挺湯楦੧†攨楶⵬潣汬捥楴湯椭楮⥴਩⬣湥彤牳੣⨊⨪‪癅汩传杲䴭摯੥⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧攠楶⵬牯੧†愺瑦牥漠杲 㨠湩瑩 ⠠獦瑥✠癥汩爭摥物捥⵴楤楧⵴牡畧敭瑮✠杩潮敲 ※敢潦敲攠楶⵬牯⁧潬摡摥 ⠠摡ⵤ潴氭獩⁴攧楶⵬楤楧⵴潢湵ⵤ潭楴湯⁳攧楶⵬牯ⵧ敢楧湮湩ⵧ景氭湩⥥ ⠠癥汩搭晥湩ⵥ敫⁹洧瑯潩⁮攧楶⵬牯ⵧ潭敤 †⠠扫⁤〢⤢✠癥汩漭杲戭来湩楮杮漭ⵦ楬敮਩†栺潯⁫漨杲洭摯⁥‮癥汩漭杲洭摯⥥ 㨠潣普杩 ⠠敲畱物⁥攧楶⵬牯ⵧ条湥慤਩†攨楶⵬牯ⵧ条湥慤猭瑥欭祥⥳਩⌊攫摮獟捲ਊ⨪⨪䔠楶⁬畓牲畯摮⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥癥汩猭牵潲湵੤†栺潯⁫攨楶⵬潭敤⸠朠潬慢⵬癥汩猭牵潲湵ⵤ潭敤⤩⌊攫摮獟捲ਊ⨪‪敇敮慲੬⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧朠湥牥污਩⬣湥彤牳੣⨊⨪圠楨档䬭祥圊楨档欭祥氠瑥⁳敭猠敥眠慨⁴敫批湩楤杮⁳⁉慣⁮獵⹥⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥桷捩⵨敫੹†挺湯楦੧†眨楨档欭祥洭摯⁥⤱਩⬣湥彤牳੣ਊ⨪‪效灬畦੬效灬畦⁬污潬獷洠⁥潴栠癡⁥⁡敢瑴牥瘠敩⁷景愠栠汥⁰畢晦牥ਮ⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧栠汥晰汵਩⬣湥彤牳੣⨊⨪吠敲浥捡ੳ牔敥慭獣愠汬睯⁳敭琠⁯敳⁴灵愠猠摩扥牡眠瑩⁨牰橯捥⁴湩潦浲瑡潩⹮⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥牴敥慭獣 㨠潣普杩 ⠠敳煴琠敲浥捡⵳数獲獩⵴楦敬∠⽾攮慭獣搮ⸯ潬慣⽬慣档⽥牴敥慭獣漮杲⤢਩⠊獵ⵥ慰正条⁥牴敥慭獣攭楶੬†愺瑦牥攠楶⁬牴敥慭獣 㨠湥畳敲琠਩⠊獵ⵥ慰正条⁥牴敥慭獣瀭潲敪瑣汩੥†愺瑦牥瀠潲敪瑣汩⁥牴敥慭獣 㨠湥畳敲琠਩⠊獵ⵥ慰正条⁥牴敥慭獣洭条瑩 㨠晡整⁲慭楧⁴牴敥慭獣 㨠湥畳敲琠਩⬣湥彤牳੣⨊⨪䤠敭畮䰭獩ੴ浉湥⵵楬瑳氠瑥⁳敭氠潯⁫瑡琠敨映汩⁥獡愠氠獩⹴⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥浩湥⵵楬瑳਩⬣湥彤牳੣⨊⨪删獥慴瑲䔠慭獣⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥敲瑳牡⵴浥捡⥳⌊攫摮獟捲ਊ⨪‪䅙湓灩数ੴ䅙湓灩数⁴污潬獷洠⁥潴焠極正祬椠獮牥⁴湳灩数獴ਮ⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧礠獡楮灰瑥 㨠潨歯⠠晡整⵲湩瑩⸠礠獡札潬慢⵬潭敤⤩ਊ用敳瀭捡慫敧礠獡楮灰瑥猭楮灰瑥ੳ†愺瑦牥礠獡楮灰瑥਩⬣湥彤牳੣⨊⨪倠獡ੳ⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧瀠獡ੳ†挺湯楦੧†猨瑥⁦灥ⵡ楰敮瑮祲洭摯⁥氧潯扰捡⥫਩†⬣湥彤牳੣⨊⨪䌠浯慰祮䘊牯愠汬洠⁹湩戭晵敦⁲潣灭敬楴湯渠敥獤ਮ⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧挠浯慰祮 㨠潨歯⠠晡整⵲湩瑩⸠朠潬慢⵬潣灭湡⵹潭敤⤩⌊攫摮獟捲ਊ‪潃灭敬楴湯䘠慲敭潷歲ੳ⨪嘠牥楴潣‬潃獮汵ⱴ攠捴ਮ⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥敶瑲捩੯†攺獮牵⁥ੴ†戺湩⁤㨨慭⁰敶瑲捩ⵯ慭ੰ†††††††∨ⵃ≪⸠瘠牥楴潣渭硥⥴ ††††††⠠䌢欭•‮敶瑲捩ⵯ牰癥潩獵਩†††††††∨∿⸠洠湩扩晵敦⵲潣灭敬楴湯栭汥⥰ ††††††⠠䴢刭呅•‮業楮畢晦牥昭牯散挭浯汰瑥ⵥ湡ⵤ硥瑩਩†††††††∨ⵍ䅔≂⸠洠湩扩晵敦⵲潣灭敬整਩†††††††洺灡洠湩扩晵敦⵲潬慣⵬慭ੰ†††††††∨ⵍ≨⸠戠捡睫牡ⵤ楫汬眭牯⥤਩†挺湯楦੧†猨瑥ⁱ敶瑲捩ⵯ祣汣⁥ੴ††††敶瑲捩ⵯ潣湵⵴潦浲瑡✠∨ⴠ┶⁳•‮┢⽳猥⤢਩†椺楮ੴ†瘨牥楴潣洭摯⁥⤱਩⬣湥彤牳੣ਊ⨪‪敒慬整⁤慐正条獥⨊⨪‪敖瑲捩ⵯ潐晳慲敭嘊牥楴潣倠獯牦浡⁥污潬獷洠⁥潴搠獩汰祡洠⁹潣灭敬楴湯⁳湡⁤畳档椠⁮⁡潰晳慲敭ਮ⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧瘠牥楴潣瀭獯牦浡੥†愺瑦牥瘠牥楴潣 㨠瑳慲杩瑨⠠栺獯⁴楧桴扵㨠敲潰∠畴慭桳⽵敶瑲捩ⵯ潰晳慲敭⤢ 㨠潣普杩 ⠠敶瑲捩ⵯ潰晳慲敭洭摯⁥⤱਩⬣湥彤牳੣⨊⨪䌠湯畳瑬䌊湯畳瑬瀠潲楶敤⁳楳業慬⁲潣浭湡獤琠⁯癉⹹⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥潣獮汵ੴ†携浥湡⁤ੴ†戺湩⁤⠨䌢猭•‮潣獮汵⵴楬敮਩††††⠠䌢䴭氭•‮潣獮汵⵴浩湥⥵ ††††∨ⵃⵍ≪⸠瀠牥灳猭楷捴⵨潴戭晵敦⩲਩††††㨠慭⁰業楮畢晦牥氭捯污洭灡 ††††∨ⵃ≲⸠挠湯畳瑬栭獩潴祲⤩ 㨠畣瑳浯 ⠠潣灭敬楴湯椭⵮敲楧湯昭湵瑣潩⁮✣潣獮汵⵴潣灭敬楴湯椭⵮敲楧湯⤩⌊攫摮獟捲ਊ⨪‪慍杲湩污慩䴊牡楧慮楬⁡獩猠浩汩牡琠⁯椽祶爭捩㵨‬湡⁤污潬獷洠⁥潴猠敥洠牯⁥湩潦浲瑡潩⁮扡畯⁴潳敭桴湩⁧湩愠洠湩扩晵敦⁲攨朮‮桴⁥敨灬瑳楲杮映牯愠映湵瑣潩⁮桷湥䤠栠瑩㴠ⵍ㵸ਮ⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧洠牡楧慮楬੡†愺瑦牥瘠牥楴潣 㨠瑳慲杩瑨琠 㨠畣瑳浯 ⠠慭杲湩污慩愭湮瑯瑡牯⁳⠧慭杲湩污慩愭湮瑯瑡牯⵳敨癡⁹慭杲湩污慩愭湮瑯瑡牯⵳楬桧⁴楮⥬਩†椺楮ੴ†洨牡楧慮楬ⵡ潭敤⤩⌊攫摮獟捲ਊ⨪‪浅慢歲䔊扭牡⁫污潬獷洠⁥潴爠湵愠瑣潩獮漠⁮潣灭敬楴湯⹳⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥浥慢歲 †㨠楢摮⠠∨ⵃⵓ≡⸠攠扭牡⵫捡⥴ ††††洺灡洠湩扩晵敦⵲潬慣⵬慭ੰ††††⠠䌢搭•‮浥慢歲愭瑣⤩ 㨠潣普杩 ⠠敳煴攠扭牡⵫捡楴湯椭摮捩瑡牯 †††⠠慬扭慤⠠慭⥰ ††††⠠桷捩⵨敫⵹猭潨⵷敫浹灡∠浅慢歲•慭⁰楮⁬楮⁬渧ⵯ慰楧杮਩†††††✣桷捩⵨敫⵹栭摩ⵥ潰異⵰杩潮敲挭浯慭摮਩††††浥慢歲戭捥浯ⵥ湩楤慣潴⁲浥慢歲愭瑣潩⵮湩楤慣潴⥲਩⬣湥彤牳੣⨊⨪传摲牥敬獳伊摲牥敬獳椠灭潲敶⁳慣摮摩瑡⁥楦瑬牥湩⹧⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥牯敤汲獥ੳ†椺楮ੴ†猨瑥ⁱ潣灭敬楴湯猭祴敬⁳⠧牯敤汲獥⥳ †††挠浯汰瑥潩⵮慣整潧祲搭晥畡瑬⁳楮੬††††潣灭敬楴湯挭瑡来牯⵹癯牥楲敤⁳⠧昨汩⁥猨祴敬⁳‮瀨牡楴污挭浯汰瑥潩⥮⤩⤩਩⬣湥彤牳੣⨊䌠浯慭摮圠慲灰牥ੳ桔獩猠捥楴湯搠晥湩獥眠慨⁴⁉楬敫琠⁯慣汬∠潣浭湡⁤牷灡数獲•‭桴湩獧猠捵⁨獡䠠摹慲‬浅慢歲‬湡⁤牔湡楳湥ⱴ眠敨敲䤠挠湡眠慲⁰畭瑬灩敬挠浯慭摮⁳湩漠敮洠湩扩晵敦⁲湡⁤硥捥瑵⁥桴浥ਮ⨪䠠摹慲䤊眠湡⁴潴甠敳栠摹慲⁳潦⁲散瑲楡⁮桴湩獧ⴠ渠浡汥ⱹ攠晬敥⁤楦瑬牥⹳⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥票牤⥡⌊攫摮獟捲⨊⨪删汥瑡摥倠捡慫敧ੳ⨪⨪䴠橡牯䴠摯⁥祈牤੡桔獩氠瑥⁳敭搠晥湩⁥票牤獡映牯攠捡⁨慭潪⁲潭敤ਮ⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧洠橡牯洭摯ⵥ票牤੡愺瑦牥栠摹慲㨊楢摮⠠䴢匭䍐•‮慭潪⵲潭敤栭摹慲⤩⌊攫摮獟捲ਊ⨪⨪䠠摹慲倠獯牦浡੥桓睯⁳票牤獡椠⁮⁡潰晳慲敭ਮ⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧栠摹慲瀭獯牦浡੥†猺牴楡桧⁴㨨潨瑳朠瑩畨⁢爺灥⁯䰢摡捩敬栯摹慲瀭獯牦浡≥਩†栺潯⁫愨瑦牥椭楮⁴‮票牤ⵡ潰晳慲敭攭慮汢⥥਩⬣湥彤牳੣⨊⨪吠䑏⁏䥕䤠灭潲敶敭瑮ੳ⁉慷瑮琠⁯敢愠汢⁥潴甠敳椠潣獮椠⁮祭栠摹慲琠瑩敬⹳⨊⨪‪捉湯匠瑥灵⌊戫来湩獟捲攠楬灳⠊敤畦⁮楷桴昭楡潣⁮椨潣⁮瑳⁲漦瑰潩慮⁬敨杩瑨瘠愭橤獵⥴ ⠠⵳潣据瑡⠠污⵬桴ⵥ捩湯⵳慦捩湯椠潣⁮瘺愭橤獵⁴漨⁲⵶摡番瑳〠 栺楥桧⁴漨⁲敨杩瑨ㄠ⤩∠∠猠牴⤩ਊ搨晥湵眠瑩⵨楦敬捩湯⠠捩湯猠牴☠灯楴湯污栠楥桧⁴⵶摡番瑳਩†猨挭湯慣⁴愨汬琭敨椭潣獮昭汩楥潣⁮捩湯㨠⵶摡番瑳⠠牯瘠愭橤獵⁴⤰㨠敨杩瑨⠠牯栠楥桧⁴⤱ ••瑳⥲਩⠊敤畦⁮楷桴漭瑣捩湯⠠捩湯猠牴☠灯楴湯污栠楥桧⁴⵶摡番瑳਩†猨挭湯慣⁴愨汬琭敨椭潣獮漭瑣捩湯椠潣⁮瘺愭橤獵⁴漨⁲⵶摡番瑳〠 栺楥桧⁴漨⁲敨杩瑨ㄠ⤩∠∠猠牴⤩ਊ搨晥湵眠瑩⵨慭整楲污⠠捩湯猠牴☠灯楴湯污栠楥桧⁴⵶摡番瑳਩†猨挭湯慣⁴愨汬琭敨椭潣獮洭瑡牥慩⁬捩湯㨠⵶摡番瑳⠠牯瘠愭橤獵⁴⤰㨠敨杩瑨⠠牯栠楥桧⁴⤱ ••瑳⥲਩⠊敤畦⁮楷桴洭摯ⵥ捩湯⠠潭敤猠牴☠灯楴湯污栠楥桧⁴潮灳捡⁥慦散਩†氨瑥‪⠨⵶摡番瑳⠠晩⠠煥洠橡牯洭摯⁥攧慭獣氭獩⵰潭敤 ⸰‰⸰㔰⤩ ††††愨杲⁳††⡠栺楥桧⁴⠬牯栠楥桧⁴⤱㨠⵶摡番瑳Ⱐ⵶摡番瑳⤩ ††††弨††††⠠桷湥映捡੥†††††††††††氨硡瀭楬瑳瀭瑵愠杲⁳昺捡⁥慦散⤩਩††††⠠捩湯††⠠灡汰⁹✣污⵬桴ⵥ捩湯⵳捩湯昭牯洭摯⁥潭敤愠杲⥳਩††††⠠捩湯††⠠晩⠠祳扭汯⁰捩湯਩†††††††††††⠠灡汰⁹✣污⵬桴ⵥ捩湯⵳捯楴潣⁮昢汩ⵥ整瑸•牡獧਩††††††††††椠潣⥮⤩ †⠠⵳潣据瑡椠潣⁮椨⁦潮灳捡⁥∢∠∠ 瑳⥲⤩⌊攫摮獟捲ਊ⨪⨪吠瑩敬䘠牯慭ੴ楓据⁥慭潪⵲潭敤栭摹慲愠汬睯⁳敭琠⁯獵⁥敢瑴牥琠瑩敬ⱳ䤠栠癡⁥⁡慰瑲捩汵牡映牯慭⁴⁉慷瑮琠⁯獵⁥‭湡椠潣⁮汰獵琠敨琠瑩敬椠獴汥⹦⌊戫来湩獟捲攠楬灳⠊敤癦牡樠⽨票牤ⵡ楴汴⁥楮⁬吢瑩敬映牯慭⁴潦⁲祭洠橡牯洭摯⁥票牤獡∮਩⬣湥彤牳੣⨊‪牔湡楳湥ੴ⁁楳業慬⁲慰正条⁥潴䠠摹慲‬⁉楬敫琠⁯獵⁥潢桴‮❉⁭瑳汩⁬畣牲湥汴⁹敬牡楮杮琠楨ⱳ琠潨杵⹨⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥牴湡楳湥⥴⌊攫摮獟捲ਊ⨪䠠牥畣敬ੳ⁁桷捩⵨敫⁹慢敳⁤祈牤⁡牷灡数⹲⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥敨捲汵獥਩⬣湥彤牳c
+
+
+#+begin_src elisp
+(use-package doom-themes
+  :config
+    (setq doom-themes-enable-bold t
+            doom-themes-enable-italic t)
+      (load-theme 'doom-gruvbox t))
+#+end_src
+
+‪潃敲䘠湵瑣潩慮楬祴††††††††††††††††††††††††††ਠ⨪倠捡慫敧ੳ⨪‪湕潤吠敲⁥††††††††††††††††††††††††††††唊摮⁯牔敥氠瑥⁳敭甠敳洠牯⁥景䔠楶⁬潭敤猧爠摥⁯畦据楴湯污瑩⹹⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥湵潤琭敲੥†挺湯楦੧†木潬慢⵬湵潤琭敲ⵥ潭敤⤩⌊攫摮獟捲ਊ⨪‪癅汩䴠摯੥癅汩洠摯⁥敬獴洠⁥獵⁥桴⁥猨灵牥潩⥲嘠浩戠湩楤杮⁳潴琠敨䔠慭獣漠敮⹳䤠⁮摡楤楴湯‬⁉潤❮⁴慷瑮㨠ⁱ潴欠汩⁬浥捡ⱳ戠瑵爠瑡敨⁲桴⁥畣牲湥⁴畢晦牥䤠愠⁭湩⠠楳業慬⁲潴嘠浩⸩⨊⨪‪癅汩洭摯⁥潃敲吊楨⁳獩琠敨挠牯⁥景攠楶⁬潭敤ਮ⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧攠楶੬†椺楮ੴ†猨瑥ⁱ癥汩甭摮ⵯ祳瑳浥✠湵潤琭敲⥥ ⠠敳煴攠楶⵬慷瑮䌭椭樭浵⁰楮⥬ਠ†猨瑥ⁱ癥汩眭湡⵴ⵃ⵵捳潲汬琠਩†猨瑥ⁱ癥汩眭湡⵴湩整牧瑡潩⁮⥴㬠※桔獩椠⁳灯楴湯污猠湩散椠❴⁳污敲摡⁹敳⁴潴琠戠⁹敤慦汵⹴ ⠠敳煴攠楶⵬慷瑮欭祥楢摮湩⁧楮⥬ 㨠潣普杩 ⠠癥汩洭摯⁥⤱ 㨠牰晥捡੥†搨晥湵椠湡猯癡ⵥ湡ⵤ楫汬琭楨⵳畢晦牥⠠਩††椨瑮牥捡楴敶਩††猨癡ⵥ畢晦牥਩††欨汩⵬桴獩戭晵敦⥲਩†挺湯楦੧†眨瑩⵨癥污愭瑦牥氭慯⁤攧楶⵬慭獰㬠愠潶摩挠湯汦捩⁴楷桴挠浯慰祮琠潯瑬灩猠汥捥楴湯 †⠠敤楦敮欭祥攠楶⵬湩敳瑲猭慴整洭灡⠠扫⁤䌢渭⤢渠汩਩††搨晥湩ⵥ敫⁹癥汩椭獮牥⵴瑳瑡ⵥ慭⁰欨摢∠ⵃ≰ 楮⥬਩†攨楶⵬硥搭晥湩ⵥ浣⁤焢•✣楫汬琭楨⵳畢晦牥਩†攨楶⵬硥搭晥湩ⵥ浣⁤眢≱⌠椧湡猯癡ⵥ湡ⵤ楫汬琭楨⵳畢晦牥⤩⌊攫摮獟捲ਊ⨪⨪䔠楶⵬潭敤䌠汯敬瑣潩੮桔獩瀠潲楶敤⁳⁡潣汬捥楴湯漠⁦潭畤敬⁳潦⁲獵湩⁧癥汩洠摯⁥湩漠桴牥攠慭獣瀠潲牧浡⹳⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥癥汩挭汯敬瑣潩੮†愺瑦牥攠楶੬†挺湯楦੧†攨楶⵬潣汬捥楴湯椭楮⥴਩⬣湥彤牳੣⨊⨪‪癅汩传杲䴭摯੥⬣敢楧彮牳⁣汥獩ੰ用敳瀭捡慫敧攠楶⵬牯੧†愺瑦牥漠杲 㨠湩瑩 ⠠獦瑥✠癥汩爭摥物捥⵴楤楧⵴牡畧敭瑮✠杩潮敲 ※敢潦敲攠楶⵬牯⁧潬摡摥 ⠠摡ⵤ潴氭獩⁴攧楶⵬楤楧⵴潢湵ⵤ潭楴湯⁳攧楶⵬牯ⵧ敢楧湮湩ⵧ景氭湩⥥ ⠠癥汩搭晥湩ⵥ敫⁹洧瑯潩⁮攧楶⵬牯ⵧ潭敤 †⠠扫⁤〢⤢✠癥汩漭杲戭来湩楮杮漭ⵦ楬敮਩†栺潯⁫漨杲洭摯⁥‮癥汩漭杲洭摯⥥ 㨠潣普杩 ⠠敲畱物⁥攧楶⵬牯ⵧ条湥慤਩†攨楶⵬牯ⵧ条湥慤猭瑥欭祥⥳਩⌊攫摮獟捲ਊ⨪⨪䔠楶⁬畓牲畯摮⌊戫来湩獟捲攠楬灳⠊獵ⵥ慰正条⁥癥汩猭牵潲湵੤†栺潯⁫攨楶⵬潭敤⸠朠潬慢⵬癥汩猭牵潲湵ⵤ潭敤⤩⌊攫摮獟捲
+
+**** Fonts
+
+#+begin_src elisp
+(set-face-attribute 'default nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
+(set-face-attribute 'fixed-pitch nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
+(set-face-attribute 'variable-pitch nil :font (font-spec :family "Iosevka Aile" :size 12))
+(set-face-attribute 'font-lock-comment-face nil :slant 'italic)
+#+end_src
+
+**** Battery and Time
+I want to see battery and time in my modeline.
+***** Packages
+#+begin_src elisp
+(use-package battery :ensure nil :straight nil)
+#+end_src
+
+***** Formats
+#+begin_src elisp
+(setq display-time-default-load-average nil
+      display-time-mail-string ""
+      display-time-format "%a, %d %b - %R")
+#+end_src
+
+
+***** Functions
+#+begin_src elisp
+(defun jh/battery-time-modeline ()
+"Toggles Display of battery and clock in modeline."
+(when (and battery-status-function
+       (not (string-match-p "N/A" 
+                (battery-format "%B"
+                        (funcall battery-status-function)))))
+  (display-battery-mode 1)
+  (display-time-mode 1)))
+
+(add-hook 'after-init-hook #'jh/battery-time-modeline)
+#+end_src
+
+
+*** Org Mode
+I want to use the newest version of org-mode instead of the one built in to emacs.
+#+begin_src elisp
+  (straight-use-package '(org :type git
+       :repo "https://code.orgmode.org/bzg/org-mode.git"
+       :local-repo "org"
+       :depth full
+       :pre-build (straight-recipes-org-elpa--build)
+       :build (:not autoloads)
+       :files (:defaults "lisp/*.el" ("etc/styles/" "etc/styles/*"))))
+(straight-use-package '(org-contrib))
+
+#+end_src
+
+And finally, I want to load my config.
+#+begin_src elisp
+  (org-babel-load-file (expand-file-name "jmacs.org" user-emacs-directory))
+#+end_src
+
+
+
+
+
+* Initial Setup
+** Lexical Binding and Unicode
+Once again, this just sets up unicode encoding and lexical binding.
+#+begin_src elisp
+;;; -*- lexical-binding: t; coding: utf-8; -*- 
+#+end_src
+
+** Personal Information
+  This is where I setup my initial personal information, as well as a minimal UI and enabling the visual bell. I'm also setting up emacs to use it's own customize file instead of =init.el=. It will only load if that file exists.
+#+begin_src elisp
+(setq user-full-name "Jacob Hilker"
+      user-mail-address "jacob.hilker2@gmail.com"
+      visible-bell t)
+
+(setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
+#+end_src
+
+
+* Minor Tweaks
+** Making =TAB= Great Again
+*** Disabling Automatic Tabs
+I am disabling automatic indentation with electric-indent-mode, and disabling tabs.
+#+begin_src elisp
+(electric-indent-mode -1)
+(setq-default indent-tabs-mode nil)
+(setq tab-always-indent 'complete)
+#+end_src
+
+*** Improving Tab Key Functionality
+I want to use 2 spaces for tabs for 99% of the languages I use. In addition, I want source blocks in org-mode to keep my regular indentation.
+#+begin_src emacs-lisp
+(setq org-src-preserve-indentation t
+      org-src-fontify-natively t
+      org-src-tab-acts-natively t)
+
+(setq-default tab-width 2)
+#+end_src
+
+
+** Y/N for Yes/No
+I also want to use y/n for answering yes or no.
+#+begin_src elisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+** Scratch Buffer Uses Org Mode
+I want my scratch buffer to use org-mode. I also want no message for my scratch buffer.
+#+begin_src elisp
+(setq initial-major-mode 'org-mode)
+#+end_src
+
+** Icons
+I want to use icons occasionally. Might not be very often, but sometimes it's nice to have.
+#+begin_src elisp
+(use-package all-the-icons
+    :if (display-graphic-p))
+#+end_src
+
+** Emoji
+Sometimes I want to add an emoji.
+#+begin_src elisp
+(use-package emojify)
+#+end_src
+
+* Core Functionality                                                     
+** Packages
+*** Undo Tree                                                         
+Undo Tree lets me use more of Evil mode's redo functionality.
+#+begin_src elisp
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode))
+#+end_src
+
+*** Evil Mode
+Evil mode lets me use the (superior) Vim bindings to the Emacs ones. In addition, I don't want :q to kill emacs, but rather the current buffer I am in (similar to Vim).
+**** Evil-mode Core
+This is the core of evil mode.
+#+begin_src elisp
+(use-package evil
+  :init
+  (setq evil-undo-system 'undo-tree)
+  (setq evil-want-C-i-jump nil) 
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+  (setq evil-want-keybinding nil)
+  :config
+  (evil-mode 1)
+  :preface
+  (defun ian/save-and-kill-this-buffer ()
+    (interactive)
+    (save-buffer)
+    (kill-this-buffer))
+  :config
+  (with-eval-after-load 'evil-maps ; avoid conflict with company tooltip selection
+    (define-key evil-insert-state-map (kbd "C-n") nil)
+    (define-key evil-insert-state-map (kbd "C-p") nil))
+  (evil-ex-define-cmd "q" #'kill-this-buffer)
+  (evil-ex-define-cmd "wq" #'ian/save-and-kill-this-buffer))
+#+end_src
+
+**** Evil-mode Collection
+This provides a collection of modules for using evil mode in other emacs programs.
+#+begin_src elisp
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+#+end_src
+
+**** Evil Org-Mode
+#+begin_src elisp
+(use-package evil-org
+  :after org
+  :init
+  (fset 'evil-redirect-digit-argument 'ignore) ; before evil-org loaded
+  (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
+  (evil-define-key 'motion 'evil-org-mode
+    (kbd "0") 'evil-org-beginning-of-line)
+  :hook (org-mode . evil-org-mode)
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
+#+end_src
+
+**** Evil Surround
+#+begin_src elisp
+(use-package evil-surround
+  :hook (evil-mode . global-evil-surround-mode))
+#+end_src
+
+
+*** General
+#+begin_src elisp
+(use-package general)
+#+end_src
+
+*** Which-Key
+Which-key lets me see what keybindings I can use.
+#+begin_src elisp
+(use-package which-key
+  :config
+  (which-key-mode 1))
+#+end_src
+
+
+*** Helpful
+Helpful allows me to have a better view of a help buffer.
+#+begin_src elisp
+(use-package helpful)
+#+end_src
+
+*** Treemacs
+Treemacs allows me to set up a sidebar with project information.
+#+begin_src elisp
+(use-package treemacs
+  :config
+  (setq treemacs-persist-file "~/.emacs.d/.local/cache/treemacs.org"))
+
+(use-package treemacs-evil
+  :after evil treemacs
+  :ensure t)
+
+(use-package treemacs-projectile
+  :after projectile treemacs
+  :ensure t)
+
+(use-package treemacs-magit
+  :after magit treemacs
+  :ensure t)
+#+end_src
+
+*** Imenu-List
+Imenu-list lets me look at the file as a list.
+#+begin_src elisp
+(use-package imenu-list)
+#+end_src
+
+*** Restart Emacs
+#+begin_src elisp
+(use-package restart-emacs)
+#+end_src
+
+*** YASnippet
+YASnippet allows me to quickly insert snippets.
+#+begin_src elisp
+(use-package yasnippet
+  :hook (after-init . yas-global-mode))
+
+(use-package yasnippet-snippets
+  :after yasnippet)
+#+end_src
+
+*** Pass
+#+begin_src elisp
+(use-package pass
+  :config
+  (setf epa-pinentry-mode 'loopback))
+  #+end_src
+
+*** Company
+For all my in-buffer completion needs.
+#+begin_src elisp
+(use-package company
+  :hook (after-init . global-company-mode))
+#+end_src
+
+* Completion Frameworks
+** Vertico, Consult, etc.
+
+#+begin_src elisp
+(use-package vertico
+  :ensure t
+  :bind (:map vertico-map
+              ("C-j" . vertico-next)
+              ("C-k" . vertico-previous)
+              ("?" . minibuffer-completion-help)
+              ("M-RET" . minibuffer-force-complete-and-exit)
+              ("M-TAB" . minibuffer-complete)
+              :map minibuffer-local-map
+              ("M-h" . backward-kill-word))
+  :config
+  (setq vertico-cycle t
+        vertico-count-format '(" -6%s " . "%s/%s"))
+  :init
+  (vertico-mode 1))
+#+end_src
+
+
+*** Related Packages
+**** Vertico-Posframe
+Vertico Posframe allows me to display my completions and such in a posframe.
+#+begin_src elisp
+(use-package vertico-posframe
+  :after vertico
+  :straight (:host github :repo "tumashu/vertico-posframe")
+  :config
+  (vertico-posframe-mode 1))
+#+end_src
+
+*** Consult
+Consult provides similar commands to Ivy.
+#+begin_src elisp
+(use-package consult
+  :demand t
+  :bind (("C-s" . consult-line)
+         ("C-M-l" . consult-imenu)
+         ("C-M-j" . persp-switch-to-buffer*)
+         :map minibuffer-local-map
+         ("C-r" . consult-history))
+  :custom
+  (completion-in-region-function #'consult-completion-in-region))
+#+end_src
+
+*** Marginalia
+Marginalia is similar to =ivy-rich=, and allows me to see more information about something in a minibuffer (e.g. the helpstring for a function when I hit =M-x=.
+#+begin_src elisp
+(use-package marginalia
+  :after vertico
+  :straight t
+  :custom
+  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+  :init
+  (marginalia-mode))
+#+end_src
+
+*** Embark
+Embark allows me to run actions on completions.
+#+begin_src elisp
+(use-package embark
+    :bind (("C-S-a" . embark-act)
+         :map minibuffer-local-map
+         ("C-d" . embark-act))
+  :config
+  (setq embark-action-indicator
+        (lambda (map)
+          (which-key--show-keymap "Embark" map nil nil 'no-paging)
+          #'which-key--hide-popup-ignore-command)
+        embark-become-indicator embark-action-indicator))
+#+end_src
+
+*** Orderless
+Orderless improves candidate filtering.
+#+begin_src elisp
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion))))))
+#+end_src
+
+* Command Wrappers
+This section defines what I like to call "command wrappers" - things such as Hydra, Embark, and Transient, where I can wrap multiple commands in one minibuffer and execute them.
+** Hydra
+I want to use hydras for certain things - namely, elfeed filters.
+#+begin_src elisp
+(use-package hydra)
+#+end_src
+*** Related Packages
+**** Major Mode Hydra
+This lets me define hydras for each major mode.
+#+begin_src elisp
+(use-package major-mode-hydra
+:after hydra
+:bind ("M-SPC" . major-mode-hydra))
+#+end_src
+
+**** Hydra Posframe
+Shows hydras in a posframe.
+#+begin_src elisp
+(use-package hydra-posframe
+  :straight (:host github :repo "Ladicle/hydra-posframe")
+  :hook (after-init . hydra-posframe-enable))
+#+end_src
+
+*** TODO UI Improvements
+I want to be able to use icons in my hydra titles.
+**** Icon Setup
+#+begin_src elisp
+(defun with-faicon (icon str &optional height v-adjust)
+  (s-concat (all-the-icons-faicon icon :v-adjust (or v-adjust 0) :height (or height 1)) " " str))
+
+(defun with-fileicon (icon str &optional height v-adjust)
+  (s-concat (all-the-icons-fileicon icon :v-adjust (or v-adjust 0) :height (or height 1)) " " str))
+
+(defun with-octicon (icon str &optional height v-adjust)
+  (s-concat (all-the-icons-octicon icon :v-adjust (or v-adjust 0) :height (or height 1)) " " str))
+
+(defun with-material (icon str &optional height v-adjust)
+  (s-concat (all-the-icons-material icon :v-adjust (or v-adjust 0) :height (or height 1)) " " str))
+
+(defun with-mode-icon (mode str &optional height nospace face)
+  (let* ((v-adjust (if (eq major-mode 'emacs-lisp-mode) 0.0 0.05))
+         (args     `(:height ,(or height 1) :v-adjust ,v-adjust))
+         (_         (when face
+                      (lax-plist-put args :face face)))
+         (icon     (apply #'all-the-icons-icon-for-mode mode args))
+         (icon     (if (symbolp icon)
+                       (apply #'all-the-icons-octicon "file-text" args)
+                     icon)))
+    (s-concat icon (if nospace "" " ") str)))
+#+end_src
+
+**** Title Format
+Since major-mode-hydra allows me to use better titles, I have a particular format I want to use - an icon plus the title itself.
+#+begin_src elisp
+(defvar jh/hydra-title nil "Title format for my major-mode hydras.")
+#+end_src
+
+** Transient
+A similar package to Hydra, I like to use both. I'm still currently learning this, though.
+#+begin_src elisp
+(use-package transient)
+#+end_src
+
+** Hercules
+A which-key based Hydra wrapper.
+#+begin_src elisp
+(use-package hercules)
+#+end_src
+
+* Org Mode
+Org-Mode is THE absolute best thing about Emacs, in my humble opinion. Being able to keep notes and an agenda in the same file is so much easier than something like Notion which is pretty resource-intensive and is much harder to organize (in my opinion, at least). I highly respect what they are doing, but I prefer org-mode. My workflow is very much still in progress - for now, it’s sort of a mix of GTD and my own thing. It will probably be constantly changing until I find what works for me.
+** Initial Setup
+This is my basic setup for org-mode. Nothing with agenda files, just setting up logging and my base org-directory, along with links.
+#+begin_src elisp
+(setq org-directory "~/Dropbox/org"
+      org-log-into-drawer t
+      org-log-done 'time
+      org-log-done-with-time t
+      org-agenda-start-day "-0d"
+       org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+      '(("google" . "http://www.google.com/search?q=")
+        ("arch-wiki" . "https://wiki.archlinux.org/index.php/")
+        ("ddg" . "https://duckduckgo.com/?q=")
+        ("wiki" . "https://en.wikipedia.org/wiki/")
+        ("github" . "https://github.com/")
+        ("gitlab" . "https://gitlab.com/")))
+#+end_src
+
+
+*** Core Packages
+**** Org-ID
+Org-ID allows me to set IDs for different headlines in an org-mode buffer.
+#+begin_src elisp
+(use-package org-id
+  :ensure nil
+  :straight nil)
+#+end_src
+
+**** Org-Tempo
+Org Tempo lets me use <key(tab) to insert blocks into an org-mode document. As an example, I could use <s(tab) to insert a source code block.
+#+begin_src emacs-lisp
+(use-package org-tempo
+  :straight nil
+  :ensure nil)
+#+end_src
+
+** UI Tweaks
+This is a very basic function that sets up org-mode to use visual line mode, org-indent mode, and variable-pitch mode - just a few minor ui tweaks. It doesn't set anything other than that.
+#+begin_src elisp
+(defun jh/org-ui-init ()
+  "Sets better defaults for org-mode ui."
+  (visual-line-mode 1)
+  (org-indent-mode 1)
+  (variable-pitch-mode 1)
+  (set-face-attribute 'org-block nil :foreground nil :background "#282c34" :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-document-title nil :font (font-spec :family "Iosevka Aile" :size 25) :weight 'bold)
+  (set-face-attribute 'org-tag nil :foreground "#e5c07b")
+  (set-face-attribute 'org-hide nil :inherit 'fixed-pitch))
+
+
+(add-hook 'org-mode-hook #'jh/org-ui-init)
+#+end_src
+
+*** Cleaner View
+I want to hide formatting characters (like forward-slashes for italics and asterisks for bold, as an example) and any leading stars for a nested heading (like a second-level header under a first-level heading). In addition, I want to use an arrow as my ellipsis, instead of the default three periods.
+#+begin_src elisp
+(setq org-hide-emphasis-markers t
+      org-hide-leading-stars t
+      org-ellipsis "▾ ")
+#+end_src
+
+*** Packages
+**** Org Appear
+This package makes it much easier to edit Org documents when org-hide-emphasis-markers is turned on. It temporarily shows the emphasis markers around certain markup elements when you place your cursor inside of them. No more fumbling around with = and * characters! (description credit to [[https://config.daviwil.com/emacs][David Wilson]] of the [[https://youtube.com/c/SystemCrafters][System Crafters]] youtube channel).
+#+begin_src elisp
+(use-package org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-appear-autolinks t
+        org-appear-autosubmarkers t
+        org-appear-autoentities t))
+#+end_src
+
+**** Org-Fragtog
+Org-Fragtog allows me to toggle previews of $\LaTeX$  and other things. I am also setting up org-mode to use slightly bigger LaTeX previews.
+#+begin_src elisp
+(use-package org-fragtog 
+  :hook (org-mode . org-fragtog-mode))
+
+(plist-put org-format-latex-options :scale 1.25)
+#+end_src
+
+**** Org-Superstar
+Org-superstar lets me get better bullets in my headings and lists.
+#+begin_src elisp
+(use-package org-superstar
+  :hook (org-mode . org-superstar-mode)
+  :config
+  (setq org-superstar-headline-bullets-list '("●" "○")
+        org-superstar-special-todo-items t
+        org-superstar-todo-bullet-alist '(("TODO" . ?☐)
+                                          ("DONE" . ?☑))))
+#+end_src
+
+** Tasks and Events
+*** Packages
+**** DOCT
+DOCT is an easier way of setting up org-mode capture templates.
+#+begin_src elisp
+(use-package doct
+  :commands (doct doct-add-to))
+#+end_src
+
+**** Org Super Agenda
+Org Super Agenda allows me to group items in the agenda much more easily than I can by default.
+#+begin_src elisp
+(use-package org-super-agenda
+  :config 
+;  (setq org-super-agenda-header-map nil)
+  (org-super-agenda-mode 1))
+
+#+end_src
+
+**** Org-QL
+Org QL allows me to define queries for org-mode files.
+#+begin_src elisp
+(use-package org-ql)
+#+end_src
+
+**** Org-Gcal
+
+*** Categories and Tags
+I use categories and tags to help me organize my work. Categories are what I use more for a context (such as appointments, projects, etc) and a tag is something more narrow within that project. This is where I define my global tags - such as a personal context, or something for work, or for family. In addition, I also use tags to represent the status of a project, such as whether it’s active, or on the backlog, etc. However, with Org-gcal, I was getting duplicate events, so I am setting up tags to be excluded from inheritance here.
+#+begin_src elisp
+(defvar jh/org-todo-cal-tags '(
+                               ;; Project Contexts
+                               (:startgroup)
+                               ("@personal" . ?p)
+                               ("@work" . ?w)
+                               (:endgroup))
+
+"Tags for tasks and calendar items.")
+                               
+
+#+end_src
+
+*** Refiling
+#+begin_src elisp
+(setq org-refile-use-outline-path 'file
+      org-outline-path-complete-in-steps nil
+      org-refile-targets '((nil :maxlevel . 9)))
+#+end_src
+
+#+RESULTS:
+: ((nil :maxlevel . 9))
+
+
+*** Capture Templates
+*** Custom Agenda Commmands
+
+** Projects
+*** Org-Trello
+Org Trello allows me to sync org-mode buffers with trello boards.
+
+** Campaign Manager
+I like to use org-mode as an rpg campaign manager and wiki.
+*** Packages
+**** Decide Mode
+Decide mode allows me to roll dice in org-mode.
+#+begin_src elisp
+(use-package decide)
+#+end_src
+
+** Writing
+Org mode is also an excellent markup language.
+*** Packages
+**** Org-Make-TOC
+Org-make-toc allows me to make tables-of-contents in org-mode.
+#+begin_src elisp
+(use-package org-make-toc
+  :hook (org-mode . org-make-toc-mode))
+#+end_src
+
+**** Org-Ref
+Org-ref allows me to build bibliographies with org-mode.
+#+begin_src elisp
+(use-package org-ref)
+#+end_src
+
+** Note-taking with Org-Roam
+*** Related Packages
+**** Deft 
+**** Vulpea
+#+begin_src elisp
+(use-package vulpea
+  :straight (vulpea
+             :type git
+             :host github
+             :repo "d12frosted/vulpea")
+  ;; hook into org-roam-db-autosync-mode you wish to enable
+  ;; persistence of meta values (see respective section in README to
+  ;; find out what meta means)
+  :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable)))
+#+end_src
+
+**** Org-Roam-Bibtex
+Allows me to build an annotated bibliography with org-roam.
+#+begin_src elisp
+(use-package org-roam-bibtex
+  :after org-roam)
+#+end_src
+
+*** Initial Setup
+#+begin_src elisp
+(use-package org-roam
+	:init
+	(setq org-roam-v2-ack t)
+  :custom
+  (org-roam-db-location "~/Nextcloud/notes/org-roam.db")
+  (org-roam-directory "~/Nextcloud/notes/")
+  (org-roam-db-update-method 'immediate)
+  (org-roam-file-exclude-regexp "readme")
+  (org-roam-completion-everywhere t)
+	:config 
+  (cl-defmethod org-roam-node-slug ((node org-roam-node))
+    "Return the slug of NODE."
+    (let ((title (org-roam-node-title node))
+          (slug-trim-chars '(;; Combining Diacritical Marks https://www.unicode.org/charts/PDF/U0300.pdf
+                             768 ; U+0300 COMBINING GRAVE ACCENT
+                             769 ; U+0301 COMBINING ACUTE ACCENT
+                             770 ; U+0302 COMBINING CIRCUMFLEX ACCENT
+                             771 ; U+0303 COMBINING TILDE
+                             772 ; U+0304 COMBINING MACRON
+                             774 ; U+0306 COMBINING BREVE
+                             775 ; U+0307 COMBINING DOT ABOVE
+                             776 ; U+0308 COMBINING DIAERESIS
+                             777 ; U+0309 COMBINING HOOK ABOVE
+                             778 ; U+030A COMBINING RING ABOVE
+                             780 ; U+030C COMBINING CARON
+                             795 ; U+031B COMBINING HORN
+                             803 ; U+0323 COMBINING DOT BELOW
+                             804 ; U+0324 COMBINING DIAERESIS BELOW
+                             805 ; U+0325 COMBINING RING BELOW
+                             807 ; U+0327 COMBINING CEDILLA
+                             813 ; U+032D COMBINING CIRCUMFLEX ACCENT BELOW
+                             814 ; U+032E COMBINING BREVE BELOW
+                             816 ; U+0330 COMBINING TILDE BELOW
+                             817 ; U+0331 COMBINING MACRON BELOW
+                             )))
+      (cl-flet* ((nonspacing-mark-p (char)
+                                    (memq char slug-trim-chars))
+                 (strip-nonspacing-marks (s)
+                                         (ucs-normalize-NFC-string
+                                          (apply #'string (seq-remove #'nonspacing-mark-p
+                                                                      (ucs-normalize-NFD-string s)))))
+                 (cl-replace (title pair)
+                             (replace-regexp-in-string (car pair) (cdr pair) title)))
+        (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-") ;; convert anything not alphanumeric
+                        ("--*" . "-")                   ;; remove sequential underscores
+                        ("^-" . "")                     ;; remove starting underscore
+                        ("-$" . "")))                   ;; remove ending underscore
+               (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
+          (downcase slug)))))) 
+#+end_src
+
+*** Capture Templates
+I like to have multiple capture templates - while most of mine are in Nextcloud, I want to be able to quickly capture my ideas.
+#+begin_src elisp
+
+(setq org-roam-capture-templates
+      '(("n" "Notes")
+        ("nd" "Default Note" plain (file "~/.emacs.d/org-templates/roam/note.org") :if-new (file+head "notes/${slug}.org" "#+title: ${title}\n#+date: %U\n"))
+        ("nr" "Reference Note" plain (file "~/.emacs.d/org-templates/roam/ref.org") :target (file+head "references/${citekey}.org" "#+title: ${title}\n"))))
+#+end_src
+
+** Hacking Org-Mode
+*** Org-ML
+Similar to Org-Element.
+#+begin_src elisp
+(use-package org-ml)
+#+end_src
+
+** Web Development/Blogging
+*** Hugo
+Since I build my website with hugo, I want to be able to write in org-mode.
+#+begin_src elisp
+(use-package ox-hugo
+  :ensure t
+  :config 
+  (setq org-hugo-suppress-lastmod-period 86400.00))
+#+end_src
+
+*** Org-Publish
+**** Initial Package Setup
+#+begin_src elisp
+(use-package ox-publish
+  :ensure nil
+  :straight nil)
+#+end_src
+
+**** HTML Templating
+I'd like to be able to set up an html template in elisp.
+#+begin_src elisp
+(use-package pp-html
+  :straight (:host github :repo "Kinneyzhang/pp-html"))
+
+(use-package esxml
+  :ensure t)
+
+(use-package ox-gemini
+  :ensure t)
+
+(use-package htmlize
+  :ensure t)
+
+(use-package webfeeder
+  :ensure t)
+
+#+end_src
+
+***** Test
+#+begin_src elisp
+(setq org-html-htmlize-output-type 'css)       
+(setq-default org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"~/.emacs.d/stylesheet.css\" />")
+#+end_src
+
+**** Org-Special-Block-Extras
+This package allows me to define custom blocks in org-mode.
+#+begin_src elisp
+(use-package org-special-block-extras
+  :ensure t
+  :hook (org-mode . org-special-block-extras-mode)
+  ;; All relevant Lisp functions are prefixed 'o-'; e.g., `o-docs-insert'.
+  :custom
+    (o-docs-libraries
+     '("~/Nextcloud/org/org-special-blocks-docs.org")
+     "The places where I keep my ‘#+documentation’"))
+#+end_src
+
+
+*** Weblorg
+Weblorg is a way of creating static websites in org-mode.
+#+begin_src elisp
+(use-package weblorg)
+#+end_src
+
+*** Defblog
+A wrapper around org-publish.
+#+begin_src elisp
+;(use-package anaphora)
+
+;(use-package defblog
+;  :straight (:host github :repo "jphmrst/defblog"))
+#+end_src
+
+** Literate Programming
+#+begin_src elisp
+(add-hook 'org-src-mode-hook 'display-line-numbers-mode)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+'((emacs-lisp . t)
+  (python . t)
+  (org . t)
+))
+#+end_src
+
+#+RESULTS:
+
+
+** Misc. Packages
+*** Org Chef
+Org-chef allows me to capture recipes from the internet.
+#+begin_src elisp
+
+#+end_src
+
+*** Org-CV
+This allows me to use org mode to create a resume. I am using ox-moderncv to build my CV.
+#+begin_src elisp
+(use-package ox-moderncv
+  :straight '(:host gitlab :repo "jhilker/org-cv"))
+#+end_src
+
+
+** Hydra
+This hydra is a wrapper around some of the functions I most commonly use.
+#+begin_src elisp
+(add-hook 'org-mode-hook (lambda ()
+                           (setq jh/hydra-title (with-fileicon "org" "Org-mode" 1 -0.05))))
+
+(major-mode-hydra-define org-mode (:title jh/hydra-title)
+  ("Agenda"
+   (("aa" org-agenda "Agenda Dispatch"))
+   "Dates"
+   (("dd" org-deadline "Set Deadline")
+    ("ds" org-schedule "Set Scheduled Date")
+    ("dt" org-time-stamp "Set Time Stamp"))))
+#+end_src
+
+* General IDE Configuration
+** General Configuration
+I want to highlight todo keywords in all my programming files.
+#+begin_src elisp
+(defun jh/ide-init ()
+  "Initializes Emacs for when I am programming."
+  (interactive)
+  (global-hl-todo-mode 1)
+  (display-line-numbers-mode 1)
+  (setq display-line-numbers 'relative))
+(add-hook 'prog-mode-hook 'jh/ide-init)
+#+end_src
+
+** Packages
+*** LSP Mode
+LSP Mode lets me get completion for functions and such in code. From the emacs-for-scratch youtube series.
+**** Setup
+#+begin_src elisp
+(defun jh/lsp-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+#+end_src
+**** Package Setup
+#+begin_src elisp
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook ((prog-mode . lsp-mode))
+  :init 
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+#+end_src
+**** Additional Packages
+#+begin_src elisp
+(use-package lsp-treemacs
+  :after lsp)
+#+end_src
+
+*** Projectile
+Projectile is a tool for managing projects inside of emacs.
+#+begin_src elisp
+(use-package projectile
+  :config
+  (projectile-mode))
+#+end_src
+
+*** Magit
+Magit is an incredible git client for emacs.
+
+#+begin_src elisp
+(use-package magit)
+
+(use-package magit-todos
+  :after magit)
+
+(use-package forge
+  :after magit)
+#+end_src
+
+*** Smartparens
+Smartparens inserts a matching delimiter if I insert 1 (like a second parenthesis if I insert a left one).
+#+begin_src elisp
+(use-package smartparens
+  :init
+  (smartparens-global-mode))
+#+end_src
+
+*** Rainbow Delimiters
+Rainbow Delimiters makes it so that parenthesis and other characters have their own colors - making it easier to follow the parenthesis, especially in something like lisp where there are so many parenthesis.
+#+begin_src elisp
+(use-package rainbow-delimiters
+  :hook ((prog-mode) . rainbow-delimiters-mode))
+#+end_src
+
+** Language Configuration
+*** BibTex/LaTeX
+This is for working with my bibliography.
+**** Company Backends
+#+begin_src elisp
+(use-package company-bibtex
+  :config
+  (add-to-list 'company-backends '(company-bibtex)))
+#+end_src
+
+*** Python 
+Python is my primary language of choice.
+#+begin_src elisp
+(use-package python
+  :straight nil
+  :ensure nil)
+#+end_src
+
+*** Web Development (HTML, CSS, JavaScript)
+**** Company Backends
+#+begin_src elisp
+
+#+end_src
+
+**** Emmet
+Emmet is a package (built-in to VSCode) that makes editing html so much easier.
+#+begin_src elisp
+(use-package emmet-mode
+  :hook ((sgml-mode css-mode mhtml-mode)))
+#+end_src
+
+**** Tailwind LSP
+#+begin_src elisp
+(use-package lsp-tailwindcss
+  :init
+  (setq lsp-tailwindcss-add-on-mode t))
+#+end_src
+
+**** Lorem Ipsum
+The classic text, now in emacs.
+#+begin_src elisp
+(use-package lorem-ipsum)
+#+end_src
+
+
+**** Simple HTTPD
+This lets me build a basic webserver to test my files.
+#+begin_src elisp
+(use-package simple-httpd)
+#+end_src
+
+*** Yaml
+#+begin_src elisp
+(use-package yaml-mode)
+#+end_src
+
+
+
+* Applications
+** Chat (ERC)
+ERC is an IRC client built into emacs.
+#+begin_src elisp
+(use-package erc
+  :ensure nil
+  :straight nil)
+#+end_src
+
+
+* UI Packages
+** Dashboard
+#+begin_src elisp
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-week-agenda nil
+        dashboard-show-shortcuts nil
+        dashboard-set-navigator t
+        dashboard-set-heading-icons t
+        dashboard-set-file-icons t
+        dashboard-items '((recents  . 5)
+                          (projects . 10))))
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+#+end_src
+
+** Modeline
+Doom modeline allows me to have a cleaner modeline.
+
+#+begin_src elisp
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :after mu4e-alert
+  :config
+  (setq doom-modeline-height 32
+        doom-modeline-enable-word-count t
+        doom-modeline-mu4e t
+        doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)
+        doom-modeline--battery-status t))
+
+(doom-modeline-mode 1)
+#+end_src
+*** TODO Custom Modeline
+#+begin_src elisp
+#+end_src
+
+** Tabs
+I really like centaur-tabs for my config.
+#+begin_src elisp
+(use-package centaur-tabs
+  :init
+  (centaur-tabs-mode t)
+  :config
+  (setq centaur-tabs-set-modified-marker t
+        centaur-tabs-modified-marker "•"
+	      centaur-tabs-set-bar 'left
+	      centaur-tabs-set-icons t
+	      centaur-tabs-set-close-button t
+	      centaur-tabs-close-button "x"
+	      centaur-tabs-style "bar"
+	      centaur-tabs-cycle-scope 'tabs)
+  :hook
+  (mu4e-main-mode . centaur-tabs-local-mode)
+  (mu4e-headers-mode . centaur-tabs-local-mode) 
+  (mu4e-view-mode . centaur-tabs-local-mode)
+  (elfeed-search-mode . centaur-tabs-local-mode)
+  (org-agenda-mode . centaur-tabs-local-mode)
+  :bind
+  (:map evil-normal-state-map
+	      ("g t" . centaur-tabs-forward)
+	      ("g T" . centaur-tabs-backward)))
+#+end_src
+
+* Functions
+This section contains functions I have created that don't really fit in any other section.
+** File Functions
+*** Edit Dotfile
+This function lets me load my config so that I can edit it.
+#+begin_src elisp
+(defun edit-dotfile ()
+  "Loads the Jmacs config file to be edited."
+  (interactive)
+  (find-file (expand-file-name "jmacs.org" user-emacs-directory)))
+#+end_src
+
+*** Edit Inbox
+This function quickly lets me edit my inbox.
+#+begin_src elisp
+(defun edit-inbox ()
+  "Loads the inbox to be reviewed."
+  (interactive)
+  (find-file "~/Dropbox/org/inbox.org")
+  (find-file "~/Dropbox/org/orgzly.org"))
+  
+#+end_src
+
+** Config Functions
+*** Reload Jmacs
+#+begin_src elisp
+(defun reload-jmacs ()
+  "Reloads the config."
+  (interactive)
+  (org-babel-load-file (expand-file-name "jmacs.org" user-emacs-directory)))
+#+end_src
+
+#+RESULTS:
+: reload-jmacs
+
+** Startup Functions
+*** Display Battery
+*** Languages 
+**** Org-mode
+#+begin_src elisp
+
+#+end_src
+
+* Keybindings
+This section serves to describe the keybindings of Jmacs.
+** Leader Keys
+Since I am using evil-mode, and I don’t want to repeat my keybindings, I’m defining my prefix here.
+#+begin_src elisp
+(general-create-definer jh/evil-leader
+  :states '(normal visual insert emacs)
+  :prefix "SPC"
+  :non-normal-prefix "C-SPC")
+
+(general-create-definer jh/evil-local-leader
+  :states '(normal visual insert emacs)
+  :prefix ","
+  :non-normal-prefix "C-,")
+#+end_src
+
+** General Keybindings
+These are the core keybindings for functionality in jmacs. In addition, I want to use =SPC h F= for describing a face.
+#+begin_src elisp
+
+(jh/evil-leader
+  "SPC" '(execute-extended-command :which-key "Run Command")
+  "c"   (general-simulate-key "C-c" :which-key "Run `C-c`")
+  "h"   (general-simulate-key "C-h" :which-key "Help")
+  "u"   (general-simulate-key "C-u" :which-key "Run `C-u`")
+  "x"   (general-simulate-key "C-x" :which-key "Run `C-x`"))
+#+end_src
+
+** Application Keybindings
+
+** Buffer Keybindings
+These keybindings are for switching buffers.
+#+begin_src elisp
+(jh/evil-leader
+  "b"   '(:ignore t :which-key "Buffers")
+  "bb"  'mode-line-other-buffer
+  "bd"  'kill-this-buffer
+  "bn"  'next-buffer
+  "bp"  'previous-buffer
+  "bq"  'kill-buffer-and-window
+  "bR"  'rename-buffer
+  "br"  'revert-buffer
+  "bs" 'switch-to-buffer)
+#+end_src
+
+** File Keybindings
+These are my keybindings for files.
+#+begin_src elisp
+(jh/evil-leader
+  "f" '(:ignore t :which-key "Files")
+  "fe" '(:ignore t :which-key "Edit File")
+  "fed" '(edit-dotfile :which-key "Edit config")
+  "fei" '(edit-inbox :which-key "Edit inbox")
+  "fer" '(reload-jmacs :which-key "Reload Jmacs")
+  "ff" '(find-file :which-key "Find file")
+  "fs" '(save-buffer :which-key "Save file")
+  "fl" '(load-file :which-key "Load file"))
+#+end_src
+
+** Git Keybindings
+#+begin_src elisp
+(jh/evil-leader
+  "g" '(:ignore t :which-key "Magit")
+  "gs" 'magit-status
+  "gS" 'magit-stage-file
+  "gc" 'magit-commit
+  "gp" 'magit-pull
+  "gP" 'magit-push
+  "gb" 'magit-branch
+  "gB" 'magit-blame
+  "gd" 'magit-diff)
+#+end_src
+
+** Help Bindings
+#+begin_src elisp
+(global-set-key (kbd "C-h F") 'describe-face)
+(global-set-key (kbd "C-h f") 'describe-function)
+
+#+end_src
+
+** Insert Keybindings
+#+begin_src elisp
+(jh/evil-leader
+  "i" '(:ignore t :which-key "Insert special character")
+  "ic" '(insert-char :which-key "Insert character")
+  "ii" '(all-the-icons-insert :which-key "Insert icon")
+  "ie" '(emojify-insert-emoji :which-key "Insert emoji")
+  "is" '(yas-insert-snippet :which-key "Insert snippet"))
+#+end_src
+
+** Org-Mode Bindings
+These are my general org-mode bindings.
+#+begin_src elisp
+(jh/evil-leader
+  "o" '(:ignore t :which-key "Org-mode")
+  "oa" '(org-agenda :which-key "Org Agenda")
+  "ob" '(org-babel-tangle :which-key "tangle source code")
+  "oc" '(org-capture :which-key "Org Capture")
+  "od" '(:ignore t :which-key "Set Date")
+  "odd" '(org-deadline :which-key "Set deadline")
+  "ods" '(org-schedule :which-key "Schedule date")
+  "odt" '(org-time-stamp :which-key "Set date")
+  "oe" '(org-export-dispatch :which-key "Export file")
+  "oi" '(:ignore t :which-key "Insert")
+  "oil" '(org-insert-link :which-key "Insert link")
+  "or" '(jh/org-refile-hydra/body :which-key "Refile Headline")
+  "oq" '(org-set-tags-command :which-key "Set tags"))
+
+(jh/evil-local-leader
+  :keymaps 'org-mode-map
+  "a" '(org-archive-subtree :which-key "Archive Item")
+  "r" '(jh/org-refile-hydra/body :which-key "Refile Item"))
+#+end_src
+
+** Project Keybindings
+#+begin_src elisp
+(jh/evil-leader
+"p" '(:ignore t :which-key "Project")
+"pc" '(projectile-invalidate-cache :which-key "Clear project cache")
+"pp" '(projectile-switch-project :which-key "Switch project"))
+#+end_src
+
+** Reload Bindings
+#+begin_src elisp
+(jh/evil-leader
+  "r" '(:ignore t :which-key "Reload")
+  "rr" '(reload-jmacs :which-key "Reload Jmacs"))
+#+end_src
+
+
+
+** Search Keybindings
+These Keybindings are for searching through various things.
+#+begin_src elisp
+
+#+end_src
+
+** Toggle Keybindings
+#+begin_src elisp
+(jh/evil-leader
+  "t" '(:ignore t :which-key "Toggle")
+  ;"te" '(global-emojify-mode :which-key "Toggle emoji")
+  "ts" '(treemacs :which-key "Toggle Treemacs")
+  "to" '(imenu-list :which-key "Toggle Outline")
+  "tz" '(writeroom-mode :which-key "Toggle Zen"))
+#+end_src
+
+** Window Keybindings
+#+begin_src elisp
+(jh/evil-leader
+  "w"  '(:ignore t :which-key "Windows")
+  "w-" '(split-window-right :which-key "Horizontal split")
+  "w|" '(split-window-below :which-key "Vertical split")
+  "wd"  '(delete-window :which-key "Delete window")
+  "wD"  '(delete-other-windows :which-key "Delete other windows")
+  "wm" '(maximize-window :which-key "Maximize window")
+  "wh" '(evil-window-left :which-key "Move focus left")
+  "wj" '(evil-window-down :which-key "Move focus down")
+  "wk" '(evil-window-up :which-key "Move focus up")
+  "wl" '(evil-window-right :which-key "Move focus right"))
+#+end_src
+
+
+** Quit Keybindings
+#+begin_src elisp
+(jh/evil-leader
+  "q"  '(:ignore t :which-key "Quit")
+  "qq" '(kill-emacs :which-key "Quit emacs")
+  "qr" '(restart-emacs :which-key "Restart emacs"))
+#+end_src
+
+** Zoom In and Out
+You can use Control plus = and Control plus - to zoom in and out like everywhere else. 
+#+begin_src elisp
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+#+end_src
+
+* Load Custom File
+#+begin_src elisp
+(when (file-exists-p custom-file)
+  (load custom-file))
+#+end_src
+
+
+
+
