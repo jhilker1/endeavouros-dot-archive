@@ -233,7 +233,8 @@
   (visual-line-mode 1)
   (org-indent-mode 1)
   (variable-pitch-mode 1)
-  (set-face-attribute 'org-block nil :foreground nil :background "#282c34" :inherit 'fixed-pitch)
+  ;(set-face-attribute 'org-block nil :foreground nil :background "#282c34" :inherit 'fixed-pitch)
+
   (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))

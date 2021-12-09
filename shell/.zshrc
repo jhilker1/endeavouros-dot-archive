@@ -8,3 +8,5 @@ eval "$(starship init zsh)"
 
 export EDITOR=nvim
 source ~/.aliases
+# Added by zap installation script
+PATH=$PATH:$HOME/.local/bin/

@@ -9,5 +9,6 @@ gruvbox = {
     "blue": "#458588",
     "purple": "#b16286",
     "teal": "#689d6a",
-    "orange": "#d65d0e"
+    "orange": "#d65d0e",
+    "gray": "#928374",
     }

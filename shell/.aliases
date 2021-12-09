@@ -1,1 +1,2 @@
 alias ls="exa -alh --git-ignore --group-directories-first"
+alias zathura="gobble zathura $@"

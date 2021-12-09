@@ -1,6 +1,7 @@
 use_nerdfont = true
 volume = 75
 repeat = "playlist"
+notify = true
 
 [theme]
 title = "light blue"

@@ -190,3 +190,5 @@ _Pacdiff() {
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # Added by zap installation script
 PATH=$PATH:$HOME/.local/bin
+# Added by zap installation script
+PATH=$PATH:$HOME/.local/bin
