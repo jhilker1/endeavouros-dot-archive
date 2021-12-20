@@ -4,7 +4,7 @@ from theme.colors import gruvbox as colors
 
 layout_theme = {
     "margin": 10,
-    "border_focus": colors['red'],
+    "border_focus": colors['purple'],
     "border_normal": colors['bg'],
     "border_width": 2
 }

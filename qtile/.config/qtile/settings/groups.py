@@ -1,6 +1,7 @@
-from libqtile.config import Group, DropDown, ScratchPad
+from libqtile.config import Group, DropDown, ScratchPad, Match
 
-groups = [Group("1", layout='monadtall'),
+groups = [Group("1", label="WEB", layout='monadtall', matches=[
+    Match(wm_class=["firefox"])]),
           Group("2", layout='monadtall'),
           Group("3", layout='monadtall'),
           Group("4", layout='monadtall'),

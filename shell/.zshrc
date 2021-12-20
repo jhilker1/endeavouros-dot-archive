@@ -1,6 +1,9 @@
 fpath=($fpath "/home/jhilker/.zfunctions")
 autoload -U promptinit; promptinit
 autoload colors; colors
+autoload -Uz compinit
+compinit
+
 prompt spaceship
 setopt autocd
 setopt vi
@@ -51,3 +54,4 @@ export PATH=~/.local/bin:~/.npm-global:$PATH
 
 source ~/.aliases
 alias ref="source ~/.zshrc"
+

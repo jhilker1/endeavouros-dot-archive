@@ -1,5 +1,5 @@
 font:
-  size: 10.0
+  size: 8.0
   normal:
     family: "Iosevka Nerd Font"
 
@@ -48,3 +48,7 @@ colors:
     magenta: '#d3869b'
     cyan: '#8ec07c'
     white: '#ebdbb2'
+
+title: Alacritty
+class: Alacritty
+dynamic_title: true
