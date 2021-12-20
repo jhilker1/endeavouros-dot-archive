@@ -233,7 +233,7 @@
   (visual-line-mode 1)
   (org-indent-mode 1)
   (variable-pitch-mode 1)
-  ;(set-face-attribute 'org-block nil :foreground nil :background "#282c34" :inherit 'fixed-pitch)
+  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
 
   (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
@@ -507,6 +507,41 @@
   :ensure nil
   :straight nil)
 
+(use-package dired-ranger)
+
+(use-package elfeed
+  :config
+  (setq elfeed-db-directory "~/.elfeed/"
+	      elfeed-search-filter "@1-week-ago +unread ")
+   (evil-define-key 'normal elfeed-search-mode-map 
+    "A" 'elfeed-mark-all-as-read
+    "Q" 'delete-frame
+    "f" 'jh/elfeed-search-hydra/body
+    "/" 'elfeed-search-live-filter))
+
+(defun elfeed-mark-all-as-read ()
+	(interactive)
+  (mark-whole-buffer)
+  (elfeed-search-untag-all-unread))
+
+(add-hook 'emacs-startup-hook (lambda () (run-at-time (* 60 5) 'elfeed-update)))
+
+(use-package elfeed-org
+  :after elfeed
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files '("~/Dropbox/org/elfeed.org")))
+
+(pretty-hydra-define jh/elfeed-search-hydra (:title (with-faicon "newspaper-o" "Elfeed Filters") :quit-key "q" :color teal)
+  ("Category"
+   (("d" (elfeed-search-set-filter "@1-week-ago +unread") "Default") 
+    ("n" (elfeed-search-set-filter "@1-week-ago +unread +news") "News") 
+    ("c" (elfeed-search-set-filter "@1-week-ago +unread +campaign") "Campaigns")  
+    ("f" (elfeed-search-set-filter "@1-week-ago +unread +forum") "Forums")  
+    ("p" (elfeed-search-set-filter "+podcast") "Podcasts")  
+    ("r" (elfeed-search-set-filter "@1-week-ago +unread +reddit") "Reddit")  
+    ("b" (elfeed-search-set-filter "@1-week-ago +unread +blog") "Blogs"))))
+
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook)
@@ -525,6 +560,7 @@
   :config
   (setq doom-modeline-height 32
         doom-modeline-enable-word-count t
+        doom-modeline-icon (display-graphic-p)
         doom-modeline-mu4e t
         doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)
         doom-modeline--battery-status t))
@@ -539,11 +575,11 @@
   :config
   (setq centaur-tabs-set-modified-marker t
         centaur-tabs-modified-marker "•"
-	      centaur-tabs-set-bar 'left
 	      centaur-tabs-set-icons t
 	      centaur-tabs-set-close-button t
 	      centaur-tabs-close-button "x"
 	      centaur-tabs-style "bar"
+        centaur-tabs-set-bar 'above
 	      centaur-tabs-cycle-scope 'tabs)
   :hook
   (mu4e-main-mode . centaur-tabs-local-mode)
@@ -685,6 +721,7 @@
 
 (jh/evil-leader
   "q"  '(:ignore t :which-key "Quit")
+  "qf" '(delete-frame :which-key "Kill Frame")
   "qq" '(kill-emacs :which-key "Quit emacs")
   "qr" '(restart-emacs :which-key "Restart emacs"))
 

@@ -5,7 +5,7 @@ MUTED=$(pacmd list-sinks|grep -A 15 '* index'|awk '/muted:/{ print $2 }')
 
 if [[ $MUTED == "yes" ]] 
 then
-    printf "%s" "Muted"
+    printf "VOL: %s" "Muted"
 else
-    printf "%s%%" "$VOL"
+    printf "VOL: %s%%" "$VOL"
 fi

@@ -1,5 +1,5 @@
-from libqtile.config import Group, Key, DropDown, ScratchPad
-from keybinds import keys, mod
+from libqtile.config import Group, DropDown, ScratchPad
+
 groups = [Group("1", layout='monadtall'),
           Group("2", layout='monadtall'),
           Group("3", layout='monadtall'),

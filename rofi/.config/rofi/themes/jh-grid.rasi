@@ -5,12 +5,12 @@ configuration {
     icon-theme: "Papirus";
     drun-display-format: "{icon} {name}";
     window-format: "({w}) {t}";
+    font: "Iosevka Nerd Font 14";
 }
 
 @import "colors/gruvbox.rasi"
 
 * {
-  font: "Iosevka Nerd Font 14";
   background-color: @background;
   text-color: @foreground;
 }

@@ -32,7 +32,7 @@
     height = 300
 
     # Position the notification in the top right corner
-    origin = top-right
+    origin = bottom-right
 
     # Offset from the origin
     offset = 10x50
@@ -91,7 +91,7 @@
     frame_width = 3
 
     # Defines color of the frame around the notification window.
-    frame_color = "#aaaaaa"
+    frame_color = "#32302f"
 
     # Define a color for the separator.
     # possible values are:
@@ -113,7 +113,7 @@
 
     ### Text ###
 
-    font = Iosevka Aile 8
+    font = Iosevka Aile 10
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
@@ -153,10 +153,10 @@
     #   %n  progress value if set without any extra characters
     #   %%  Literal %
     # Markup is allowed
-    format = "<i>%s</i>\n%b"
+    format = "%a\n<i>%s</i>\n%b"
     # Alignment of message text.
     # Possible values are "left", "center" and "right".
-    alignment = left
+    alignment = right
 
     # Vertical alignment of message text and icon.
     # Possible values are "top", "center" and "bottom".
@@ -197,7 +197,7 @@
     max_icon_size = 32
 
     # Paths to default icons.
-    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    icon_path = /usr/share/icons/Papirus/32x32/apps/:/usr/share/icons/Papirus/32x32/devices/
 
     ### History ###
 
@@ -300,8 +300,8 @@
     #default_icon = /path/to/icon
 
 [urgency_normal]
-    background = "#285577"
-    foreground = "#ffffff"
+    background = "#282828"
+    foreground = "#ebdbb2"
     timeout = 10
     # Icon for notifications with normal urgency, uncomment to enable
     #default_icon = /path/to/icon

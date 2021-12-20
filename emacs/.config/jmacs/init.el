@@ -30,10 +30,11 @@
             doom-themes-enable-italic t)
       (load-theme 'doom-gruvbox t))
 
-(set-face-attribute 'default nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
-(set-face-attribute 'fixed-pitch nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
-(set-face-attribute 'variable-pitch nil :font (font-spec :family "Iosevka Aile" :size 12))
-(set-face-attribute 'font-lock-comment-face nil :slant 'italic)
+(defun jh/set-fonts ()
+  (set-face-attribute 'default nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
+  (set-face-attribute 'fixed-pitch nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
+  (set-face-attribute 'variable-pitch nil :font (font-spec :family "Iosevka Aile" :size 12))
+  (set-face-attribute 'font-lock-comment-face nil :slant 'italic))
 
 (use-package battery :ensure nil :straight nil)
 
@@ -52,7 +53,15 @@
 
 (add-hook 'after-init-hook #'jh/battery-time-modeline)
 
-(straight-use-package '(org :type git
+(if (daemonp) 
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                ;; (setq doom-modeline-icon t)
+                (with-selected-frame frame
+                  (jh/set-fonts))))
+    (jh/set-fonts))
+
+  (straight-use-package '(org :type git
        :repo "https://code.orgmode.org/bzg/org-mode.git"
        :local-repo "org"
        :depth full
@@ -61,4 +70,4 @@
        :files (:defaults "lisp/*.el" ("etc/styles/" "etc/styles/*"))))
 (straight-use-package '(org-contrib))
 
-(org-babel-load-file (expand-file-name "jmacs.org" user-emacs-directory))
+  (org-babel-load-file (expand-file-name "jmacs.org" user-emacs-directory))

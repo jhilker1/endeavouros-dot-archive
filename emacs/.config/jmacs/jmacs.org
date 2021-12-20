@@ -101,10 +101,11 @@ Doom Themes is a nice collection of themes for emacs. I am using the Doom-one th
 **** Fonts
 
 #+begin_src elisp
-(set-face-attribute 'default nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
-(set-face-attribute 'fixed-pitch nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
-(set-face-attribute 'variable-pitch nil :font (font-spec :family "Iosevka Aile" :size 12))
-(set-face-attribute 'font-lock-comment-face nil :slant 'italic)
+(defun jh/set-fonts ()
+  (set-face-attribute 'default nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
+  (set-face-attribute 'fixed-pitch nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
+  (set-face-attribute 'variable-pitch nil :font (font-spec :family "Iosevka Aile" :size 12))
+  (set-face-attribute 'font-lock-comment-face nil :slant 'italic))
 #+end_src
 
 **** Battery and Time
@@ -136,7 +137,18 @@ I want to see battery and time in my modeline.
 (add-hook 'after-init-hook #'jh/battery-time-modeline)
 #+end_src
 
+**** Server Setup 
+I primarily use emacs as a daemon instead of the full application. Here is where I add the fonts for when I run it as a daemon.
+#+begin_src elisp
+(if (daemonp) 
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                ;; (setq doom-modeline-icon t)
+                (with-selected-frame frame
+                  (jh/set-fonts))))
+    (jh/set-fonts))
 
+#+end_src
 *** Org Mode
 I want to use the newest version of org-mode instead of the one built in to emacs.
 #+begin_src elisp
@@ -224,7 +236,7 @@ Sometimes I want to add an emoji.
 (use-package emojify)
 #+end_src
 
-* Core Functionality                                                     
+* Core Functionality
 ** Packages
 *** Undo Tree                                                         
 Undo Tree lets me use more of Evil mode's redo functionality.
@@ -459,6 +471,7 @@ I want to use hydras for certain things - namely, elfeed filters.
 #+begin_src elisp
 (use-package hydra)
 #+end_src
+
 *** Related Packages
 **** Major Mode Hydra
 This lets me define hydras for each major mode.
@@ -567,7 +580,7 @@ This is a very basic function that sets up org-mode to use visual line mode, org
   (visual-line-mode 1)
   (org-indent-mode 1)
   (variable-pitch-mode 1)
-  ;(set-face-attribute 'org-block nil :foreground nil :background "#282c34" :inherit 'fixed-pitch)
+  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
 
   (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
@@ -1059,6 +1072,57 @@ ERC is an IRC client built into emacs.
   :straight nil)
 #+end_src
 
+** File Manager (Ranger Dired)
+I normally use ranger as my terminal file manager, but now I'd like to use ranger in dired.
+#+begin_src elisp
+(use-package dired-ranger)
+#+end_src
+
+** RSS Reader (Elfeed)
+Elfeed is an excellent rss reader.
+#+begin_src elisp
+(use-package elfeed
+  :config
+  (setq elfeed-db-directory "~/.elfeed/"
+	      elfeed-search-filter "@1-week-ago +unread ")
+   (evil-define-key 'normal elfeed-search-mode-map 
+    "A" 'elfeed-mark-all-as-read
+    "Q" 'delete-frame
+    "f" 'jh/elfeed-search-hydra/body
+    "/" 'elfeed-search-live-filter))
+
+(defun elfeed-mark-all-as-read ()
+	(interactive)
+  (mark-whole-buffer)
+  (elfeed-search-untag-all-unread))
+
+(add-hook 'emacs-startup-hook (lambda () (run-at-time (* 60 5) 'elfeed-update)))
+#+end_src
+
+*** Elfeed Org
+#+begin_src elisp
+(use-package elfeed-org
+  :after elfeed
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files '("~/Dropbox/org/elfeed.org")))
+#+end_src
+
+*** Elfeed Goodies
+
+*** Hydra
+#+begin_src elisp
+(pretty-hydra-define jh/elfeed-search-hydra (:title (with-faicon "newspaper-o" "Elfeed Filters") :quit-key "q" :color teal)
+  ("Category"
+   (("d" (elfeed-search-set-filter "@1-week-ago +unread") "Default") 
+    ("n" (elfeed-search-set-filter "@1-week-ago +unread +news") "News") 
+    ("c" (elfeed-search-set-filter "@1-week-ago +unread +campaign") "Campaigns")  
+    ("f" (elfeed-search-set-filter "@1-week-ago +unread +forum") "Forums")  
+    ("p" (elfeed-search-set-filter "+podcast") "Podcasts")  
+    ("r" (elfeed-search-set-filter "@1-week-ago +unread +reddit") "Reddit")  
+    ("b" (elfeed-search-set-filter "@1-week-ago +unread +blog") "Blogs")))) 
+
+#+end_src
 
 * UI Packages
 ** Dashboard
@@ -1086,6 +1150,7 @@ Doom modeline allows me to have a cleaner modeline.
   :config
   (setq doom-modeline-height 32
         doom-modeline-enable-word-count t
+        doom-modeline-icon (display-graphic-p)
         doom-modeline-mu4e t
         doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)
         doom-modeline--battery-status t))
@@ -1105,11 +1170,11 @@ I really like centaur-tabs for my config.
   :config
   (setq centaur-tabs-set-modified-marker t
         centaur-tabs-modified-marker "•"
-	      centaur-tabs-set-bar 'left
 	      centaur-tabs-set-icons t
 	      centaur-tabs-set-close-button t
 	      centaur-tabs-close-button "x"
 	      centaur-tabs-style "bar"
+        centaur-tabs-set-bar 'above
 	      centaur-tabs-cycle-scope 'tabs)
   :hook
   (mu4e-main-mode . centaur-tabs-local-mode)
@@ -1333,6 +1398,7 @@ These Keybindings are for searching through various things.
 #+begin_src elisp
 (jh/evil-leader
   "q"  '(:ignore t :which-key "Quit")
+  "qf" '(delete-frame :which-key "Kill Frame")
   "qq" '(kill-emacs :which-key "Quit emacs")
   "qr" '(restart-emacs :which-key "Restart emacs"))
 #+end_src

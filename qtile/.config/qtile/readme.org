@@ -7,31 +7,33 @@
 This file serves as the documentation and source code for my configuration of Qtile.
 
 * Global Imports
-These must be imported in order for my config to work.
+These must be imported for my config to work.
 #+begin_src python
 import os
 import re
 import socket
 import subprocess
-
 from typing import List  # noqa: F401
+from libqtile import hook
+from libqtile.config import EzKey as Key
 
-from libqtile import bar, layout, widget, hook
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
-from libqtile.lazy import lazy
-from keybinds import mod, keys
-from theme.colors import gruvbox
-from theme.layout import layouts
-from theme.bars import mainbar, widget_defaults, extension_defaults
-from groups import groups
+from theme.colors import gruvbox as colors
+from theme.layouts import layouts, floating_layout
+from theme.bars import mainbar, widget_defaults
+
+from settings.screens import screens
+from settings.keybinds import keys
+from settings.groups import groups
+
 #+end_src
+
 
 * Colors
 :PROPERTIES:
 :header-args:python: :tangle theme/colors.py
 :END:
 ** Gruvbox
-I've been using gruvbox as my colorscheme for about a year now, and I really like it.
+I’ve been using gruvbox as my colorscheme for about a year now, and I really like it.
 #+begin_src python
 gruvbox = {
     "bg": "#282828",
@@ -50,32 +52,29 @@ gruvbox = {
 #+end_src
 
 
-
-
-
 * Layouts
 :PROPERTIES:
-:header-args:python: :tangle theme/layout.py
+:header-args:python: :tangle theme/layouts.py
 :END:
-My layouts are not super fancy - just a master/stack layout and a max layout.
+I have only a few layouts I'd like to use - a master/stack layout like in XMonad, and then a maximized layout.
 ** Imports
 #+begin_src python
 from libqtile import layout
-from theme.colors import gruvbox
+from libqtile.config import Match
+from theme.colors import gruvbox as colors
 #+end_src
 
 ** Layout Theming
-I have a few variables I'd like to set for theming my layouts.
 #+begin_src python
 layout_theme = {
-    "margin": 8,
-    "border_focus": gruvbox['yellow'],
-    "border_normal": gruvbox['bg-dark'],
+    "margin": 10,
+    "border_focus": colors['red'],
+    "border_normal": colors['bg'],
     "border_width": 2
 }
 #+end_src
 
-** My Layouts of Choice
+** My Layouts
 #+begin_src python
 layouts = [
     layout.MonadTall(**layout_theme),
@@ -83,125 +82,20 @@ layouts = [
 ]
 #+end_src
 
-
-* Keybindings
-:PROPERTIES:
-:header-args:python: :tangle keybinds.py
-:END:
-My keybindings are nothing special, mostly vim inspired. However, first, I need to actually set some constant values so that qtile knows what to use.
-** Imports
+** Floating Layout
 #+begin_src python
-from libqtile.config import KeyChord, EzKey
-from libqtile.lazy import lazy
-#+end_src
-
-** A Few Variables
-These variables just contain the programs I primarily use - alacritty is my terminal emulator of choice, and my browser is firefox.
-#+begin_src python
-mod = "mod4"
-terminal = "alacritty"
-browser = "firefox"
-#+end_src
-
-
-** Core Keybindings
-These keybindings are for how I manage my windows and layouts on a day-to-day basis - such as increasing a window's size, resetting a layout, etc. In addition, this also contains my keybinding for reloading my config.
-
-#+begin_src python
-core_binds = [
-    EzKey("M-h", lazy.layout.left(), desc="Move focus to left"),
-    EzKey("M-l", lazy.layout.right(), desc="Move focus to right"),
-    EzKey("M-j", lazy.layout.down(), desc="Move focus down"),
-    EzKey("M-k", lazy.layout.up(), desc="Move focus up"),
-    EzKey("M-<space>", lazy.layout.next(), desc="Move window focus to other window"),
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
-    EzKey("M-S-h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    EzKey("M-S-l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    EzKey("M-S-j", lazy.layout.shuffle_down(), desc="Move window down"),
-    EzKey("M-S-k", lazy.layout.shuffle_up(), desc="Move window up"),
-    EzKey("M-C-h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    EzKey("M-C-l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    EzKey("M-C-j", lazy.layout.grow_down(), desc="Grow window down"),
-    EzKey("M-C-k", lazy.layout.grow_up(), desc="Grow window up"),
-     EzKey("M-<equal>", lazy.layout.grow()),
-    EzKey("M-<minus>", lazy.layout.shrink()),
-    EzKey("M-0", lazy.layout.reset()),
-    EzKey("M-S-q", lazy.window.kill(), desc="Kill focused window"),
-    EzKey("M-S-r", lazy.restart(), desc="Restart Qtile"),
-    EzKey("M-S-p", lazy.spawn("rofi -show powermenu -modi powermenu:~/.dotfiles/rofi/.config/rofi/scripts/power.sh -theme-str '#window { height: 55%;} listview { columns: 1;}'"), desc="Manage machine power state"),
-    EzKey("<XF86AudioLowerVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
-    EzKey("<XF86AudioRaiseVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")),
-
-    EzKey("<XF86AudioMute>", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
-]
-
-keys = core_binds.copy()
-#+end_src
-
-** Application Bindings
-These bindings are for launching my applications.
-#+begin_src python
-app_bindings = [
-    EzKey("M-r", lazy.spawn("rofi -show drun")),
-    EzKey("M-<Return>", lazy.spawn(terminal), desc="Launch terminal"),
-    EzKey("M-S-<Return>", lazy.spawn(browser), desc="Open Firefox"),
-    ]
-
-for keybind in app_bindings:
-    keys.append(keybind)
-#+end_src
-
-*** Emacs Apps
-#+begin_src python
-emacs_apps = KeyChord([mod],"e", [
-             EzKey("n", lazy.spawn("emacsclient -c -a 'elfeed"), desc='Launch Elfeed'),
-    ],mode="Emacs")
-keys.append(emacs_apps)
+floating_layout = layout.Floating(float_rules=[
+    # Run the utility of `xprop` to see the wm class and name of an X client.
+    *layout.Floating.default_float_rules,
+    Match(wm_class='confirmreset'),  # gitk
+    Match(wm_class='makebranch'),  # gitk
+    Match(wm_class='maketag'),  # gitk
+    Match(wm_class='ssh-askpass'),  # ssh-askpass
+    Match(title='branchdialog'),  # gitk
+    Match(title='pinentry'),  # GPG key password entry
+], **layout_theme)
 
 #+end_src
-
-
-* Groups
-:PROPERTIES:
-:header-args:python: :tangle groups.py
-:END:
-Groups are really just workspaces.
-#+begin_src python
-from libqtile.config import Group, Key, DropDown, ScratchPad
-from keybinds import keys, mod
-groups = [Group("1", layout='monadtall'),
-          Group("2", layout='monadtall'),
-          Group("3", layout='monadtall'),
-          Group("4", layout='monadtall'),
-          Group("5", layout='monadtall'),
-          Group("6", layout='monadtall'),
-          Group("7", layout='monadtall'),
-          Group("8", layout='max'),
-          Group("9", layout='max')]
-#+end_src
-
-** Bindings
-#+begin_src python :tangle config.py
-dgroups_key_binder = None
-for i in groups:
-    keys.extend([
-        # mod1 + letter of group = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen(),
-            desc="Switch to group {}".format(i.name)),
-
-        # mod1 + shift + letter of group = switch to & move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
-            desc="Switch to & move focused window to group {}".format(i.name)),
-        # Or, use below if you prefer not to switch to that group.
-        # # mod1 + shift + letter of group = move focused window to group
-        # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-        #     desc="move focused window to group {}".format(i.name)),
-    ])
-
-#+end_src
-
-
 
 * Bars
 :PROPERTIES:
@@ -210,7 +104,7 @@ for i in groups:
 ** Imports
 #+begin_src python
 from libqtile import bar, widget
-from theme.colors import gruvbox
+from theme.colors import gruvbox as colors
 import os
 import subprocess
 #+end_src
@@ -221,14 +115,15 @@ widget_defaults = dict(
     font='Iosevka Nerd Font',
     fontsize=14,
     padding=3,
-    background = gruvbox['bg'],
-    foreground = gruvbox['fg'],
+    background = colors['bg'],
+    foreground = colors['fg'],
 )
+
 extension_defaults = widget_defaults.copy()
 #+end_src
 
 ** Arrow Functions
-Since I am using a nerd font, I'd like to be able to have a powerline status effect.
+These arrow functions are for achieving a powerline-esque effect in the qtile bar. Note that you will need a Nerd Font in order to use this.
 #+begin_src python
 def draw_arrow_right(bg,fg,font_size=33):
     "Creates a textbox widget with a right-pointing arrow."
@@ -245,130 +140,228 @@ def draw_arrow_left(bg,fg,font_size=33):
                           fontsize=font_size,
                           background=bg,
                           foreground=fg)
+
+#+end_src
+
+** Weather Locations
+I like being able to quickly glance at the current weather in my bar, and this just lets me do that.
+#+begin_src python
+wttr_locs = [
+    {"home": "Charlottesville"},
+]
 #+end_src
 
 ** Main Bar
-My main bar contains most of the information I need.
 #+begin_src python
 mainbar = bar.Bar([
-    widget.Clock(format="%H:%M - %a, %d %b.",
-                 background=gruvbox['blue']),
-    draw_arrow_right(gruvbox['bg'],gruvbox['blue']),
+    widget.Sep(linewidth = 0,
+               padding = 6,
+               background=colors['blue']),
+    widget.TextBox(text="",
+                   font="Material Icons 12",
+                   background=colors['blue']),
+    widget.Clock(format="%H:%M - %a, %d %b",
+                 background=colors['blue']),
+    draw_arrow_right(colors['bg'],colors['blue']),
     widget.GroupBox(disable_drag=True),
-    draw_arrow_right(gruvbox['purple'], 
-                     gruvbox['bg']),
-    widget.CurrentLayout(background=gruvbox['purple']),
-    draw_arrow_right(gruvbox['bg'],
-                     gruvbox['purple'],),
-    widget.WindowName(format=" {name}",
-                      max_chars=32),
-    widget.Battery(format="{char} {percent:2.0%}",
-                   show_short_text=False,),
-    widget.Bluetooth(),
-    widget.PulseVolume(emoji=True, fontsize=14), 
-    widget.GenPollText(update_interval=None, func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/printvol.sh")).decode('utf-8')),
-    widget.Systray(),
-    ], 30, background=gruvbox['bg'])
+    
+    draw_arrow_right(colors['purple'],colors['bg']),
+    widget.CurrentLayout(background=colors['purple']),
+    draw_arrow_right(colors['bg'],colors['purple']),
+    widget.Spacer(),
+    draw_arrow_left(colors['bg'], colors['orange']),
+    widget.Wlan(format="INT: {essid}",
+                disconnected_message="INT: Not Connected ",
+                background=colors['orange']),
+    draw_arrow_left(colors['orange'],colors['purple']),
+   widget.Battery(format="BAT: {percent:2.0%}",
+                   show_short_text = False,
+                   background=colors['purple']),
+    #widget.PulseVolume(emoji=True, fontsize=12), 
+    draw_arrow_left(colors['purple'],colors['blue']),
+    widget.GenPollText(update_interval=None, 
+                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/printvol.sh")).decode('utf-8'),
+                       background=colors['blue']),
+    widget.Systray(), 
+
+        ], 30, background=colors['bg'], )
 #+end_src
 
 * Screens
-Screens are your monitors in qtile.
+:PROPERTIES:
+:header-args:python: :tangle settings/screens.py
+:END:
+Screens are just your monitors in qtile.
+** Imports
 #+begin_src python
+from libqtile.config import Screen
+from theme.bars import mainbar
+#+end_src
 
-
+** My Screens
+#+begin_src python
 screens = [
     Screen(top=mainbar),
 ]
 
 #+end_src
 
-
-* Mouse Setup
-#+begin_src python
-# Drag floating layouts.
-mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front())
-]
-#+end_src
-
-
-* Floating Layouts, Misc.
-#+begin_src python
-dgroups_app_rules = []  # type: List
-follow_mouse_focus = True
-bring_front_click = False
-cursor_warp = False
-floating_layout = layout.Floating(float_rules=[
-    # Run the utility of `xprop` to see the wm class and name of an X client.
-    *layout.Floating.default_float_rules,
-    Match(wm_class='confirmreset'),  # gitk
-    Match(wm_class='makebranch'),  # gitk
-    Match(wm_class='maketag'),  # gitk
-    Match(wm_class='ssh-askpass'),  # ssh-askpass
-    Match(title='branchdialog'),  # gitk
-    Match(title='pinentry'),  # GPG key password entry
-])
-auto_fullscreen = True
-focus_on_window_activation = "smart"
-reconfigure_screens = True
-
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
-auto_minimize = True
-#+end_src
-
-
-* Scripts
-** Startup Applications
-These applications are ones I want to immediately start when I log in to Qtile - such as disabling the bell, and setting a wallpaper. I need to add a hook to my qtile config that says "hey, any time I log in to Qtile, I want you to run these applications."
-#+begin_src python
-@hook.subscribe.startup_once
-def qtile_init():
-    home = os.path.expanduser("~")
-    subprocess.call(home+"/.config/qtile/scripts/autostart.sh")
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
-wmname = "Qtile"
-#+end_src
-
-** Startup Script
+* Groups
 :PROPERTIES:
-:header-args: :tangle scripts/autostart.sh
+:header-args:python: :tangle settings/groups.py
+:END:
+Groups are just workspaces in qtile.
+** Imports
+#+begin_src python
+from libqtile.config import Group, DropDown, ScratchPad
+#+end_src
+
+** My Groups of Choice
+Still in progress.
+#+begin_src python
+groups = [Group("1", layout='monadtall'),
+          Group("2", layout='monadtall'),
+          Group("3", layout='monadtall'),
+          Group("4", layout='monadtall'),
+          Group("5", layout='monadtall'),
+          Group("6", layout='monadtall'),
+          Group("7", layout='monadtall'),
+          Group("8", layout='max'),
+          Group("9", layout='max')]
+#+end_src
+
+
+* Keybindings
+:PROPERTIES:
+:header-args:python: :tangle settings/keybinds.py
 :END:
 
-#+begin_src sh :shebang "#!/usr/bin/env bash"
-xset b off
-xrandr --output eDP1 --mode 1368x768
-feh --bg-center ~/.dotfiles/wallpapers/gruvbox/pacman.png
-redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | jq '.location.lat, .location.lng' | tr '\n' ':' | sed 's/:$//') &
+My keybinds are mostly vim-inspired, though I like to have a few keychords in case I need them.
+** Imports
+#+begin_src python
+from libqtile.config import KeyChord
+from libqtile.config import EzKey as Key
+from libqtile.lazy import lazy
+from settings.groups import groups
 #+end_src
 
-** Volume Status
+** A Few Variables
+#+begin_src python
+mod = "mod4"
+terminal = "alacritty"
+browser = "firefox"
+#+end_src
+
+** Core Binds
+#+begin_src python
+core_binds = [
+    Key("M-h", lazy.layout.left(), desc="Move focus to left"),
+    Key("M-l", lazy.layout.right(), desc="Move focus to right"),
+    Key("M-j", lazy.layout.down(), desc="Move focus down"),
+    Key("M-k", lazy.layout.up(), desc="Move focus up"),
+    Key("M-<space>", lazy.layout.next(), desc="Move window focus to other window"),
+    # Move windows between left/right columns or move up/down in current stack.
+    # Moving out of range in Columns layout will create new column.
+    Key("M-S-h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key("M-S-l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key("M-S-j", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key("M-S-k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key("M-C-h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key("M-C-l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key("M-C-j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key("M-C-k", lazy.layout.grow_up(), desc="Grow window up"),
+     Key("M-<equal>", lazy.layout.grow()),
+    Key("M-<minus>", lazy.layout.shrink()),
+    Key("M-0", lazy.layout.reset()),
+    Key("M-S-q", lazy.window.kill(), desc="Kill focused window"),
+    Key("M-S-r", lazy.restart(), desc="Restart Qtile"),
+    Key("M-S-p", lazy.spawn("rofi -show powermenu -modi powermenu:~/.dotfiles/rofi/.config/rofi/scripts/power.sh -theme-str '#window { height: 55%;} listview { columns: 1;}'"), desc="Manage machine power state"),
+    Key("M-f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+    Key("M-S-f", lazy.window.toggle_floating(), desc="Toggle floating layout"),
+    Key("M-<Tab>", lazy.next_layout()),
+    Key("<XF86AudioLowerVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
+    Key("<XF86AudioRaiseVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")),
+
+    Key("<XF86AudioMute>", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
+]
+
+keys = core_binds.copy()
+#+end_src
+
+** Applications
+#+begin_src python
+app_bindings = [
+    Key("M-r", lazy.spawn("rofi -show drun")),
+    Key("M-<Return>", lazy.spawn(terminal), desc="Launch terminal"),
+    Key("M-S-<Return>", lazy.spawn(browser), desc="Open Firefox"),
+    ]
+
+for keybind in app_bindings:
+    keys.append(keybind)
+#+end_src
+
+*** Emacs Applications
+#+begin_src python
+emacs_apps = KeyChord([mod], "e", [
+    Key("e", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs'"), desc="Spawn emacs client"),
+    Key("n", lazy.spawn("emacsclient -cs 'jmacs' -e '(elfeed)'"), desc="Spawn emacs client"),
+])
+
+keys.append(emacs_apps)
+#+end_src
+
+** Groups
+#+begin_src python
+for group in groups:
+    keys.extend([
+      Key("M-{}".format(group.name), lazy.group[group.name].toscreen(), desc="Switch to group {}".format(group.name)),
+      Key("M-S-{}".format(group.name), lazy.window.togroup(group.name), desc="Move focused window to group {}".format(group.name)) 
+    ])
+#+end_src
+
+
+* Hooks
+** Autostart Apps
+I want some apps to start when I log in to qtile.
+#+begin_src python
+@hook.subscribe.startup_once
+def start_once():
+    home = os.path.expanduser('~')
+    subprocess.call([home + '/.config/qtile/scripts/autostart.sh'])
+#+end_src
+
+* Scripts
+** Print Volume 
 :PROPERTIES:
 :header-args: :tangle scripts/printvol.sh
 :END:
+This script just prints the volume.
 #+begin_src sh :shebang "#!/usr/bin/env bash"
-
 VOL=$(pacmd list-sinks|grep -A 15 '* index'| awk '/volume: front/{ print $5 }' | sed 's/[%|,]//g' | xargs)
 
 MUTED=$(pacmd list-sinks|grep -A 15 '* index'|awk '/muted:/{ print $2 }')
 
 if [[ $MUTED == "yes" ]] 
 then
-    printf "%s" "Muted"
+    printf "VOL: %s" "Muted"
 else
-    printf "%s%%" "$VOL"
+    printf "VOL: %s%%" "$VOL"
 fi
 
+
 #+end_src
+
+** Autostart
+:PROPERTIES:
+:header-args: :tangle scripts/autostart.sh
+:END:
+#+begin_src sh :shebang "#!/usr/bin/env bash"
+xset b off
+xrandr --output eDP1 --mode 1368x768
+feh --bg-center ~/.dotfiles/wallpapers/gruvbox/pacman.png
+redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | jq '.location.lat, .location.lng' | tr '\n' ':' | sed 's/:$//') &
+emacs --daemon &
+picom -b
+#+end_src
+
+
