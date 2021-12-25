@@ -1,14 +1,17 @@
 fpath=($fpath "/home/jhilker/.zfunctions")
 autoload -U promptinit; promptinit
 autoload colors; colors
-autoload -Uz compinit
-compinit
-
-prompt spaceship
+autoload -Uz compinit; compinit
+autoload -Uz add-zsh-hook
+typeset -U PATH path
 setopt autocd
-setopt vi
-vim_ins_mode="%{$fg[red]%}[%F{12}%BINS%B%{$reset_color%}%{$fg[red]%}]%{$reset_color%}"
-vim_cmd_mode="%{$fg[red]%}[%{$fg[magenta]%}NML%{$fg[red]%}]%{$reset_color%}"
+
+## Vi Mode
+bindkey -v
+#vim_ins_mode="%{$fg[red]%}[%F{12}%BINS%B%{$reset_color%}%{$fg[red]%}]%{$reset_color%}"
+#vim_cmd_mode="%{$fg[red]%}[%{$fg[magenta]%}NML%{$fg[red]%}]%{$reset_color%}"
+vim_ins_mode="INS"
+vim_cmd_mode="NML"
 vim_mode=$vim_ins_mode
 
 function zle-keymap-select {
@@ -28,6 +31,7 @@ function zle-line-finish {
 }
 zle -N zle-line-finish
 
+## Prompt Settings
 SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_PROMPT_SEPARATE_LINE=false
 SPACESHIP_CHAR_SYMBOL="$ "
@@ -46,12 +50,33 @@ SPACESHIP_PROMPT_ORDER=(
   git
   char)
 
-#eval "$(starship init zsh)"
+#prompt spaceship
+eval "$(starship init zsh)"
 
-
-export PATH=~/.local/bin:~/.npm-global:$PATH
+## Path and Commands
+path=("$HOME/.local/bin/" "$path[@]")
+export PATH
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 source ~/.aliases
 alias ref="source ~/.zshrc"
 
+## Terminal Title
+function xterm_title_precmd () {
+	print -Pn -- '\e]2;%n@%m %~\a'
+	[[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
+}
+
+function xterm_title_preexec () {
+	print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
+	[[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
+}
+
+if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
+	add-zsh-hook -Uz precmd xterm_title_precmd
+	add-zsh-hook -Uz preexec xterm_title_preexec
+fi
+
+## plugin sourcing
+source $HOME/.zshplugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source $HOME/.zshplugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh 

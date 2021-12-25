@@ -3,18 +3,219 @@ import re
 import socket
 import subprocess
 from typing import List  # noqa: F401
-from libqtile import hook
-from libqtile.config import EzKey as Key
 
-from theme.colors import gruvbox as colors
-from theme.layouts import layouts, floating_layout
-from theme.bars import mainbar, widget_defaults
+from libqtile import layout, bar, widget, hook
+from libqtile.lazy import lazy
+from libqtile.config import Match, Screen, Group, DropDown, ScratchPad, KeyChord
+from libqtile.config import EzKey as Key, EzClick as Click, EzDrag as Drag
 
-from settings.screens import screens
-from settings.keybinds import keys
-from settings.groups import groups
+from theme import fonts, gruvbox as colors
 
-@hook.subscribe.startup_once
-def start_once():
-    home = os.path.expanduser('~')
-    subprocess.call([home + '/.config/qtile/scripts/autostart.sh'])
+mod = "mod4"
+terminal = "alacritty"
+browser = "firefox"
+
+groups = [Group("1", layout='monadtall', matches=[
+    Match(wm_class=["firefox"])]),
+          Group("2", layout='monadtall'),
+          Group("3", layout='monadtall'),
+          Group("4", layout='monadtall'),
+          Group("5", layout='monadtall'),
+          Group("6", layout='monadtall'),
+          Group("7", layout='monadtall'),
+          Group("8", layout='max'),
+          Group("9", layout='max')]
+
+keys = [
+    Key("M-h", lazy.layout.left(), desc="Move focus to left"),
+    Key("M-l", lazy.layout.right(), desc="Move focus to right"),
+    Key("M-j", lazy.layout.down(), desc="Move focus down"),
+    Key("M-k", lazy.layout.up(), desc="Move focus up"),
+    Key("M-S-h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key("M-S-l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key("M-S-j", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key("M-S-k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key("M-C-h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key("M-C-l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key("M-C-j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key("M-C-k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key("M-<equal>", lazy.layout.grow()),
+    Key("M-<minus>", lazy.layout.shrink()),
+    Key("M-0", lazy.layout.reset()),
+
+    Key("M-S-q", lazy.window.kill(), desc="Kill focused window"),
+    Key("M-S-r", lazy.restart(), desc="Restart Qtile"),
+    Key("M-S-p", lazy.spawn("rofi -show powermenu -modi powermenu:~/.dotfiles/rofi/.config/rofi/scripts/power.sh -theme-str '#window { height: 55%;} listview { columns: 1;}'"), desc="Manage machine power state"),
+    Key("M-f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+    Key("M-S-f", lazy.window.toggle_floating(), desc="Toggle floating layout"),
+
+    Key("M-<Tab>", lazy.next_layout()),
+    Key("<XF86AudioLowerVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
+    Key("<XF86AudioRaiseVolume>", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")),
+    Key("<XF86AudioMute>", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
+
+    Key("M-r", lazy.spawn("rofi -show drun")),
+    Key("M-<Return>", lazy.spawn(terminal), desc="Launch terminal"),
+    Key("M-S-<Return>", lazy.spawn(browser), desc="Open Firefox"),
+
+    KeyChord([mod], "e", [
+        Key("e", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs'"), desc="Spawn emacs client"),
+        Key("n", lazy.spawn("emacsclient -cs 'jmacs' -e '(elfeed)'"), desc="Spawn emacs client"),
+    ], mode="Emacs Apps"),
+
+    
+]
+
+for group in groups:
+    keys.extend([
+      Key("M-{}".format(group.name), lazy.group[group.name].toscreen(), desc="Switch to group {}".format(group.name)),
+      Key("M-S-{}".format(group.name), lazy.window.togroup(group.name), desc="Move focused window to group {}".format(group.name)) 
+    ])
+
+layout_theme = {
+    "margin": 10,
+    "border_focus": colors['purple'],
+    "border_normal": colors['bg'],
+    "border_width": 2
+}
+
+layouts = [
+    layout.MonadTall(**layout_theme),
+    layout.Max(**layout_theme),
+]
+
+floating_layout = layout.Floating(float_rules=[
+    # Run the utility of `xprop` to see the wm class and name of an X client.
+    *layout.Floating.default_float_rules,
+    Match(wm_class='confirmreset'),  # gitk
+    Match(wm_class='makebranch'),  # gitk
+    Match(wm_class='maketag'),  # gitk
+    Match(wm_class='ssh-askpass'),  # ssh-askpass
+    Match(title='branchdialog'),  # gitk
+    Match(title='pinentry'),  # GPG key password entry
+    Match(wm_class='pinentry-gtk-2'), 
+], **layout_theme)
+
+widget_defaults = dict(
+    font=fonts['text'],
+    fontsize=14,
+    padding=3,
+    background = colors['bg'],
+    foreground = colors['fg'],
+)
+
+extension_defaults = widget_defaults.copy()
+
+def draw_arrow_right(bg,fg,font_size=33):
+    "Creates a textbox widget with a right-pointing arrow."
+    return widget.TextBox(text="",
+                          padding=0,
+                          fontsize=font_size,
+                          background=bg,
+                          foreground=fg)
+
+def draw_arrow_left(bg,fg,font_size=33):
+    "Creates a textbox widget with a right-pointing arrow."
+    return widget.TextBox(text="",
+                          padding=0,
+                          fontsize=font_size,
+                          background=bg,
+                          foreground=fg)
+
+wttr_locs = [
+    {"home": "Charlottesville"},
+]
+
+mainbar = bar.Bar([
+    widget.GroupBox(disable_drag=True,
+                    block_highlight_text_color=colors['fg'],
+                    active=colors['fg'],
+                    highlight_method='line',
+                    highlight_color=colors['bg'],
+                    inactive=colors['gray'],
+                    this_current_screen_border=colors['blue'],
+                    rounded=False,
+                    ),
+    draw_arrow_right(colors['blue'],
+                     colors['bg']),
+    widget.TextBox(text="",
+                   font=fonts['icons'],
+                   fontsize = 14,
+                   background=colors['blue']),
+      widget.Clock(format="%H:%M - %a %d %b",
+                 background=colors['blue']), 
+    draw_arrow_right(colors['purple'],
+                     colors['blue']),
+    widget.CurrentLayout(background=colors['purple']),
+    draw_arrow_right(colors['bg'],
+                     colors['purple']),
+    widget.Spacer(),
+    draw_arrow_left(colors['bg'], 
+                    colors['orange']),
+    widget.TextBox(text="",
+                   background = colors['orange'],
+                   font=fonts['icons'],
+                   fontsize=16),
+    widget.Wlan(format="{essid}",
+                disconnected_message="Not Connected",
+                background=colors['orange']),
+    widget.Battery(format="",
+                   show_short_text = False,
+                   padding = 0,
+                   fontsize = 33,
+                   background = colors['orange'],
+                   foreground = colors['blue'],
+                   low_foreground = colors['red']),
+    widget.Battery(format="{char}",
+                   show_short_text=False,
+                   charge_char = "",
+                   discharge_char = "",
+                   full_char = "",
+                   font = fonts['icons'],
+                   fontsize=16,
+                   background = colors['blue'],
+                   low_background = colors['red']),
+
+    widget.Battery(format="{percent:2.0%}",
+                   show_short_text=False,
+                   background = colors['blue'],
+                   low_background = colors['red']),
+   widget.Battery(format="",
+                   show_short_text = False,
+                   padding = 0,
+                   fontsize = 33,
+                   background = colors['blue'],
+                   low_background = colors['red'],
+                   foreground=colors['purple']),
+
+    widget.TextBox(text="",
+                   fontsize=16,
+                   background=colors['purple']),
+
+    widget.Bluetooth(hci="/dev_90_7A_58_A6_A0_0A",
+                     background=colors['purple']),
+
+    draw_arrow_left(colors['purple'],
+                    colors['green']),
+    widget.GenPollText(update_interval=None, 
+                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/volicon.sh")).decode('utf-8'),
+                       font=fonts['icons'],
+                       fontsize=16,
+                       background=colors['green']),
+    
+    widget.GenPollText(update_interval=None, 
+                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/printvol.sh")).decode('utf-8'),
+                       background=colors['green']),
+    widget.TextBox(text="",
+                   font=fonts['icons'],
+                   background=colors['blue']),
+
+    widget.Backlight(backlight_name = "intel_backlight",
+                     background=colors['blue']), 
+    
+
+    ], 30, background=colors['bg'], )
+
+screens = [
+    Screen(top = mainbar),
+]

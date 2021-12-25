@@ -12,3 +12,8 @@ gruvbox = {
     "orange": "#d65d0e",
     "gray": "#928374",
     }
+
+fonts = {
+    "text": "Iosevka Nerd Font",
+    "icons": "Material Icons"
+}

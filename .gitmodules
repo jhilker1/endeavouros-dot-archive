@@ -7,3 +7,9 @@
 [submodule "emacs/.doomemacs"]
 	path = emacs/.doomemacs
 	url = https://github.com/hlissner/doom-emacs.git
+[submodule "shell/.zshplugins/zsh-autosuggestions"]
+	path = shell/.zshplugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions.git
+[submodule "shell/.zshplugins/fast-syntax-highlighting"]
+	path = shell/.zshplugins/fast-syntax-highlighting
+	url = https://github.com/z-shell/fast-syntax-highlighting.git
