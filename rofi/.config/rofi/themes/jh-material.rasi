@@ -1,6 +1,6 @@
 configuration {
-    font: "Iosevka Nerd Font 12";
-    modi: "window,drun,combi";
+    font: "Iosevka Nerd Font 14";
+    modi: "window,drun,combi,powermenu:~/.dotfiles/rofi/.config/rofi/scripts/powermenu.sh";
     terminal: "alacritty";
     show-icons: true;
     icon-theme: "Papirus";
@@ -10,3 +10,16 @@ configuration {
 
 @import "colors/gruvbox.rasi"
 
+* {
+  background-color: @background;
+  text-color: @foreground;
+}
+
+window {
+  width: 55%;
+  border: 2px;
+  border-color: @bg-bright;
+  border-radius: 4px;
+  padding: 20px 10px 0px 20px;
+
+}
