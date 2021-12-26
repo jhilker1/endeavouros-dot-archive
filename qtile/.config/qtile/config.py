@@ -280,8 +280,3 @@ draw_arrow_left(colors['purple'],
 screens = [
     Screen(top = mainbar, bottom = altbar),
 ]
-
-@hook.subscribe.startup_once
-def start_once():
-    home = os.path.expanduser('~')
-    subprocess.call([home + '/.config/qtile/scripts/autostart.sh'])

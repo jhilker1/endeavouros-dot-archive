@@ -466,26 +466,3 @@ screens = [
 
 * Hooks
 Hooks are scripts that can be automated in python - an example would be an init script for setting wallpapers, starting a compositor, etc.
-** Autostart Apps
-#+begin_src python
-@hook.subscribe.startup_once
-def start_once():
-    home = os.path.expanduser('~')
-    subprocess.call([home + '/.config/qtile/scripts/autostart.sh'])
-#+end_src
-
-*** Script
-:PROPERTIES:
-:header-args:sh: :tangle scripts/autostart.sh :shebang "#!/usr/bin/env bash"
-:END:
-#+begin_src sh
-xrandr --output eDP1 --mode 1368x768
-xset b off
-feh --bg-center ~/.dotfiles/wallpapers/gruvbox/pacman.png
-redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | jq '.location.lat, .location.lng' | tr '\n' ':' | sed 's/:$//') &
-emacs --daemon &
-picom -b
-#+end_src
-
-
-
