@@ -206,10 +206,12 @@ mainbar = bar.Bar([
     widget.GenPollText(update_interval=None, 
                        func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/printvol.sh")).decode('utf-8'),
                        background=colors['green']),
+    
+    draw_arrow_left(colors['green'],
+                     colors['blue']),
     widget.TextBox(text="",
                    font=fonts['icons'],
                    background=colors['blue']),
-
     widget.Backlight(backlight_name = "intel_backlight",
                      background=colors['blue']), 
     

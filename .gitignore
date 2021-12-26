@@ -57,3 +57,4 @@ emacs/.config/jmacs/auto-save-list/
 qtile/.config/qtile/__pycache__
 qtile/.config/qtile/theme/__pycache__
 qtile/.config/qtile/settings/__pycache__
+/emacs/.config/jmacs/eshell/

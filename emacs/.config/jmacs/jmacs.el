@@ -542,6 +542,31 @@
     ("r" (elfeed-search-set-filter "@1-week-ago +unread +reddit") "Reddit")  
     ("b" (elfeed-search-set-filter "@1-week-ago +unread +blog") "Blogs"))))
 
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+
+(use-package mu4e 
+  :ensure nil
+  :straight nil
+  :config
+  (setq mu4e-change-filenames-when-moving t
+        mu4e-maildir "~/.local/share/mail/"
+        mu4e-get-mail-command "mbsync -a"
+        mu4e-update-interval (* 10 60))
+  (setq mu4e-contexts
+        (list
+         ;; Work account
+         (make-mu4e-context
+          :name "jhilker2"
+          :match-func
+            (lambda (msg)
+              (when msg
+                (string-prefix-p "/jacob.hilker2@gmail.com" (mu4e-message-field msg :maildir))))
+          :vars '((user-mail-address . "jacob.hilker2@gmail.com")
+                  (mu4e-drafts-folder  . "/jacob.hilker2@gmail.com/[Gmail]/Drafts")
+                  (mu4e-sent-folder  . "/jacob.hilker2@gmail.com/[Gmail]/Sent Mail")
+                  (mu4e-refile-folder  . "/jacob.hilker2@gmail.com/[Gmail]/All Mail")
+                  (mu4e-trash-folder  . "/jacob.hilker2@gmail.com/[Gmail]/Trash"))))))
+
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook)

@@ -1,0 +1,15 @@
+set realname = "Jacob Hilker"
+set from = "jacob.hilker2@gmail.com"
+set sendmail = "msmtp -a jacob.hilker2@gmail.com"
+alias me jacob.hilker2 <jacob.hilker2@gmail.com>
+set folder = "/home/jhilker/.local/share/mail/jacob.hilker2@gmail.com"
+set header_cache = /home/jhilker/.cache/mutt-wizard/jacob.hilker2@gmail.com/headers
+set message_cachedir = /home/jhilker/.cache/mutt-wizard/jacob.hilker2@gmail.com/bodies
+set mbox_type = Maildir
+set hostname = "gmail.com"
+set spoolfile = +Inbox
+set postponed = +Drafts
+set trash = +Trash
+set record = +Sent
+
+macro index o "<shell-escape>mbsync jacob.hilker2@gmail.com<enter>" "run mbsync to sync camohilk@gmail.com"
