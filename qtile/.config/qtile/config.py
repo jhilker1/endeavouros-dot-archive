@@ -124,9 +124,12 @@ def draw_arrow_left(bg,fg,font_size=33):
 
 wttr_locs = [
     {"home": "Charlottesville"},
+    {"grandmas": "Saxis"}
 ]
 
 mainbar = bar.Bar([
+    widget.Sep(linewidth=0,
+               padding=6),
     widget.GroupBox(disable_drag=True,
                     block_highlight_text_color=colors['fg'],
                     active=colors['fg'],
@@ -215,9 +218,70 @@ mainbar = bar.Bar([
     widget.Backlight(backlight_name = "intel_backlight",
                      background=colors['blue']), 
     
+    draw_arrow_left(colors['blue'],
+                    colors['red']),
+    widget.TextBox(text="",
+                   font = fonts["icons"],
+                   background=colors['red'],
+                   fontsize=16),
+    widget.ThermalSensor(fgcolor_normal=colors['fg'],
+                         fgcolor_high=colors['fg'],
+                         fgcolor_crit=colors['fg'],
+                         foreground=colors['fg'],
+                         background=colors['red']),
 
     ], 30, background=colors['bg'], )
 
+altbar = bar.Bar([
+    
+    widget.Sep(linewidth=0,
+               padding=6),
+    widget.TextBox(text="", 
+                   font = fonts['icons'],
+                   fontsize = 12),
+    widget.CheckUpdates(no_update_string="0",
+                        colour_have_updates=colors['fg'],
+                        colour_no_updates=colors['fg']),
+    draw_arrow_right(colors['orange'],
+                     colors['bg']),
+    widget.CapsNumLockIndicator(background=colors['orange']),
+    draw_arrow_right(colors['blue'],
+                     colors['orange']),
+    widget.Pomodoro(background=colors['blue'],
+                    color_active=colors['fg'],
+                    color_break=colors['fg'],
+                    color_inactive=colors['fg']),
+    draw_arrow_right(colors['bg'],
+                     colors['blue']),
+    widget.Spacer(),
+    
+    draw_arrow_left(colors['bg'],
+                     colors['purple']),
+    widget.GenPollText(update_interval=None, 
+                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifbell.sh")).decode('utf-8'),
+                       fontsize=16,
+                       background=colors['purple'],
+                       foreground=colors['fg']),
+    widget.GenPollText(update_interval=None, 
+                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifs.sh")).decode('utf-8'),
+                       background=colors['purple'],
+                       foreground=colors['fg']),
+    
+draw_arrow_left(colors['purple'],
+                    colors['blue']),
+    widget.Wttr(location=wttr_locs[0],
+                format="%c %t (%f)",
+                background=colors['blue']
+                ),
+     
+    
+], 30, background=colors['bg'])
+
 screens = [
-    Screen(top = mainbar),
+    Screen(top = mainbar, bottom = altbar),
 ]
+
+@hook.subscribe.startup_once
+def start_once():
+    home = os.path.expanduser('~')
+    subprocess.call([home + '/.config/qtile/scripts/autostart.sh'])

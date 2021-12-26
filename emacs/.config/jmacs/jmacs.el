@@ -565,7 +565,10 @@
                   (mu4e-drafts-folder  . "/jacob.hilker2@gmail.com/[Gmail]/Drafts")
                   (mu4e-sent-folder  . "/jacob.hilker2@gmail.com/[Gmail]/Sent Mail")
                   (mu4e-refile-folder  . "/jacob.hilker2@gmail.com/[Gmail]/All Mail")
-                  (mu4e-trash-folder  . "/jacob.hilker2@gmail.com/[Gmail]/Trash"))))))
+                  (mu4e-trash-folder  . "/jacob.hilker2@gmail.com/[Gmail]/Trash")))))
+
+
+)
 
 (use-package dashboard
   :config
