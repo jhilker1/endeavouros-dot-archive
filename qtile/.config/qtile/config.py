@@ -13,7 +13,7 @@ from theme import fonts, gruvbox as colors
 
 mod = "mod4"
 terminal = "alacritty"
-browser = "firefox"
+browser = "qutebrowser"
 
 groups = [Group("1", layout='monadtall', matches=[
     Match(wm_class=["firefox"])]),
@@ -45,7 +45,7 @@ keys = [
 
     Key("M-S-q", lazy.window.kill(), desc="Kill focused window"),
     Key("M-S-r", lazy.restart(), desc="Restart Qtile"),
-    Key("M-S-p", lazy.spawn("rofi -show powermenu -modi powermenu:~/.dotfiles/rofi/.config/rofi/scripts/power.sh -theme-str '#window { height: 55%;} listview { columns: 1;}'"), desc="Manage machine power state"),
+    Key("M-S-p", lazy.spawn("rofi -show powermenu -theme-str 'window { height: 55%;}' "), desc="Manage machine power state"),
     Key("M-f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
     Key("M-S-f", lazy.window.toggle_floating(), desc="Toggle floating layout"),
 
@@ -60,7 +60,7 @@ keys = [
 
     KeyChord([mod], "e", [
         Key("e", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs'"), desc="Spawn emacs client"),
-        Key("n", lazy.spawn("emacsclient -cs 'jmacs' -e '(elfeed)'"), desc="Spawn emacs client"),
+        Key("n", lazy.spawn("emacsclient -cs 'jmacs' -e '(elfeed)'"), desc="Spawn elfeed with emacs client"),
     ], mode="Emacs Apps"),
 
     
@@ -253,19 +253,20 @@ altbar = bar.Bar([
                     color_inactive=colors['fg']),
     draw_arrow_right(colors['bg'],
                      colors['blue']),
+    widget.Chord(),
     widget.Spacer(),
     
     draw_arrow_left(colors['bg'],
                      colors['purple']),
-    widget.GenPollText(update_interval=None, 
-                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifbell.sh")).decode('utf-8'),
-                       fontsize=16,
-                       background=colors['purple'],
-                       foreground=colors['fg']),
-    widget.GenPollText(update_interval=None, 
-                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifs.sh")).decode('utf-8'),
-                       background=colors['purple'],
-                       foreground=colors['fg']),
+#    widget.GenPollText(update_interval=None, 
+#                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifbell.sh")).decode('utf-8'),
+#                       fontsize=16,
+#                       background=colors['purple'],
+#                       foreground=colors['fg']),
+#    widget.GenPollText(update_interval=None, 
+#                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifs.sh")).decode('utf-8'),
+#                       background=colors['purple'],
+#                       foreground=colors['fg']),
     
 draw_arrow_left(colors['purple'],
                     colors['blue']),
@@ -280,3 +281,8 @@ draw_arrow_left(colors['purple'],
 screens = [
     Screen(top = mainbar, bottom = altbar),
 ]
+
+@hook.subscribe.startup_once
+def autostart():
+    home = os.path.expanduser('~')
+    subprocess.call([home + '/.config/qtile/scripts/autostart.sh'])

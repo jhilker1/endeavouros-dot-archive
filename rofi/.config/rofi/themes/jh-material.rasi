@@ -4,6 +4,7 @@ configuration {
     terminal: "alacritty";
     show-icons: true;
     icon-theme: "Papirus";
+    display-drun: "";
     drun-display-format: "{icon} {name}";
     window-format: "({w}) {t}";
 }
@@ -17,9 +18,11 @@ configuration {
 
 window {
   width: 55%;
+  height: 60%;
   border: 2px;
   border-color: @bg-bright;
   border-radius: 4px;
   padding: 20px 10px 0px 20px;
-
 }
+
+

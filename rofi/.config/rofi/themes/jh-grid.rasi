@@ -1,12 +1,4 @@
-configuration {
-    modi: "window,drun,combi";
-    terminal: "alacritty";
-    show-icons: true;
-    icon-theme: "Papirus";
-    drun-display-format: "{icon} {name}";
-    window-format: "({w}) {t}";
-    font: "Iosevka Nerd Font 14";
-}
+
 
 @import "colors/gruvbox.rasi"
 

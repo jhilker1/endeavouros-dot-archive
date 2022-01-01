@@ -54,7 +54,7 @@ SPACESHIP_PROMPT_ORDER=(
 eval "$(starship init zsh)"
 
 ## Path and Commands
-path=("$HOME/.local/bin/" "$path[@]")
+path=("$path[@]" "$HOME/.local/bin")
 export PATH
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -80,3 +80,4 @@ fi
 ## plugin sourcing
 source $HOME/.zshplugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $HOME/.zshplugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh 
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
