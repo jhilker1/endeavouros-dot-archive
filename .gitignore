@@ -58,3 +58,5 @@ qtile/.config/qtile/__pycache__
 qtile/.config/qtile/theme/__pycache__
 qtile/.config/qtile/settings/__pycache__
 /emacs/.config/jmacs/eshell/
+
+emacs/.config/jmacs/session.2cca103ad-1523-41a8-a1bb-489c3a5648bc
