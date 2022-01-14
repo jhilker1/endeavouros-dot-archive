@@ -13,17 +13,24 @@ from theme import fonts, gruvbox as colors
 
 mod = "mod4"
 terminal = "alacritty"
-browser = "qutebrowser"
+browser = "firefox"
 
 groups = [Group("1", layout='monadtall', matches=[
-    Match(wm_class=["firefox"])]),
-          Group("2", layout='monadtall'),
-          Group("3", layout='monadtall'),
+    Match(wm_class=["firefox", "qutebrowser"]),
+]),
+          Group("2", layout='monadtall', matches=[
+              Match(wm_class=["emacs"])
+          ]),
+          Group("3", layout='monadtall', matches=[
+              Match(wm_class=["Alacritty"])
+          ]),
           Group("4", layout='monadtall'),
           Group("5", layout='monadtall'),
           Group("6", layout='monadtall'),
           Group("7", layout='monadtall'),
-          Group("8", layout='max'),
+          Group("8", layout='max', matches=[
+              Match(title=["GNU Image Manipulation Program"])
+          ]),
           Group("9", layout='max')]
 
 keys = [
@@ -60,6 +67,7 @@ keys = [
 
     KeyChord([mod], "e", [
         Key("e", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs'"), desc="Spawn emacs client"),
+        #Key("e", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs'"), desc="Spawn emacs client"),
         Key("n", lazy.spawn("emacsclient -cs 'jmacs' -e '(elfeed)'"), desc="Spawn elfeed with emacs client"),
     ], mode="Emacs Apps"),
 
