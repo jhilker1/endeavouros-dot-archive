@@ -29,7 +29,8 @@ groups = [Group("1", layout='monadtall', matches=[
           Group("6", layout='monadtall'),
           Group("7", layout='monadtall'),
           Group("8", layout='max', matches=[
-              Match(title=["GNU Image Manipulation Program"])
+              Match(title=["GNU Image Manipulation Program"]),
+              Match(title=["Wonderdraft"]),
           ]),
           Group("9", layout='max')]
 

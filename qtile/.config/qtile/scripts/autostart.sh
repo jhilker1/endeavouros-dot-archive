@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-xrandr --output eDP1 --mode 1368x768
+~/.dotfiles/screens/.screenlayout/netbook-366-768.sh
 xset b off
 picom -b 
 feh --bg-center ~/wallpapers/gruvbox/pacman.png
