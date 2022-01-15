@@ -30,7 +30,7 @@ groups = [Group("1", layout='monadtall', matches=[
           Group("7", layout='monadtall'),
           Group("8", layout='max', matches=[
               Match(title=["GNU Image Manipulation Program"]),
-              Match(title=["Wonderdraft"]),
+              Match(wm_class=["Godot"]), # Wonderdraft
           ]),
           Group("9", layout='max')]
 
