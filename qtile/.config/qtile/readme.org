@@ -81,7 +81,7 @@ groups = [Group("1", label="", layout='monadtall', matches=[
     Match(wm_class=["firefox", "qutebrowser"]),
 ]),
           Group("2", label="", layout='monadtall', matches=[
-              Match(wm_class=["emacs"])
+              Match(title=["@jacobsnetbook - Emacs"])
           ]),
           Group("3", label="", layout='monadtall', matches=[
               Match(wm_class=["Alacritty"])
