@@ -62,31 +62,37 @@ gruvbox = {
 
 
 ** Fonts
-I have 2 main font I like to use - Iosevka Nerd Font for my text font, and Material Icons for my icons.
+I have 2 main font I like to use - Iosevka Nerd Font for my text font, and Material Material for my material.
 #+begin_src python
 fonts = {
     "text": "Iosevka Nerd Font",
-    "icons": "Material Icons 12"
+    "material": "Material Icons 12",
+    "fa": "FontAwesome 12"
 }
 #+end_src
 
 * Groups
 Groups are your workspaces in Qtile.
 #+begin_src python
-groups = [Group("1", layout='monadtall', matches=[
+groups = [Group("1", label="", layout='monadtall', matches=[
     Match(wm_class=["firefox", "qutebrowser"]),
 ]),
-          Group("2", layout='monadtall', matches=[
-              Match(wm_class=["emacs"])
+          Group("2", label="", layout='monadtall', matches=[
+              Match(title=["emacs"])
           ]),
-          Group("3", layout='monadtall', matches=[
+          Group("3", label="", layout='monadtall', matches=[
               Match(wm_class=["Alacritty"])
           ]),
-          Group("4", layout='monadtall'),
-          Group("5", layout='monadtall'),
+          
+          Group("4", label="", layout='monadtall', matches=[
+              Match(title=["Discord"]),
+          ]),
+          Group("5", label="", layout='monadtall', matches=[
+              Match(title=["Steam"]),
+          ]),
           Group("6", layout='monadtall'),
           Group("7", layout='monadtall'),
-          Group("8", layout='max', matches=[
+          Group("8", label="", layout='max', matches=[
               Match(title=["GNU Image Manipulation Program"]),
           #    Match(wm_class=["Godot"]), # Wonderdraft
           ]),
@@ -129,8 +135,8 @@ keys = [
     Key("M-S-<Return>", lazy.spawn(browser), desc="Open Firefox"),
 
     KeyChord([mod], "e", [
+        Key("c", lazy.spawn("emacsclient -cs 'jmacs' -e '(erc)'"), desc="Spawn erc with emacs client"),
         Key("e", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs'"), desc="Spawn emacs client"),
-        #Key("e", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs'"), desc="Spawn emacs client"),
         Key("n", lazy.spawn("emacsclient -cs 'jmacs' -e '(elfeed)'"), desc="Spawn elfeed with emacs client"),
     ], mode="Emacs Apps"),
 
@@ -320,11 +326,13 @@ mainbar = bar.Bar([
                     inactive=colors['gray'],
                     this_current_screen_border=colors['blue'],
                     rounded=False,
+                    padding = 4,
+                    font = fonts['fa']
                     ),
     draw_arrow_right(colors['blue'],
                      colors['bg']),
     widget.TextBox(text="",
-                   font=fonts['icons'],
+                   font=fonts['material'],
                    fontsize = 14,
                    background=colors['blue']),
       widget.Clock(format="%H:%M - %a %d %b",
@@ -339,7 +347,7 @@ mainbar = bar.Bar([
                     colors['orange']),
     widget.TextBox(text="",
                    background = colors['orange'],
-                   font=fonts['icons'],
+                   font=fonts['material'],
                    fontsize=16),
     widget.Wlan(format="{essid}",
                 disconnected_message="Not Connected",
@@ -356,7 +364,7 @@ mainbar = bar.Bar([
                    charge_char = "",
                    discharge_char = "",
                    full_char = "",
-                   font = fonts['icons'],
+                   font = fonts['material'],
                    fontsize=16,
                    background = colors['blue'],
                    low_background = colors['red']),
@@ -384,7 +392,7 @@ mainbar = bar.Bar([
                     colors['green']),
     widget.GenPollText(update_interval=None, 
                        func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/volicon.sh")).decode('utf-8'),
-                       font=fonts['icons'],
+                       font=fonts['material'],
                        fontsize=16,
                        background=colors['green']),
     
@@ -395,7 +403,7 @@ mainbar = bar.Bar([
     draw_arrow_left(colors['green'],
                      colors['blue']),
     widget.TextBox(text="",
-                   font=fonts['icons'],
+                   font=fonts['material'],
                    background=colors['blue']),
     widget.Backlight(backlight_name = "intel_backlight",
                      background=colors['blue']), 
@@ -403,7 +411,7 @@ mainbar = bar.Bar([
     draw_arrow_left(colors['blue'],
                     colors['red']),
     widget.TextBox(text="",
-                   font = fonts["icons"],
+                   font = fonts["material"],
                    background=colors['red'],
                    fontsize=16),
     widget.ThermalSensor(fgcolor_normal=colors['fg'],
@@ -423,7 +431,7 @@ altbar = bar.Bar([
     widget.Sep(linewidth=0,
                padding=6),
     widget.TextBox(text="", 
-                   font = fonts['icons'],
+                   font = fonts['material'],
                    fontsize = 12),
     widget.CheckUpdates(no_update_string="0",
                         colour_have_updates=colors['fg'],
@@ -444,15 +452,15 @@ altbar = bar.Bar([
     
     draw_arrow_left(colors['bg'],
                      colors['purple']),
-#    widget.GenPollText(update_interval=None, 
-#                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifbell.sh")).decode('utf-8'),
-#                       fontsize=16,
-#                       background=colors['purple'],
-#                       foreground=colors['fg']),
-#    widget.GenPollText(update_interval=None, 
-#                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifs.sh")).decode('utf-8'),
-#                       background=colors['purple'],
-#                       foreground=colors['fg']),
+    widget.GenPollText(update_interval=None, 
+                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifbell.sh")).decode('utf-8'),
+                       fontsize=16,
+                       background=colors['purple'],
+                       foreground=colors['fg']),
+    widget.GenPollText(update_interval=None, 
+                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifs.sh")).decode('utf-8'),
+                       background=colors['purple'],
+                       foreground=colors['fg']),
     
 draw_arrow_left(colors['purple'],
                     colors['blue']),
@@ -464,7 +472,6 @@ draw_arrow_left(colors['purple'],
     
 ], 30, background=colors['bg'])
 #+end_src
-
 
 * Screens
 Screens are your monitors in qtile.

@@ -15,5 +15,6 @@ gruvbox = {
 
 fonts = {
     "text": "Iosevka Nerd Font",
-    "icons": "Material Icons 12"
+    "material": "Material Icons 12",
+    "fa": "FontAwesome 12"
 }
