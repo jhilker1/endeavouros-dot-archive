@@ -56,10 +56,13 @@ gruvbox = {
     "orange": "#d65d0e",
     "gray": "#928374",
     }
-
 #+end_src
 
-
+*** TODO My Scheme
+I am currently working on my own color scheme, and this is that scheme.
+#+begin_src python
+my_scheme = {}
+#+end_src
 
 ** Fonts
 I have 2 main font I like to use - Iosevka Nerd Font for my text font, and Material Material for my material.

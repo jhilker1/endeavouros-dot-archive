@@ -13,6 +13,8 @@ gruvbox = {
     "gray": "#928374",
     }
 
+my_scheme = {}
+
 fonts = {
     "text": "Iosevka Nerd Font",
     "material": "Material Icons 12",

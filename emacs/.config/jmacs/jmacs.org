@@ -807,6 +807,8 @@ I like to have multiple capture templates - while most of mine are in Nextcloud,
         ("nr" "Reference Note" plain (file "~/.emacs.d/org-templates/roam/ref.org") :target (file+head "references/${citekey}.org" "#+title: ${title}\n"))))
 #+end_src
 
+*** 
+
 ** Hacking Org-Mode
 *** Org-ML
 Similar to Org-Element.
