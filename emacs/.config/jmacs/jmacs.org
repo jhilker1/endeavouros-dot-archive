@@ -721,6 +721,10 @@ Org-ref allows me to build bibliographies with org-mode.
 (use-package org-ref)
 #+end_src
 
+
+*** TODO Custom Writing Mode
+I want too set up an application similar to scrivener or ywriter in my emacs config.
+
 ** Note-taking with Org-Roam
 *** Related Packages
 **** Deft 
@@ -1073,6 +1077,9 @@ ERC is an IRC client built into emacs.
   :ensure nil
   :straight nil)
 #+end_src
+
+*** Wrapper for Client
+Since I mostly use =emacsclient= for my work, I want to be able to quickly connect to my bitlbee server and launch that way.
 
 ** File Manager (Ranger Dired)
 I normally use ranger as my terminal file manager, but now I'd like to use ranger in dired.

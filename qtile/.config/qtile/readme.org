@@ -81,7 +81,7 @@ groups = [Group("1", label="", layout='monadtall', matches=[
     Match(wm_class=["firefox", "qutebrowser"]),
 ]),
           Group("2", label="", layout='monadtall', matches=[
-              Match(title=["emacs"])
+              Match(wm_class=["emacs"])
           ]),
           Group("3", label="", layout='monadtall', matches=[
               Match(wm_class=["Alacritty"])
@@ -118,9 +118,9 @@ keys = [
     Key("M-C-l", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key("M-C-j", lazy.layout.grow_down(), desc="Grow window down"),
     Key("M-C-k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key("M-<equal>", lazy.layout.grow()),
-    Key("M-<minus>", lazy.layout.shrink()),
-    Key("M-0", lazy.layout.reset()),
+    Key("M-C-<equal>", lazy.layout.grow()),
+    Key("M-C-<minus>", lazy.layout.shrink()),
+    Key("M-C-0", lazy.layout.reset()),
 
     Key("M-S-q", lazy.window.kill(), desc="Kill focused window"),
     Key("M-S-r", lazy.restart(), desc="Restart Qtile"),
