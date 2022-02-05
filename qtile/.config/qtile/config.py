@@ -19,25 +19,26 @@ groups = [Group("1", label="", layout='monadtall', matches=[
     Match(wm_class=["firefox", "qutebrowser"]),
 ]),
           Group("2", label="", layout='monadtall', matches=[
-              Match(title=["@jacobsnetbook - Emacs"])
+              Match(title=["Emacs"])
           ]),
           Group("3", label="", layout='monadtall', matches=[
-              Match(wm_class=["Alacritty"])
+              Match(title=["Alacritty"])
           ]),
           
           Group("4", label="", layout='monadtall', matches=[
-              Match(title=["Discord"]),
+              Match(title=["Discord", "Discord Updater"]),
           ]),
           Group("5", label="", layout='monadtall', matches=[
               Match(title=["Steam"]),
           ]),
-          Group("6", layout='monadtall'),
-          Group("7", layout='monadtall'),
-          Group("8", label="", layout='max', matches=[
+          Group("6", label="", layout='monadtall'),
+          Group("7", label="", layout='max', matches=[
               Match(title=["GNU Image Manipulation Program"]),
           #    Match(wm_class=["Godot"]), # Wonderdraft
           ]),
-          Group("9", layout='max')]
+          Group("8", label="", layout='max'),
+
+          Group("9", label="", layout='max')]
 
 keys = [
     Key("M-h", lazy.layout.left(), desc="Move focus to left"),
