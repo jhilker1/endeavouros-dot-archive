@@ -318,12 +318,28 @@
 	:init
 	(setq org-roam-v2-ack t)
   :custom
-  (org-roam-db-location "~/Nextcloud/notes/org-roam.db")
-  (org-roam-directory "~/Nextcloud/notes/")
+  (org-roam-db-location "~/Nextcloud/roam/.org-roam.db")
+  (org-roam-directory "~/Nextcloud/roam/")
   (org-roam-db-update-method 'immediate)
   (org-roam-file-exclude-regexp "readme")
   (org-roam-completion-everywhere t)
 	:config 
+ (cl-defmethod org-roam-node-category ((node org-roam-node))
+    "Return the currently set category for the NODE."
+    (let ((category (cdr (assoc-string "CATEGORY" (org-roam-node-properties node)))))
+      (if (string= category (file-name-base (org-roam-node-file node)))
+          "" ; or return the current title, e.g. (org-roam-node-title node)
+        (format "(%s)" category))))
+
+  (cl-defmethod org-roam-node-backlinks ((node org-roam-node))
+    (let* ((count (car (org-roam-db-query
+                        [:select (funcall count source)
+                                 :from links
+                                 :where (= dest $s1)
+                                 :and (= type "id")]
+                        (org-roam-node-id node)))))
+      (format "[%d]" count)))
+
   (cl-defmethod org-roam-node-slug ((node org-roam-node))
     "Return the slug of NODE."
     (let ((title (org-roam-node-title node))
