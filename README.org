@@ -1,9 +1,6 @@
 #+title: Dotfiles
 
-These are my literate dotfiles and the sourcecode for them. I am currently using GNU Stow to manage my dotfiles.
+These are my (mostly) literate dotfiles and the sourcecode for them. I am currently using GNU Stow to manage my dotfiles.
 
-Use =stow -t ~/.config/`dir`= for the following:
- - polybar
- - alacritty
- - i3
- - qtile
+
+
