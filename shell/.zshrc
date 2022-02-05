@@ -54,28 +54,12 @@ SPACESHIP_PROMPT_ORDER=(
 eval "$(starship init zsh)"
 
 ## Path and Commands
-path=("$path[@]" "$HOME/.local/bin")
+path=("$path[@]" "$HOME/.local/bin" "$HOME/.cargo/bin")
 export PATH
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 source ~/.aliases
 alias ref="source ~/.zshrc"
-
-## Terminal Title
-function xterm_title_precmd () {
-	print -Pn -- '\e]2;%n@%m %~\a'
-	[[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
-}
-
-function xterm_title_preexec () {
-	print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
-	[[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
-}
-
-if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
-	add-zsh-hook -Uz precmd xterm_title_precmd
-	add-zsh-hook -Uz preexec xterm_title_preexec
-fi
 
 ## plugin sourcing
 source $HOME/.zshplugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
