@@ -70,8 +70,9 @@ And finally, I always want it to use straight.el.
 *** UI Setup
 **** Cleaner Title Format
 #+begin_src elisp
-(setq frame-title-format '("%b@" (:eval (or (file-remote-p default-directory 'host) system-name)) " - Emacs"))
+(setq frame-title-format '("Emacs - %b@" (:eval (or (file-remote-p default-directory 'host) system-name))))
 #+end_src
+
 
 **** Minimal UI
 I really hate seeing the menu bar, scrollbar, etc. I'm disabling those items here.
