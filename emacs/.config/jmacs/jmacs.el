@@ -306,6 +306,7 @@
              :type git
              :host github
              :repo "d12frosted/vulpea")
+  :after (org-roam)
   ;; hook into org-roam-db-autosync-mode you wish to enable
   ;; persistence of meta values (see respective section in README to
   ;; find out what meta means)
@@ -323,6 +324,7 @@
   (org-roam-db-update-method 'immediate)
   (org-roam-file-exclude-regexp "readme")
   (org-roam-completion-everywhere t)
+  (org-roam-node-display-template "${category:20} ${title:*} ${tags:20}")
 	:config 
  (cl-defmethod org-roam-node-category ((node org-roam-node))
     "Return the currently set category for the NODE."
