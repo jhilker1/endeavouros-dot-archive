@@ -324,14 +324,23 @@
   (org-roam-db-update-method 'immediate)
   (org-roam-file-exclude-regexp "readme")
   (org-roam-completion-everywhere t)
-  (org-roam-node-display-template "${category:20} ${title:*} ${tags:20}")
+  (org-roam-node-display-template "${namespace:12} ${category:20} ${title:*} ${tags:*}")
 	:config 
+  (cl-defmethod org-roam-node-namespace ((node org-roam-node))
+    "Return the currently set namespace for the NODE."
+    (let ((namespace (cdr (assoc-string "NAMESPACE" (org-roam-node-properties node)))))
+      (if (string= namespace (file-name-base (org-roam-node-file node)))
+          "" ; or return the current title, e.g. (org-roam-node-title node)
+        (format "%s" namespace))))
+
+
+  
  (cl-defmethod org-roam-node-category ((node org-roam-node))
     "Return the currently set category for the NODE."
     (let ((category (cdr (assoc-string "CATEGORY" (org-roam-node-properties node)))))
       (if (string= category (file-name-base (org-roam-node-file node)))
           "" ; or return the current title, e.g. (org-roam-node-title node)
-        (format "(%s)" category))))
+        (format "%s" category))))
 
   (cl-defmethod org-roam-node-backlinks ((node org-roam-node))
     (let* ((count (car (org-roam-db-query
@@ -382,10 +391,7 @@
                (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
           (downcase slug))))))
 
-(setq org-roam-capture-templates
-      '(("n" "Notes")
-        ("nd" "Default Note" plain (file "~/.emacs.d/org-templates/roam/note.org") :if-new (file+head "notes/${slug}.org" "#+title: ${title}\n#+date: %U\n"))
-        ("nr" "Reference Note" plain (file "~/.emacs.d/org-templates/roam/ref.org") :target (file+head "references/${citekey}.org" "#+title: ${title}\n"))))
+
 
 (use-package org-ml)
 
