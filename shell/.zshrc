@@ -65,4 +65,8 @@ alias ref="source ~/.zshrc"
 source $HOME/.zshplugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $HOME/.zshplugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh 
 source $HOME/.zshplugins/fzf-marks/fzf-marks.plugin.zsh 
+
+## Virtualenvwrapper setup
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
+export PROJECT_HOME=$HOME/Projects/python
+source $HOME/.local/bin/virtualenvwrapper_lazy.sh

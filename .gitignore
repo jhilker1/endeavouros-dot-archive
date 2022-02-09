@@ -61,3 +61,7 @@ qtile/.config/qtile/settings/__pycache__
 
 emacs/.config/jmacs/session.2cca103ad-1523-41a8-a1bb-489c3a5648bc
 /emacs/.config/jmacs/emojis/
+
+emacs/.config/jmacs/.cache/lsp/npm/pyright
+emacs/.config/jmacs/.lsp-session-v1
+emacs/.config/jmacs/bookmarks

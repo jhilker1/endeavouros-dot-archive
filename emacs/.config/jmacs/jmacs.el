@@ -512,6 +512,12 @@
   :straight nil
   :ensure nil)
 
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
 
 
 (use-package emmet-mode

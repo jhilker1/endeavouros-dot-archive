@@ -989,6 +989,7 @@ LSP Mode lets me get completion for functions and such in code. From the emacs-f
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode))
 #+end_src
+
 **** Package Setup
 #+begin_src elisp
 (use-package lsp-mode
@@ -999,11 +1000,13 @@ LSP Mode lets me get completion for functions and such in code. From the emacs-f
   :config
   (lsp-enable-which-key-integration t))
 #+end_src
+
 **** Additional Packages
 #+begin_src elisp
 (use-package lsp-treemacs
   :after lsp)
 #+end_src
+
 
 *** Projectile
 Projectile is a tool for managing projects inside of emacs.
@@ -1057,6 +1060,15 @@ Python is my primary language of choice.
 (use-package python
   :straight nil
   :ensure nil)
+#+end_src
+**** LSP
+#+begin_src elisp
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
 #+end_src
 
 *** Web Development (HTML, CSS, JavaScript)
