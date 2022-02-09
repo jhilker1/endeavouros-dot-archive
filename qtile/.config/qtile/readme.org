@@ -148,7 +148,7 @@ keys = [
         Key("n", lazy.spawn("emacsclient -cs 'jmacs' -e '(elfeed)'"), desc="Spawn elfeed with emacs client"),
     ], mode="Emacs Apps"),
 
-    
+    Key("C-<grave>", lazy.spawn("dunstctl close")),
 ]
 
 #+end_src
@@ -302,7 +302,7 @@ fi
 This prints a notificaton bell.
 #+begin_src sh :shebang "#!/usr/bin/env bash"
 
-NOTIFCOUNT=$(dunstctl count waiting)
+NOTIFCOUNT=$(dunstctl count displayed)
 
 if [[ $NOTIFCOUNT == "0" ]] 
 then
@@ -317,7 +317,7 @@ fi
 :header-args:sh: :tangle scripts/notifs.sh
 :END:
 #+begin_src sh :shebang "#!/usr/bin/env bash"
-printf $(dunstctl count waiting)
+printf $(dunstctl count displayed)
 #+end_src
 
 ** Main Bar

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-printf $(dunstctl count waiting)
+printf $(dunstctl count displayed)

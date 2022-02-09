@@ -61,13 +61,14 @@
                   (jh/set-fonts))))
     (jh/set-fonts))
 
-  (straight-use-package '(org :type git
+(straight-use-package '(org :type git
        :repo "https://code.orgmode.org/bzg/org-mode.git"
        :local-repo "org"
        :depth full
        :pre-build (straight-recipes-org-elpa--build)
        :build (:not autoloads)
        :files (:defaults "lisp/*.el" ("etc/styles/" "etc/styles/*"))))
+
 (straight-use-package '(org-contrib))
 
   (org-babel-load-file (expand-file-name "jmacs.org" user-emacs-directory))

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-NOTIFCOUNT=$(dunstctl count waiting)
+NOTIFCOUNT=$(dunstctl count displayed)
 
 if [[ $NOTIFCOUNT == "0" ]] 
 then

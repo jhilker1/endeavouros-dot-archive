@@ -82,7 +82,7 @@ keys = [
         Key("n", lazy.spawn("emacsclient -cs 'jmacs' -e '(elfeed)'"), desc="Spawn elfeed with emacs client"),
     ], mode="Emacs Apps"),
 
-    
+    Key("C-<grave>", lazy.spawn("dunstctl close")),
 ]
 
 for group in groups:

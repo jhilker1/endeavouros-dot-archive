@@ -150,15 +150,15 @@ I primarily use emacs as a daemon instead of the full application. Here is where
 *** Org Mode
 I want to use the newest version of org-mode instead of the one built in to emacs.
 #+begin_src elisp
-  (straight-use-package '(org :type git
+(straight-use-package '(org :type git
        :repo "https://code.orgmode.org/bzg/org-mode.git"
        :local-repo "org"
        :depth full
        :pre-build (straight-recipes-org-elpa--build)
        :build (:not autoloads)
        :files (:defaults "lisp/*.el" ("etc/styles/" "etc/styles/*"))))
-(straight-use-package '(org-contrib))
 
+(straight-use-package '(org-contrib))
 #+end_src
 
 And finally, I want to load my config.
