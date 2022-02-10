@@ -18,7 +18,8 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(setq initial-major-mode 'org-mode)
+(setq initial-major-mode 'org-mode
+      initial-scratch-message nil)
 
 (use-package all-the-icons
     :if (display-graphic-p))
@@ -392,6 +393,25 @@
           (downcase slug))))))
 
 
+
+(defun jh/org-roam-capture (dir fn)
+  "Captures to `org-roam-directory/dir'"
+  (interactive)
+  (let*((org-roam-directory (expand-file-name dir org-roam-directory)))
+    `fn))
+
+(defun jh/capture-blog-post ()
+  "Capture a blog post with vulpea-create."
+  (let((title (read-string "Title: ")))
+    (vulpea-create
+     title
+     "posts/${slug}.org"
+     :properties '(("NAMESPACE" . "Website")
+                   ("CATEGORY" . "Blog"))
+     :tags '()
+     :head "#+date: %t\n#+hugo_section: blog\n#+hugo_type: post\n#+hugo_draft: %^{Draft|true|false}")))
+
+(jh/org-roam-capture "website" (jh/capture-blog-post))
 
 (use-package org-ml)
 

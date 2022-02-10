@@ -218,8 +218,10 @@ I also want to use y/n for answering yes or no.
 ** Scratch Buffer Uses Org Mode
 I want my scratch buffer to use org-mode. I also want no message for my scratch buffer.
 #+begin_src elisp
-(setq initial-major-mode 'org-mode)
+(setq initial-major-mode 'org-mode
+      initial-scratch-message nil)
 #+end_src
+
 
 ** Icons
 I want to use icons occasionally. Might not be very often, but sometimes it's nice to have.
@@ -834,14 +836,17 @@ Allows me to build an annotated bibliography with org-roam.
 : t
 
 
-*** Capture Templates
-I like to have multiple capture templates - while most of mine are in Nextcloud, I want to be able to quickly capture my ideas.
+*** Multi-Project Setup
+Since I use org-roam for multiple projects, I'd like to have a way to capture to specific projects - such as blog posts and projects for my website, any lore for worldbuilding projects, etc.
 #+begin_src elisp
-
+(defun jh/org-roam-capture (dir fn)
+  (interactive)
+  (let((org-roam-directory (expand-file-name dir org-roam-directory)))
+    (funcall fn)))
 #+end_src
 
-*** Multi-Project Setup
-Since I use org-roam for multiple projects, I'd like to have a way to capture to specific projects - such as my blog, website, etc.
+**** "Capture Templates"
+Although I don't use =org-roam-capture-templates=, I do use vulpea in order to quickly set up "capture templates" - really, it's just a function to create the template.
 
 ** Hacking Org-Mode
 *** Org-ML
