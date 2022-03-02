@@ -71,4 +71,4 @@
 
 (straight-use-package '(org-contrib))
 
-  (org-babel-load-file (expand-file-name "jmacs.org" user-emacs-directory))
+(org-babel-load-file (expand-file-name "jmacs.org" user-emacs-directory))
