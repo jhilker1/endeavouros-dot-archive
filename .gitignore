@@ -66,3 +66,5 @@ emacs/.config/jmacs/.cache/lsp/npm/pyright
 emacs/.config/jmacs/.lsp-session-v1
 emacs/.config/jmacs/bookmarks
 emacs/.config/jmacs/session.*
+
+node_modules/
