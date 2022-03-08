@@ -148,6 +148,16 @@ keys = [
         Key("n", lazy.spawn("emacsclient -cs 'jmacs' -e '(elfeed)'"), desc="Spawn elfeed with emacs client"),
     ], mode="Emacs Apps"),
 
+    KeyChord([mod, "shift"], "e", [
+        Key("d", lazy.spawn("emacsclient -cs 'doom' -a 'emacs --with-profile=doom'"), desc="Spawn Doom Emacs client"),
+        Key("j", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs'"), desc="Spawn Jmacs client"),
+    ], mode="Emacs Profiles"),
+
+
+        
+
+    
+
     Key("C-<grave>", lazy.spawn("dunstctl close")),
 ]
 
