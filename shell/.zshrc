@@ -54,7 +54,7 @@ SPACESHIP_PROMPT_ORDER=(
 eval "$(starship init zsh)"
 
 ## Path and Commands
-path=("$path[@]" "$HOME/.local/bin" "$HOME/.cargo/bin")
+path=("$path[@]" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.doomemacs/bin")
 export PATH
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
