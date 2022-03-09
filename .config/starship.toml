@@ -1,0 +1,20 @@
+add_newline = false
+command_timeout = 1000
+
+[line_break]
+disabled = true
+
+[directory]
+truncate_to_repo = false
+read_only = " "
+style = "fg:yellow bold"
+
+[git_branch]
+#format = '\[[$symbol]($style)\]'
+symbol = " "
+style="fg:bright-blue bold"
+
+[character]
+success_symbol = "[➜ ](bright-white)"
+error_symbol = "[➜ ](bright-red)"
+vicmd_symbol = "[NML ](bright-blue bold)"
