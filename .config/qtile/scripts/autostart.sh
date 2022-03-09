@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-~/.dotfiles/screens/.screenlayout/netbook-366-768.sh
+~/.dotfiles/.screenlayout/netbook-366-768.sh
 xset b off
 picom -b 
 feh --bg-center ~/wallpapers/gruvbox/pacman.png
