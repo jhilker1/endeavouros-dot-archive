@@ -1,6 +1,6 @@
 /*-*- mode: css; -*-*/
 configuration {
-    modi: "window,drun,combi,powermenu:~/.dotfiles/rofi/.config/rofi/scripts/powermenu.sh";
+    modi: "window,drun,combi,powermenu:~/.dotfiles/.config/rofi/scripts/powermenu.sh";
     terminal: "alacritty";
     show-icons: true;
     icon-theme: "Papirus";
