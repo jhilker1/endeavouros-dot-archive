@@ -1,6 +1,3 @@
-[submodule "fzf/.fzf"]
-	path = fzf/.fzf
-	url = https://github.com/junegunn/fzf.git
 [submodule "chemacs2"]
 	path = emacs/.emacs.d
 	url = https://github.com/plexus/chemacs2.git
