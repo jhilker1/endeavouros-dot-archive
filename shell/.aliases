@@ -1,5 +1,0 @@
-alias ls="exa -alh --git-ignore --group-directories-first"
-
-alias zathura="gobble zathura $@"
-alias lg="lazygit $@"
-alias vim="nvim $@"

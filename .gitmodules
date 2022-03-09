@@ -1,9 +1,12 @@
-[submodule "shell/.zshplugins/zsh-autosuggestions"]
-	path = shell/.zshplugins/zsh-autosuggestions
+[submodule ".zshplugins/zsh-autosuggestions"]
+	path = .zshplugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
-[submodule "shell/.zshplugins/fast-syntax-highlighting"]
-	path = shell/.zshplugins/fast-syntax-highlighting
+[submodule ".zshplugins/fast-syntax-highlighting"]
+	path = .zshplugins/fast-syntax-highlighting
 	url = https://github.com/z-shell/fast-syntax-highlighting.git
 [submodule "fzf-marks"]
-	path = shell/.zshplugins/fzf-marks
+	path = .zshplugins/fzf-marks
 	url = https://github.com/urbainvaes/fzf-marks.git
+[submodule ".config/emacs"]
+	path = .config/emacs
+	url = https://github.com/plexus/chemacs2.git
