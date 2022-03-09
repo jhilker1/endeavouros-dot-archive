@@ -46,25 +46,25 @@ flycheck_*.el
 # network security
 /network-security.data
 
-emacs/.config/jmacs/straight/
-emacs/.config/jmacs/auto-save-list/
+.config/jmacs/straight/
+.config/jmacs/auto-save-list/
 *~
-/emacs/.config/jmacs/recentf
-/emacs/.config/jmacs/forge-database.sqlite
-/emacs/.config/jmacs/transient/
+.config/jmacs/recentf
+.config/jmacs/forge-database.sqlite
+.config/jmacs/transient/
 *.eld
 
-qtile/.config/qtile/__pycache__
-qtile/.config/qtile/theme/__pycache__
-qtile/.config/qtile/settings/__pycache__
-/emacs/.config/jmacs/eshell/
+.config/qtile/__pycache__
+.config/qtile/theme/__pycache__
+.config/qtile/settings/__pycache__
+.config/jmacs/eshell/
 
-emacs/.config/jmacs/session.2cca103ad-1523-41a8-a1bb-489c3a5648bc
-/emacs/.config/jmacs/emojis/
+.config/jmacs/session.2cca103ad-1523-41a8-a1bb-489c3a5648bc
+.config/jmacs/emojis/
 
-emacs/.config/jmacs/.cache/lsp/npm/pyright
-emacs/.config/jmacs/.lsp-session-v1
-emacs/.config/jmacs/bookmarks
-emacs/.config/jmacs/session.*
+.config/jmacs/.cache/lsp/npm/pyright
+.config/jmacs/.lsp-session-v1
+.config/jmacs/bookmarks
+.config/jmacs/session.*
 
 node_modules/
