@@ -81,7 +81,7 @@
 
 (use-package treemacs
   :config
-  (setq treemacs-persist-file "~/.emacs.d/.local/cache/treemacs.org"))
+  (setq treemacs-persist-file (expand-file-name ".local/cache/treemacs.org" user-emacs-directory)))
 
 (use-package treemacs-evil
   :after evil treemacs
