@@ -15,7 +15,7 @@ mod = "mod4"
 terminal = "alacritty"
 browser = "firefox"
 
-groups = [Group("1", label="", layout='monadtall', matches=[
+groups = [Group("1", label=" ", layout='monadtall', matches=[
     Match(wm_class=["firefox", "qutebrowser"]),
 ]),
           Group("2", label="", layout='monadtall', matches=[
@@ -168,8 +168,9 @@ mainbar = bar.Bar([
                     this_current_screen_border=colors['blue'],
                     rounded=False,
                     padding = 4,
-                    font = fonts['fa']
-                    ),
+                    font = fonts['fa'],
+                    fontsize=12
+                  ),
     draw_arrow_right(colors['blue'],
                      colors['bg']),
     widget.TextBox(text="",

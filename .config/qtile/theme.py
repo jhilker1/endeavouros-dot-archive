@@ -18,5 +18,5 @@ my_scheme = {}
 fonts = {
     "text": "Iosevka Nerd Font",
     "material": "Material Icons 12",
-    "fa": "FontAwesome 12"
+    "fa": "FontAwesome"
 }
