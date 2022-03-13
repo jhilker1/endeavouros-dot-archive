@@ -70,7 +70,7 @@ I have 2 main font I like to use - Iosevka Nerd Font for my text font, and Mater
 fonts = {
     "text": "Iosevka Nerd Font",
     "material": "Material Icons 12",
-    "fa": "FontAwesome"
+    "fa": "FontAwesome 12"
 }
 #+end_src
 
@@ -346,7 +346,7 @@ mainbar = bar.Bar([
                     rounded=False,
                     padding = 4,
                     font = fonts['fa'],
-                    fontsize=12
+                    #fontsize=12
                   ),
     draw_arrow_right(colors['blue'],
                      colors['bg']),

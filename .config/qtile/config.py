@@ -169,7 +169,7 @@ mainbar = bar.Bar([
                     rounded=False,
                     padding = 4,
                     font = fonts['fa'],
-                    fontsize=12
+                    #fontsize=12
                   ),
     draw_arrow_right(colors['blue'],
                      colors['bg']),
