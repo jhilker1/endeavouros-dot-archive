@@ -9,3 +9,5 @@
 ^/node_modules
 ^/packages.txt
 ^/requirements.txt
+^/dotsync.sh
+^/install.sh
