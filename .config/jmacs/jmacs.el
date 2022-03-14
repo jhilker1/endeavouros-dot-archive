@@ -442,6 +442,8 @@
 ;(use-package defblog
 ;  :straight (:host github :repo "jphmrst/defblog"))
 
+(use-package org-auto-tangle)
+
 (add-hook 'org-src-mode-hook 'display-line-numbers-mode)
 (org-babel-do-load-languages
  'org-babel-load-languages

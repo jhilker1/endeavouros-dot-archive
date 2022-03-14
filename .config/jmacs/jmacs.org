@@ -930,6 +930,8 @@ A wrapper around org-publish.
 
 ** Literate Programming
 #+begin_src elisp
+(use-package org-auto-tangle)
+
 (add-hook 'org-src-mode-hook 'display-line-numbers-mode)
 (org-babel-do-load-languages
  'org-babel-load-languages

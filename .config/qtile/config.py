@@ -9,39 +9,42 @@ from libqtile.lazy import lazy
 from libqtile.config import Match, Screen, Group, DropDown, ScratchPad, KeyChord
 from libqtile.config import EzKey as Key, EzClick as Click, EzDrag as Drag
 
-from theme import fonts, gruvbox as colors
+from qtile_extras import widget
+
+from theme import fonts
+from theme import gruvbox as colors
 
 mod = "mod4"
 terminal = "alacritty"
 browser = "firefox"
 
-groups = [Group("1", label=" ", layout='monadtall', matches=[
+groups = [Group("1", layout='monadtall', matches=[
     Match(wm_class=["firefox", "qutebrowser"]),
 ]),
-          Group("2", label="", layout='monadtall', matches=[
+          Group("2", layout='monadtall', matches=[
               Match(title=["Emacs"])
           ]),
-          Group("3", label="", layout='monadtall', matches=[
+          Group("3", layout='monadtall', matches=[
               Match(title=["Alacritty"])
           ]),
           
-          Group("4", label="", layout='monadtall', matches=[
+          Group("4", layout='monadtall', matches=[
               Match(title=["Discord", "Discord Updater"]),
           ]),
-          Group("5", label="", layout='monadtall', matches=[
+          Group("5", layout='monadtall', matches=[
               Match(title=["Steam"]),
           ]),
-          Group("6", label="", layout='monadtall', matches=[
+          Group("6", layout='monadtall', matches=[
               Match(title=["ncspot"])
           ]),
-          Group("7", label="", layout='max', matches=[
+          Group("7", layout='max', matches=[
               Match(title=["GNU Image Manipulation Program"]),
               Match(wm_class=["feh"])
           #    Match(wm_class=["Godot"]), # Wonderdraft
           ]),
-          Group("8", label="", layout='max'),
+          Group("8", layout='max'),
 
-          Group("9", label="", layout='max')]
+          Group("9", layout='max')]
 
 keys = [
     Key("M-h", lazy.layout.left(), desc="Move focus to left"),
@@ -131,6 +134,7 @@ widget_defaults = dict(
     padding=3,
     background = colors['bg'],
     foreground = colors['fg'],
+    theme_path = '/usr/share/icons/Paper/16x16/panel/'
 )
 
 extension_defaults = widget_defaults.copy()
@@ -151,34 +155,21 @@ def draw_arrow_left(bg,fg,font_size=33):
                           background=bg,
                           foreground=fg)
 
-wttr_locs = [
-    {"home": "Charlottesville"},
-    {"grandmas": "Saxis"}
-]
-
 mainbar = bar.Bar([
     widget.Sep(linewidth=0,
                padding=6),
     widget.GroupBox(disable_drag=True,
                     block_highlight_text_color=colors['fg'],
-                    active=colors['fg'],
-                    highlight_method='line',
-                    highlight_color=colors['bg'],
-                    inactive=colors['gray'],
-                    this_current_screen_border=colors['blue'],
-                    rounded=False,
-                    padding = 4,
-                    font = fonts['fa'],
-                    #fontsize=12
-                  ),
+                    active=colors['fg'],),
     draw_arrow_right(colors['blue'],
                      colors['bg']),
     widget.TextBox(text="",
                    font=fonts['material'],
                    fontsize = 14,
                    background=colors['blue']),
-      widget.Clock(format="%H:%M - %a %d %b",
+    widget.Clock(format="%H:%M - %a %d %b",
                  background=colors['blue']), 
+
     draw_arrow_right(colors['purple'],
                      colors['blue']),
     widget.CurrentLayout(background=colors['purple']),
@@ -187,131 +178,15 @@ mainbar = bar.Bar([
     widget.Spacer(),
     draw_arrow_left(colors['bg'], 
                     colors['orange']),
-    widget.TextBox(text="",
-                   background = colors['orange'],
-                   font=fonts['material'],
-                   fontsize=16),
-    widget.Wlan(format="{essid}",
-                disconnected_message="Not Connected",
-                background=colors['orange']),
-    widget.Battery(format="",
-                   show_short_text = False,
-                   padding = 0,
-                   fontsize = 33,
-                   background = colors['orange'],
-                   foreground = colors['blue'],
-                   low_foreground = colors['red']),
-    widget.Battery(format="{char}",
-                   show_short_text=False,
-                   charge_char = "",
-                   discharge_char = "",
-                   full_char = "",
-                   font = fonts['material'],
-                   fontsize=16,
-                   background = colors['blue'],
-                   low_background = colors['red']),
-
-    widget.Battery(format="{percent:2.0%}",
-                   show_short_text=False,
-                   background = colors['blue'],
-                   low_background = colors['red']),
-   widget.Battery(format="",
-                   show_short_text = False,
-                   padding = 0,
-                   fontsize = 33,
-                   background = colors['blue'],
-                   low_background = colors['red'],
-                   foreground=colors['purple']),
-
-    widget.TextBox(text="",
-                   fontsize=16,
-                   background=colors['purple']),
-
-    widget.Bluetooth(hci="/dev_90_7A_58_A6_A0_0A",
-                     background=colors['purple']),
-
-    draw_arrow_left(colors['purple'],
-                    colors['green']),
-    widget.GenPollText(update_interval=None, 
-                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/volicon.sh")).decode('utf-8'),
-                       font=fonts['material'],
-                       fontsize=16,
-                       background=colors['green']),
+    widget.WiFiIcon(background=colors['orange'],
+                    active_colour = colors['fg'],
+                    inactive_colour = colors['gray'],
+                    padding=7),
     
-    widget.GenPollText(update_interval=None, 
-                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/printvol.sh")).decode('utf-8'),
-                       background=colors['green']),
-    
-    draw_arrow_left(colors['green'],
-                     colors['blue']),
-    widget.TextBox(text="",
-                   font=fonts['material'],
-                   background=colors['blue']),
-    widget.Backlight(backlight_name = "intel_backlight",
-                     background=colors['blue']), 
-    
-    draw_arrow_left(colors['blue'],
-                    colors['red']),
-    widget.TextBox(text="",
-                   font = fonts["material"],
-                   background=colors['red'],
-                   fontsize=16),
-    widget.ThermalSensor(fgcolor_normal=colors['fg'],
-                         fgcolor_high=colors['fg'],
-                         fgcolor_crit=colors['fg'],
-                         foreground=colors['fg'],
-                         background=colors['red']),
-
-    ], 30, background=colors['bg'], )
-
-altbar = bar.Bar([
-    
-    widget.Sep(linewidth=0,
-               padding=6),
-    widget.TextBox(text="", 
-                   font = fonts['material'],
-                   fontsize = 12),
-    widget.CheckUpdates(no_update_string="0",
-                        colour_have_updates=colors['fg'],
-                        colour_no_updates=colors['fg']),
-    draw_arrow_right(colors['orange'],
-                     colors['bg']),
-    widget.CapsNumLockIndicator(background=colors['orange']),
-    draw_arrow_right(colors['blue'],
-                     colors['orange']),
-    widget.Pomodoro(background=colors['blue'],
-                    color_active=colors['fg'],
-                    color_break=colors['fg'],
-                    color_inactive=colors['fg']),
-    draw_arrow_right(colors['bg'],
-                     colors['blue']),
-    widget.Chord(),
-    widget.Spacer(),
-    
-    draw_arrow_left(colors['bg'],
-                     colors['purple']),
-    widget.GenPollText(update_interval=None, 
-                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifbell.sh")).decode('utf-8'),
-                       fontsize=16,
-                       background=colors['purple'],
-                       foreground=colors['fg']),
-    widget.GenPollText(update_interval=None, 
-                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifs.sh")).decode('utf-8'),
-                       background=colors['purple'],
-                       foreground=colors['fg']),
-    
-draw_arrow_left(colors['purple'],
-                    colors['blue']),
-    widget.Wttr(location=wttr_locs[0],
-                format="%c %t (%f)",
-                background=colors['blue']
-                ),
-     
-    
-], 30, background=colors['bg'])
+], 30)
 
 screens = [
-    Screen(top = mainbar, bottom = altbar),
+    Screen(top = mainbar),
 ]
 
 @hook.subscribe.startup_once

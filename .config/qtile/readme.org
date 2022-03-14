@@ -3,6 +3,7 @@
 #+startup: fold
 #+property: header-args :mkdirp yes
 #+property: header-args:python :tangle config.py
+#+auto_tangle: t
 
 This file serves as the documentation and source code for my configuration of Qtile.
 
@@ -20,7 +21,10 @@ from libqtile.lazy import lazy
 from libqtile.config import Match, Screen, Group, DropDown, ScratchPad, KeyChord
 from libqtile.config import EzKey as Key, EzClick as Click, EzDrag as Drag
 
-from theme import fonts, gruvbox as colors
+from qtile_extras import widget
+
+from theme import fonts
+from theme import gruvbox as colors
 #+end_src
 
 
@@ -54,7 +58,7 @@ gruvbox = {
     "purple": "#b16286",
     "teal": "#689d6a",
     "orange": "#d65d0e",
-    "gray": "#928374",
+    "gray": "#504945",
     }
 #+end_src
 
@@ -69,41 +73,41 @@ I have 2 main font I like to use - Iosevka Nerd Font for my text font, and Mater
 #+begin_src python
 fonts = {
     "text": "Iosevka Nerd Font",
-    "material": "Material Icons 12",
-    "fa": "FontAwesome 12"
+    "material": "Material Icons",
+    "fa": "FontAwesome"
 }
 #+end_src
 
 * Groups
 Groups are your workspaces in Qtile.
 #+begin_src python
-groups = [Group("1", label=" ", layout='monadtall', matches=[
+groups = [Group("1", layout='monadtall', matches=[
     Match(wm_class=["firefox", "qutebrowser"]),
 ]),
-          Group("2", label="", layout='monadtall', matches=[
+          Group("2", layout='monadtall', matches=[
               Match(title=["Emacs"])
           ]),
-          Group("3", label="", layout='monadtall', matches=[
+          Group("3", layout='monadtall', matches=[
               Match(title=["Alacritty"])
           ]),
           
-          Group("4", label="", layout='monadtall', matches=[
+          Group("4", layout='monadtall', matches=[
               Match(title=["Discord", "Discord Updater"]),
           ]),
-          Group("5", label="", layout='monadtall', matches=[
+          Group("5", layout='monadtall', matches=[
               Match(title=["Steam"]),
           ]),
-          Group("6", label="", layout='monadtall', matches=[
+          Group("6", layout='monadtall', matches=[
               Match(title=["ncspot"])
           ]),
-          Group("7", label="", layout='max', matches=[
+          Group("7", layout='max', matches=[
               Match(title=["GNU Image Manipulation Program"]),
               Match(wm_class=["feh"])
           #    Match(wm_class=["Godot"]), # Wonderdraft
           ]),
-          Group("8", label="", layout='max'),
+          Group("8", layout='max'),
 
-          Group("9", label="", layout='max')]
+          Group("9", layout='max')]
 #+end_src
 
 * Keybindings
@@ -212,9 +216,7 @@ floating_layout = layout.Floating(float_rules=[
 #+end_src
 
 * Bars
-My bars are not that fancy in the grand scheme of things - I mainly am using a powerline effect.
 ** Theming
-I have a few default values I'd like to set for my bars - a few colors, padding, and fonts.
 #+begin_src python
 widget_defaults = dict(
     font=fonts['text'],
@@ -222,14 +224,12 @@ widget_defaults = dict(
     padding=3,
     background = colors['bg'],
     foreground = colors['fg'],
+    theme_path = '/usr/share/icons/Paper/16x16/panel/'
 )
 
 extension_defaults = widget_defaults.copy()
 #+end_src
-
-** Helper Functions
 *** Arrow Functions
-These arrow functions are for achieving a powerline-esque effect in the qtile bar. Note that you will need a Nerd Font in order to use this.
 #+begin_src python
 def draw_arrow_right(bg,fg,font_size=33):
     "Creates a textbox widget with a right-pointing arrow."
@@ -248,114 +248,23 @@ def draw_arrow_left(bg,fg,font_size=33):
                           foreground=fg)
 #+end_src
 
-*** Window Text Transform
-This is from the examples in the documentation, but for my browser, I only want to see that it's firefox.
-#+begin_src python :tangle no
-def my_func(text):
-    for string in [" — Chromium", " — Mozilla Firefox"]: 
-        text = text.replace(string, "") 
-    return text
-#+end_src
-
-** Weather Locations 
-I like being able to get a view of the weather at a glance in my status bars, and so I am setting up a dictionary of locations here.
-#+begin_src python
-wttr_locs = [
-    {"home": "Charlottesville"},
-    {"grandmas": "Saxis"}
-]
-#+end_src
-
-
-** Module Scripts
-*** Volume
-**** Icon
-:PROPERTIES:
-:header-args:sh: :tangle scripts/volicon.sh
-:END:
-This script simply prints out a corresponding icon for my volume module.
-#+begin_src sh :shebang "#!/usr/bin/env bash"
-VOL=$(pacmd list-sinks|grep -A 15 '* index'| awk '/volume: front/{ print $5 }' | sed 's/[%|,]//g' | xargs)
-
-MUTED=$(pacmd list-sinks|grep -A 15 '* index'|awk '/muted:/{ print $2 }')
-
-if [[ $MUTED == "yes" ]] 
-then
-    printf ""
-else
-    printf ""
-fi
-#+end_src
-
-**** Percentage
-:PROPERTIES:
-:header-args:sh: :tangle scripts/printvol.sh
-:END:
-This prints the percentage of the volume.
-#+begin_src sh :shebang "#!/usr/bin/env bash"
-VOL=$(pacmd list-sinks|grep -A 15 '* index'| awk '/volume: front/{ print $5 }' | sed 's/[%|,]//g' | xargs)
-
-MUTED=$(pacmd list-sinks|grep -A 15 '* index'|awk '/muted:/{ print $2 }')
-
-if [[ $MUTED == "yes" ]] 
-then
-    printf "Muted"
-else
-    printf "%s%%" "$VOL"
-fi
-#+end_src
-
-*** Notification Bell
-:PROPERTIES:
-:header-args:sh: :tangle scripts/notifbell.sh
-:END:
-This prints a notificaton bell.
-#+begin_src sh :shebang "#!/usr/bin/env bash"
-
-NOTIFCOUNT=$(dunstctl count displayed)
-
-if [[ $NOTIFCOUNT == "0" ]] 
-then
-    printf ""
-else
-    printf ""
-fi
-#+end_src
-
-*** Notification Count
-:PROPERTIES:
-:header-args:sh: :tangle scripts/notifs.sh
-:END:
-#+begin_src sh :shebang "#!/usr/bin/env bash"
-printf $(dunstctl count displayed)
-#+end_src
-
 ** Main Bar
-My main bar has most of my information.
 #+begin_src python
 mainbar = bar.Bar([
     widget.Sep(linewidth=0,
                padding=6),
     widget.GroupBox(disable_drag=True,
                     block_highlight_text_color=colors['fg'],
-                    active=colors['fg'],
-                    highlight_method='line',
-                    highlight_color=colors['bg'],
-                    inactive=colors['gray'],
-                    this_current_screen_border=colors['blue'],
-                    rounded=False,
-                    padding = 4,
-                    font = fonts['fa'],
-                    #fontsize=12
-                  ),
+                    active=colors['fg'],),
     draw_arrow_right(colors['blue'],
                      colors['bg']),
     widget.TextBox(text="",
                    font=fonts['material'],
                    fontsize = 14,
                    background=colors['blue']),
-      widget.Clock(format="%H:%M - %a %d %b",
+    widget.Clock(format="%H:%M - %a %d %b",
                  background=colors['blue']), 
+
     draw_arrow_right(colors['purple'],
                      colors['blue']),
     widget.CurrentLayout(background=colors['purple']),
@@ -364,139 +273,19 @@ mainbar = bar.Bar([
     widget.Spacer(),
     draw_arrow_left(colors['bg'], 
                     colors['orange']),
-    widget.TextBox(text="",
-                   background = colors['orange'],
-                   font=fonts['material'],
-                   fontsize=16),
-    widget.Wlan(format="{essid}",
-                disconnected_message="Not Connected",
-                background=colors['orange']),
-    widget.Battery(format="",
-                   show_short_text = False,
-                   padding = 0,
-                   fontsize = 33,
-                   background = colors['orange'],
-                   foreground = colors['blue'],
-                   low_foreground = colors['red']),
-    widget.Battery(format="{char}",
-                   show_short_text=False,
-                   charge_char = "",
-                   discharge_char = "",
-                   full_char = "",
-                   font = fonts['material'],
-                   fontsize=16,
-                   background = colors['blue'],
-                   low_background = colors['red']),
-
-    widget.Battery(format="{percent:2.0%}",
-                   show_short_text=False,
-                   background = colors['blue'],
-                   low_background = colors['red']),
-   widget.Battery(format="",
-                   show_short_text = False,
-                   padding = 0,
-                   fontsize = 33,
-                   background = colors['blue'],
-                   low_background = colors['red'],
-                   foreground=colors['purple']),
-
-    widget.TextBox(text="",
-                   fontsize=16,
-                   background=colors['purple']),
-
-    widget.Bluetooth(hci="/dev_90_7A_58_A6_A0_0A",
-                     background=colors['purple']),
-
-    draw_arrow_left(colors['purple'],
-                    colors['green']),
-    widget.GenPollText(update_interval=None, 
-                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/volicon.sh")).decode('utf-8'),
-                       font=fonts['material'],
-                       fontsize=16,
-                       background=colors['green']),
+    widget.WiFiIcon(background=colors['orange'],
+                    active_colour = colors['fg'],
+                    inactive_colour = colors['gray'],
+                    padding=7),
     
-    widget.GenPollText(update_interval=None, 
-                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/printvol.sh")).decode('utf-8'),
-                       background=colors['green']),
-    
-    draw_arrow_left(colors['green'],
-                     colors['blue']),
-    widget.TextBox(text="",
-                   font=fonts['material'],
-                   background=colors['blue']),
-    widget.Backlight(backlight_name = "intel_backlight",
-                     background=colors['blue']), 
-    
-    draw_arrow_left(colors['blue'],
-                    colors['red']),
-    widget.TextBox(text="",
-                   font = fonts["material"],
-                   background=colors['red'],
-                   fontsize=16),
-    widget.ThermalSensor(fgcolor_normal=colors['fg'],
-                         fgcolor_high=colors['fg'],
-                         fgcolor_crit=colors['fg'],
-                         foreground=colors['fg'],
-                         background=colors['red']),
-
-    ], 30, background=colors['bg'], )
-#+end_src
-
-** Alt Bar
-My alternate bar has some other things as well.
-#+begin_src python
-altbar = bar.Bar([
-    
-    widget.Sep(linewidth=0,
-               padding=6),
-    widget.TextBox(text="", 
-                   font = fonts['material'],
-                   fontsize = 12),
-    widget.CheckUpdates(no_update_string="0",
-                        colour_have_updates=colors['fg'],
-                        colour_no_updates=colors['fg']),
-    draw_arrow_right(colors['orange'],
-                     colors['bg']),
-    widget.CapsNumLockIndicator(background=colors['orange']),
-    draw_arrow_right(colors['blue'],
-                     colors['orange']),
-    widget.Pomodoro(background=colors['blue'],
-                    color_active=colors['fg'],
-                    color_break=colors['fg'],
-                    color_inactive=colors['fg']),
-    draw_arrow_right(colors['bg'],
-                     colors['blue']),
-    widget.Chord(),
-    widget.Spacer(),
-    
-    draw_arrow_left(colors['bg'],
-                     colors['purple']),
-    widget.GenPollText(update_interval=None, 
-                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifbell.sh")).decode('utf-8'),
-                       fontsize=16,
-                       background=colors['purple'],
-                       foreground=colors['fg']),
-    widget.GenPollText(update_interval=None, 
-                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/qtile/.config/qtile/scripts/notifs.sh")).decode('utf-8'),
-                       background=colors['purple'],
-                       foreground=colors['fg']),
-    
-draw_arrow_left(colors['purple'],
-                    colors['blue']),
-    widget.Wttr(location=wttr_locs[0],
-                format="%c %t (%f)",
-                background=colors['blue']
-                ),
-     
-    
-], 30, background=colors['bg'])
+], 30)
 #+end_src
 
 * Screens
 Screens are your monitors in qtile.
 #+begin_src python
 screens = [
-    Screen(top = mainbar, bottom = altbar),
+    Screen(top = mainbar),
 ]
 #+end_src
 

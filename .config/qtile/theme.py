@@ -10,13 +10,13 @@ gruvbox = {
     "purple": "#b16286",
     "teal": "#689d6a",
     "orange": "#d65d0e",
-    "gray": "#928374",
+    "gray": "#504945",
     }
 
 my_scheme = {}
 
 fonts = {
     "text": "Iosevka Nerd Font",
-    "material": "Material Icons 12",
-    "fa": "FontAwesome 12"
+    "material": "Material Icons",
+    "fa": "FontAwesome"
 }
