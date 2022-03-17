@@ -176,13 +176,7 @@ mainbar = bar.Bar([
     draw_arrow_right(colors['bg'],
                      colors['purple']),
     widget.Spacer(),
-    draw_arrow_left(colors['bg'], 
-                    colors['orange']),
-    widget.WiFiIcon(background=colors['orange'],
-                    active_colour = colors['fg'],
-                    inactive_colour = colors['gray'],
-                    padding=7),
-    
+   
 ], 30)
 
 screens = [
