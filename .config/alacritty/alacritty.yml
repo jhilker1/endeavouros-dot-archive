@@ -1,18 +1,18 @@
 font:
-  size: 8.0
+  size: 7.0
   normal:
-    family: "Iosevka Nerd Font"
+    family: Iosevka Mono NF
 
   italic:
-    family: Iosevka Nerd Font
+    family: Iosevka Mono NF
     style: Italic
     
   bold:
-    family: Iosevka Nerd Font
+    family: Iosevka Mono NF
     style: Bold
 
   bold_italic:
-    family: Iosevka Nerd Font
+    family: Iosevka Mono NF
     style: Bold Italic
 
 window:

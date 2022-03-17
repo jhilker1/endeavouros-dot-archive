@@ -130,7 +130,7 @@ floating_layout = layout.Floating(float_rules=[
 
 widget_defaults = dict(
     font=fonts['text'],
-    fontsize=14,
+    fontsize=13,
     padding=3,
     background = colors['bg'],
     foreground = colors['fg'],

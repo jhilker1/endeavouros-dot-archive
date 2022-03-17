@@ -31,8 +31,8 @@
       (load-theme 'doom-gruvbox t))
 
 (defun jh/set-fonts ()
-  (set-face-attribute 'default nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
-  (set-face-attribute 'fixed-pitch nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
+  (set-face-attribute 'default nil :font (font-spec :family "Iosevka Mono NF" :size 14)) 
+  (set-face-attribute 'fixed-pitch nil :font (font-spec :family "Iosevka Mono NF" :size 14)) 
   (set-face-attribute 'variable-pitch nil :font (font-spec :family "Iosevka Aile" :size 12))
   (set-face-attribute 'font-lock-comment-face nil :slant 'italic))
 
@@ -71,4 +71,4 @@
 
 (straight-use-package '(org-contrib))
 
-(org-babel-load-file (expand-file-name "jmacs.org" user-emacs-directory))
+  (org-babel-load-file (expand-file-name "jmacs.org" user-emacs-directory))

@@ -100,8 +100,8 @@ Doom Themes is a nice collection of themes for emacs. I am using the Doom-one th
 
 #+begin_src elisp
 (defun jh/set-fonts ()
-  (set-face-attribute 'default nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
-  (set-face-attribute 'fixed-pitch nil :font (font-spec :family "Iosevka Nerd Font" :size 14)) 
+  (set-face-attribute 'default nil :font (font-spec :family "Iosevka Mono NF" :size 14)) 
+  (set-face-attribute 'fixed-pitch nil :font (font-spec :family "Iosevka Mono NF" :size 14)) 
   (set-face-attribute 'variable-pitch nil :font (font-spec :family "Iosevka Aile" :size 12))
   (set-face-attribute 'font-lock-comment-face nil :slant 'italic))
 #+end_src

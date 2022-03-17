@@ -72,7 +72,7 @@ my_scheme = {}
 I have 2 main font I like to use - Iosevka Nerd Font for my text font, and Material Material for my material.
 #+begin_src python
 fonts = {
-    "text": "Iosevka Nerd Font",
+    "text": "Iosevka Mono NF",
     "material": "Material Icons",
     "fa": "FontAwesome"
 }
@@ -220,7 +220,7 @@ floating_layout = layout.Floating(float_rules=[
 #+begin_src python
 widget_defaults = dict(
     font=fonts['text'],
-    fontsize=14,
+    fontsize=13,
     padding=3,
     background = colors['bg'],
     foreground = colors['fg'],
