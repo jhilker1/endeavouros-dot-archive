@@ -130,11 +130,11 @@ floating_layout = layout.Floating(float_rules=[
 
 widget_defaults = dict(
     font=fonts['text'],
-    fontsize=13,
+    fontsize=14,
     padding=3,
     background = colors['bg'],
     foreground = colors['fg'],
-    theme_path = '/usr/share/icons/Paper/16x16/panel/'
+    theme_path = "/usr/share/icons/Paper/16x16/panel/"
 )
 
 extension_defaults = widget_defaults.copy()
@@ -165,7 +165,7 @@ mainbar = bar.Bar([
                      colors['bg']),
     widget.TextBox(text="",
                    font=fonts['material'],
-                   fontsize = 14,
+                   fontsize = 12,
                    background=colors['blue']),
     widget.Clock(format="%H:%M - %a %d %b",
                  background=colors['blue']), 
@@ -176,7 +176,38 @@ mainbar = bar.Bar([
     draw_arrow_right(colors['bg'],
                      colors['purple']),
     widget.Spacer(),
-   
+    draw_arrow_left(colors['bg'],
+                    colors['orange']),
+    widget.WiFiIcon(background=colors['orange'],
+                    active_colour = colors['fg'],
+                    inactive_colour = colors['gray'],
+                    padding=7,
+                    foreground=colors['fg']),
+    
+
+    draw_arrow_left(colors['orange'],
+                    colors['purple']),
+    widget.TextBox(text="",
+                   fontsize=16,
+                   background=colors['purple']),
+
+    widget.Bluetooth(hci="/dev_90_7A_58_A6_A0_0A",
+                     background=colors['purple']),
+
+
+    draw_arrow_left(colors['purple'],
+                    colors['green']),
+    
+
+    widget.GenPollText(update_interval=None, 
+                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/.config/qtile/scripts/volicon.sh")).decode('utf-8'),
+                       font=fonts['material'],
+                       fontsize=16,
+                       background=colors['green']),
+
+    widget.GenPollText(update_interval=None, 
+                       func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/.config/qtile/scripts/printvol.sh")).decode('utf-8'),
+                       background=colors['green']),
 ], 30)
 
 screens = [

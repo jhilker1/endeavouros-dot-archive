@@ -68,3 +68,4 @@ flycheck_*.el
 .config/jmacs/session.*
 
 node_modules/
+/.config/ncspot/userstate.cbor

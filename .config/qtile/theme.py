@@ -16,7 +16,7 @@ gruvbox = {
 my_scheme = {}
 
 fonts = {
-    "text": "Iosevka Mono NF",
+    "text": "Iosevka Mono Nerd Font",
     "material": "Material Icons",
     "fa": "FontAwesome"
 }
