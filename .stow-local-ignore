@@ -11,3 +11,4 @@
 ^/requirements.txt
 ^/dotsync.sh
 ^/install.sh
+^/private-build-plans.toml

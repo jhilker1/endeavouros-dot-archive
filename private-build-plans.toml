@@ -1,0 +1,70 @@
+# v15.0.2
+
+[buildPlans.jhiosevka]
+family = "Jhiosevka"
+spacing = "normal"
+serifs = "sans"
+no-cv-ss = false
+
+  [buildPlans.jhiosevka.variants]
+  inherits = "ss03"
+
+    [buildPlans.jhiosevka.variants.design]
+    a = "single-storey-serifless"
+    b = "toothed"
+    f = "serifless-crossbar-at-x-height"
+    k = "symmetric-connected-serifless"
+    q = "tailed"
+    t = "flat-hook-short-neck"
+    capital-j = "serifed-symmetric"
+    four = "semi-open-non-crossing"
+    dollar = "open"
+    cent = "open"
+    percent = "rings-continuous-slash"
+    question = "corner"
+
+    [buildPlans.jhiosevka.variants.italic]
+    l = "tailed-serifed"
+    q = "diagonal-tailed"
+
+  [buildPlans.jhiosevka.ligations]
+  inherits = "dlig"
+
+[buildPlans.jhiosevka.widths.normal]
+shape = 600
+menu = 5
+css = "normal"
+
+[buildPlans.jhiosevka-sans]
+family = "Jhiosevka Sans"
+spacing = "quasi-proportional"
+serifs = "sans"
+no-cv-ss = false
+
+  [buildPlans.jhiosevka-sans.variants]
+  inherits = "ss03"
+
+    [buildPlans.jhiosevka-sans.variants.design]
+    a = "single-storey-serifless"
+    b = "toothed"
+    f = "serifless-crossbar-at-x-height"
+    k = "symmetric-connected-serifless"
+    l = "serifless"
+    q = "tailed"
+    t = "flat-hook-short-neck"
+    capital-j = "serifed-symmetric"
+    four = "semi-open-non-crossing"
+    dollar = "open"
+    cent = "open"
+    percent = "rings-continuous-slash"
+    question = "corner"
+
+
+  [buildPlans.jhiosevka-sans.ligations]
+  inherits = "dlig"
+
+[buildPlans.jhiosevka-sans.widths.normal]
+shape = 600
+menu = 5
+css = "normal"
+
