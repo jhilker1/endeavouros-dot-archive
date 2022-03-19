@@ -1,0 +1,6 @@
+
+
+* UI
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-gruvbox)
+#+end_src
