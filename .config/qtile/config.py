@@ -168,7 +168,7 @@ mainbar = bar.Bar([
                    fontsize = 12,
                    background=colors['blue']),
     widget.Clock(format="%H:%M - %a %d %b",
-                 background=colors['blue']), 
+                 background=colors['blue']),
 
     draw_arrow_right(colors['purple'],
                      colors['blue']),
@@ -183,7 +183,7 @@ mainbar = bar.Bar([
                     inactive_colour = colors['gray'],
                     padding=7,
                     foreground=colors['fg']),
-    
+
 
     draw_arrow_left(colors['orange'],
                     colors['purple']),
@@ -197,17 +197,18 @@ mainbar = bar.Bar([
 
     draw_arrow_left(colors['purple'],
                     colors['green']),
-    
 
-    widget.GenPollText(update_interval=None, 
+
+    widget.GenPollText(update_interval=None,
                        func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/.config/qtile/scripts/volicon.sh")).decode('utf-8'),
                        font=fonts['material'],
                        fontsize=16,
                        background=colors['green']),
 
-    widget.GenPollText(update_interval=None, 
+    widget.GenPollText(update_interval=None,
                        func=lambda: subprocess.check_output(os.path.expanduser("~/.dotfiles/.config/qtile/scripts/printvol.sh")).decode('utf-8'),
                        background=colors['green']),
+
 ], 30)
 
 screens = [
