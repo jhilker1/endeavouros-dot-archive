@@ -18,32 +18,17 @@ mod = "mod4"
 terminal = "alacritty"
 browser = "firefox"
 
-groups = [Group("1", layout='monadtall', matches=[
-    Match(wm_class=["firefox", "qutebrowser"]),
-]),
-          Group("2", layout='monadtall', matches=[
-              Match(title=["Emacs"])
-          ]),
-          Group("3", layout='monadtall', matches=[
-              Match(title=["Alacritty"])
-          ]),
-          
-          Group("4", layout='monadtall', matches=[
-              Match(title=["Discord", "Discord Updater"]),
-          ]),
-          Group("5", layout='monadtall', matches=[
-              Match(title=["Steam"]),
-          ]),
-          Group("6", layout='monadtall', matches=[
-              Match(title=["ncspot"])
-          ]),
-          Group("7", layout='max', matches=[
-              Match(title=["GNU Image Manipulation Program"]),
-              Match(wm_class=["feh"])
-          #    Match(wm_class=["Godot"]), # Wonderdraft
-          ]),
-          Group("8", layout='max'),
+# TODO Fix matching
 
+groups = [Group("1", layout='monadtall'), ## Browser
+          Group("2", layout='monadtall'), ## Emacs/Dev
+          Group("3", layout='monadtall'), ## Terminal
+
+          Group("4", layout='monadtall'), ## IRC/Discord
+          Group("5", layout='monadtall'), ## Steam/Games
+          Group("6", layout='monadtall'), ## Music
+          Group("7", layout='max'), ## Graphics
+          Group("8", layout='max'),
           Group("9", layout='max')]
 
 keys = [
