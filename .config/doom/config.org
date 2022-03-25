@@ -4,7 +4,7 @@
 
 This is my doom emacs literate configuration, containing everything necessary for my setup.
 
-* My =init.el=
+* Modules
 :PROPERTIES:
 :header-args:emacs-lisp: :tangle init.el
 :END:
