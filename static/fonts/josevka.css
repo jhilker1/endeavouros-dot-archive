@@ -1,0 +1,29 @@
+@font-face {
+	font-family: 'Josevka Web';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	src: url('woff2/josevka/josevka-regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Josevka Web';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: italic;
+	src: url('woff2/josevka/josevka-italic.woff2') format('woff2');
+}
+
+
+
+@font-face {
+	font-family: 'Josevka Web';
+	font-display: swap;
+	font-weight: 700;
+	font-stretch: normal;
+	font-style: normal;
+	src: url('woff2/josevka/josevka-bold.woff2') format('woff2');
+}
+

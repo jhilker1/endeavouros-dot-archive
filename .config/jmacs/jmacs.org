@@ -4,7 +4,11 @@
 #+startup: fold
 #+property: header-args:elisp :tangle jmacs.el 
 #+property: header-args:emacs-lisp :tangle jmacs.el 
-
+#+hugo_base_dir: ../../
+#+hugo_section: emacs/
+#+hugo_type: config
+#+hugo_bundle: jmacs
+#+export_file_name: index
 
 * Initialization
 ** Early Initialization

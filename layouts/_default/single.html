@@ -1,0 +1,24 @@
+{{ define "main" }}
+{{ if eq .Type "config" }}
+<div class="grid grid-cols-1 lg:grid-cols-[3fr,1fr]">
+    <main class="lg:border-r-2 border-slate-400 dark:border-slate-700 lg:mr-2">
+        <h1>{{.Title}}</h1>
+        <details class="lg:hidden">
+            <summary>Table of Contents</summary>
+            {{.TableOfContents}}
+        </details>
+        {{.Content}}
+    </main>
+    <aside class="hidden lg:block ml-2  prose-sm">
+        <details class="sticky top-0">
+            <summary class="underline ml-2">Table of Contents</summary>
+            {{.TableOfContents}}
+        </details>
+    </aside>
+</div>
+{{ else }}
+<h1>{{.Title}}</h1>
+{{ .Content}}
+{{ end }}
+
+{{ end }}

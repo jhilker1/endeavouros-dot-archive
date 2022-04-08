@@ -16,3 +16,9 @@
 [submodule "doom-emacs"]
 	path = .doomemacs
 	url = https://github.com/hlissner/doom-emacs.git
+[submodule "omniscient"]
+	path = omniscient
+	url = https://github.com/jhilker1/hugo-omniscient.git
+[submodule "themes/omniscient"]
+	path = themes/omniscient
+	url = https://github.com/jhilker1/hugo-omniscient.git

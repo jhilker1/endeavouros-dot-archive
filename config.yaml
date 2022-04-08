@@ -1,3 +1,49 @@
-baseURL: http://example.org/
+baseURL: http://config.jhilker.com/
 languageCode: en-us
-title: My New Hugo Site
+title: /home/jhilker/.dotfiles
+theme:
+- omniscient
+
+build:
+  writeStats: true
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: false
+    hl_Lines: ""
+    lineAnchors: ""
+    lineNoStart: 1
+    lineNos: false
+    noClasses: false
+    noHl: false
+    style: monokai
+    tabWidth: 4
+
+menus:
+  main:
+    - name: Home
+      identifier: home
+      url: /
+      weight: 1
+
+    - name: Emacs
+      identifier: emacs
+      url: /emacs/
+      weight:  2
+
+    - name: Doom Emacs
+      identifier: doom
+      url: /emacs/doom/
+      weight:  1
+      parent: emacs
+
+    - name: Jmacs
+      identifier: jmacs
+      url: /emacs/jmacs
+      weight:  2
+      parent: emacs

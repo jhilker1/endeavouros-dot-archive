@@ -4,11 +4,22 @@
 #+property: header-args :mkdirp yes
 #+property: header-args:python :tangle config.py
 #+auto_tangle: t
+#+hugo_base_dir: ../../
+#+hugo_type: config
+#+hugo_section: wms
+#+hugo_bundle: qtile
+#+export_file_name: index
+
 
 This file serves as the documentation and source code for my configuration of Qtile.
 
 * Global Imports
 These must be imported in order for my config to work.
+#+begin_details
+#+begin_summary
+_*Python*_
+#+end_summary
+
 #+begin_src python
 import os
 import re
@@ -26,7 +37,7 @@ from qtile_extras import widget
 from theme import fonts
 from theme import gruvbox as colors
 #+end_src
-
+#+end_details
 
 * A Few Variables
 I like to have the Super (or Windows) key as my modkey, alacritty as my terminal, and firefox as my browser.
