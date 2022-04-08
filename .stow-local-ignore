@@ -12,3 +12,13 @@
 ^/dotsync.sh
 ^/install.sh
 ^/private-build-plans.toml
+^/config.yaml
+^/publish.el
+^/content
+^/layouts
+^/themes
+^/data
+^/static
+^/package-lock.json
+^/package.json
+^/.gitmodules
