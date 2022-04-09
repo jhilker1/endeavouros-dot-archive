@@ -37,7 +37,6 @@
 (straight-use-package '(org :type built-in))
 (straight-use-package '(ox-hugo
                         :host github :repo "kaushalmodi/ox-hugo"))
-(setq org-hugo-paired-shortcodes "highlight")
 
 (defun build/export-configs ()
   (dolist (org-file (directory-files-recursively ".config" "\.org$"))
