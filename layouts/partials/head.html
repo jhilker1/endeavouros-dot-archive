@@ -1,7 +1,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ if .IsHome }} {{.Site.Title}} {{ else }}{{ if .Page.Title}} {{ .Page.Title}} | {{end}}{{end}}{{.Site.Title}}</title>
+    <title>{{ if .IsHome }} {{.Site.Title}} {{ else }}{{ if .Page.Title}} {{ .Page.Title}} | {{.Site.Title}}{{end}}{{end}}</title>
 
     {{ partialCached "css" .}}
   <!-- AlpineJS -->
