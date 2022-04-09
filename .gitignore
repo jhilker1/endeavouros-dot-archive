@@ -71,3 +71,4 @@ node_modules/
 /.config/ncspot/userstate.cbor
 /.packages/
 /.packages.org-id-locations
+*.md

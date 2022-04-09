@@ -1,15 +1,15 @@
-;;; publish.el --- Publishes my dotfiles to hugo markdown -*- lexical-binding: t; -*-
+;;; publish.el --- Publishes my dotfiles using ox-hugo -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2022 Jacob Hilker
 ;;
 ;; Author: Jacob Hilker <jacob.hilker2@gmail.com>
 ;; Maintainer: Jacob Hilker <jacob.hilker2@gmail.com>
-;; Created: April 08, 2022
-;; Modified: April 08, 2022
+;; Created: April 09, 2022
+;; Modified: April 09, 2022
 ;; Version: 0.0.1
-;; Keywords: publishing hugo dotfiles
+;; Keywords: publishing dotfiles org
 ;; Homepage: https://github.com/jhilker1/dots
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "26.3"))
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -19,7 +19,7 @@
 ;;
 ;;; Code:
 (setq user-emacs-directory (expand-file-name "./.packages")
-      make-backup-files nil) ;;; Using git, therefore cringe
+      make-backup-files nil) ;; using git so unnecessary
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -33,10 +33,12 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-
 (straight-use-package '(org :type built-in))
 (straight-use-package '(ox-hugo
                         :host github :repo "kaushalmodi/ox-hugo"))
+
+(with-eval-after-load 'ox
+  (require 'ox-hugo))
 
 (defun build/export-configs ()
   (dolist (org-file (directory-files-recursively ".config" "\.org$"))
