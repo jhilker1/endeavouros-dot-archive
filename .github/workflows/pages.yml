@@ -32,6 +32,8 @@ jobs:
           node-version: 17.x
           # Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.
           cache-dependency-path: package-lock.json
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
       - name: Install Node Dependencies
         run: npm ci --cache .npm --prefer-offline
@@ -39,12 +41,22 @@ jobs:
       - name: Install Emacs
         run: sudo apt install emacs-nox --yes
 
-      - name: Build Content
+      - name: Publish Markdown
         run: |
           mkdir content
           emacs -Q --batch --script publish.el
 
-      - name: Build Hugo Site
+      - name: Set Up Hugo
         uses: peaceiris/actions-hugo@v2.4.13
         with:
           extended: true
+
+      - name: Publish Site
+        run: hugo --minify -b "https://jhilker1.github.io/dots/"
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
