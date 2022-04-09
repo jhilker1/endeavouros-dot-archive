@@ -69,7 +69,8 @@ module.exports = {
         sans: ['"Josevka Sans"', defaultTheme.fontFamily.sans],
         serif: ['"Josevka Book"', defaultTheme.fontFamily.serif],
         mono: ['"Josevka Web"', defaultTheme.fontFamily.mono],
-      },
+        },
+
       },
   },
     plugins: [

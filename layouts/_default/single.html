@@ -1,24 +1,26 @@
 {{ define "main" }}
 {{ if eq .Type "config" }}
-<div class="grid grid-cols-1 lg:grid-cols-[3fr,1fr]">
-    <main class="lg:border-r-2 border-slate-400 dark:border-slate-700 lg:mr-2">
+<div class="grid grid-cols-1 lg:grid-cols-3 h-screen">
+    <article class="col-span-2">
         <h1>{{.Title}}</h1>
-        <details class="lg:hidden">
+        <details class="lg:hidden text-sm">
             <summary>Table of Contents</summary>
             {{.TableOfContents}}
         </details>
         {{.Content}}
-    </main>
-    <aside class="hidden lg:block ml-2  prose-sm">
-        <details class="sticky top-0">
-            <summary class="underline ml-2">Table of Contents</summary>
+    </article>
+    <aside class="hidden lg:flex flex-col justify-between h-full col-span-1">
+	    <details class="sticky top-0 open:overflow-y-scroll mb-2 h-[60vh] open:scrollbar-thin ml-2">
+		    <summary class="font-bold underline">Table of Contents</summary>
             {{.TableOfContents}}
-        </details>
+	        </details>
+        <button id="backToTop" class="sticky bottom-[0.5rem] text-sm bg-royal-500 rounded-sm p-1 self-center text-black dark:text-white transform transform-colors" onclick="scrollToTop();">
+            <span>Back to Top</span>
+        </button>
     </aside>
-</div>
+    </div>
 {{ else }}
 <h1>{{.Title}}</h1>
-{{ .Content}}
+{{.Content}}
 {{ end }}
-
 {{ end }}

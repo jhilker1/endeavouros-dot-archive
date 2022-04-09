@@ -9,7 +9,7 @@
         class="grid h-screen grid-areas-mobile grid-rows-layout lg:grid-areas-desktop grid-cols-layout">
         {{ partial "header.html" . }}
         {{ partial "sidebar/fixed.html" . }}
-        <main class="px-3 pt-3 grid-in-main !max-w-none overflow-y-scroll scrollbar-thin prose prose-sm lg:prose-base prose-slate prose-a:text-royal-600 dark:prose-a:text-royal-400 dark:prose-invert scroll-smooth motion-reduce:scroll-auto">
+        <main class="px-3 pt-3 grid-in-main !max-w-none overflow-y-scroll scrollbar-thin prose prose-sm prose-slate prose-a:text-royal-600 dark:prose-a:text-royal-400 dark:prose-invert scroll-smooth motion-reduce:scroll-auto">
             {{ block "main" . }}
             {{ end }}
         </main>

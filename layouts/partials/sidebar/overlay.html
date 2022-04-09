@@ -23,5 +23,5 @@
     </a>
     {{ end  }}
 
-<span class="absolute bottom-0 mb-4 text-sm text-gray-700 dark:text-gray-400">&copy;2021-{{now.Format "2006"}} {{if isset .Site.Params "author"}}{{.Site.Params.author}}{{else}}{{.Site.Author.name}}{{end}}</span>
+    <span class="absolute bottom-0 mb-4 text-gray-700 dark:text-gray-400 text-sm">&copy;&nbsp;2021-{{now.Format "2006"}} {{if isset .Site.Params "author"}}{{.Site.Params.author}}{{else}}{{.Site.Author.name}}{{end}}</span>
 </aside>
