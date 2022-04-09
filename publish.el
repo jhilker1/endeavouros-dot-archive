@@ -57,9 +57,8 @@
   (build/export-pages)
   (build/export-configs))
 
-
-(build/export-all)
-(provide 'publish)
+(with-eval-after-load 'ox-hugo
+  (build/export-all))
 
 
 (provide 'publish)
