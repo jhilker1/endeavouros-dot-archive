@@ -7,9 +7,9 @@
 #+hugo_base_dir: ../../
 #+hugo_type: config
 #+hugo_section: wms
+#+hugo_draft: false
 #+hugo_bundle: qtile
 #+export_file_name: index
-
 
 This file serves as the documentation and source code for my configuration of Qtile.
 

@@ -8,6 +8,7 @@
 #+hugo_section: emacs/
 #+hugo_type: config
 #+hugo_bundle: jmacs
+#+hugo_draft: false
 #+export_file_name: index
 
 * Initialization
