@@ -37,7 +37,7 @@
 (straight-use-package '(org :type built-in))
 (straight-use-package '(ox-hugo
                         :host github :repo "kaushalmodi/ox-hugo"))
-
+(require 'ox-hugo)
 (setq org-hugo-paired-shortcodes "highlight")
 
 (defun build/export-configs ()
