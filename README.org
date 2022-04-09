@@ -1,6 +1,6 @@
 #+title: Dotfiles
 #+hugo_base_dir: .
-#+hugo_section:
+#+hugo_section: /
 #+export_file_name: _index
 
 These are my (mostly) literate dotfiles and the sourcecode for them. I am currently using GNU Stow to manage my dotfiles.
