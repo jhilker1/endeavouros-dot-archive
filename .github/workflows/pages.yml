@@ -41,8 +41,8 @@ jobs:
 
       - name: Build Content
         run: |
-          - mkdir content
-          - emacs -Q --batch --script publish.el
+          mkdir content
+          emacs -Q --batch --script publish.el
 
       - name: Build Hugo Site
         uses: peaceiris/actions-hugo@v2.4.13
