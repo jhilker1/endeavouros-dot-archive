@@ -1,7 +1,6 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 module.exports = {
   content: [
-    "themes/omniscient/**/*.html",
     "layouts/**/*.html",
     "content/**/*.md"
   ],
