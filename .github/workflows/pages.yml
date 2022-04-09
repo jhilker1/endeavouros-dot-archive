@@ -40,9 +40,9 @@ jobs:
         run: sudo apt install emacs-nox --yes
 
       - name: Build Content
-        run:
-          mkdir content
-          emacs -Q --batch --script publish.el
+        run: |
+          - mkdir content
+          - emacs -Q --batch --script publish.el
 
       - name: Build Hugo Site
         uses: peaceiris/actions-hugo@v2.4.13
