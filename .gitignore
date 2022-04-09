@@ -69,6 +69,5 @@ flycheck_*.el
 
 node_modules/
 /.config/ncspot/userstate.cbor
-content/*
 /.packages/
 /.packages.org-id-locations
