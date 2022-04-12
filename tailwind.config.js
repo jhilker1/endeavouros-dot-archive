@@ -51,14 +51,14 @@ module.exports = {
         'navy': {  DEFAULT: '#394855',  '50': '#758DA3',  '100': '#6C869C',  '200': '#5E778C',  '300': '#52677A',  '400': '#455867',  '500': '#394855',  '600': '#313E49',  '700': '#29333D',  '800': '#202930',  '900': '#181F24'},
         'bismark': {  DEFAULT: '#3D627D',  '50': '#A1BDD1',  '100': '#93B3CA',  '200': '#78A0BD',  '300': '#5C8CB0',  '400': '#4A7798',  '500': '#3D627D',  '600': '#304D62',  '700': '#223746',  '800': '#15222B',  '900': '#070C0F'},
         syntax: {
-          bg: "#282828",
-          fg: "#ebdbb2",
-          red: "#fb4934",
-          green: "b8bb26",
-          yellow: "#fabd2f",
-          blue: "#83a598",
-          purple: "#d3869b",
-          aqua: "#83c07c",
+          bg: "#0e1013",
+          fg: "#eceff4",
+          red: "#e55561",
+          green: "#8ebd6b",
+          yellow: "#e2b86b",
+          blue: "#4fa6ed",
+          purple: "#bf68d9",
+          aqua: "#48b0bd",
         }
       },
       screens: {
@@ -66,8 +66,8 @@ module.exports = {
       },
 
       fontFamily: {
-        sans: ['"Josevka Sans"', defaultTheme.fontFamily.sans],
-        serif: ['"Josevka Book"', defaultTheme.fontFamily.serif],
+        sans: ['"Josevka Sans Web"', defaultTheme.fontFamily.sans],
+        serif: ['"Josevka Book Web"', defaultTheme.fontFamily.serif],
         mono: ['"Josevka Web"', defaultTheme.fontFamily.mono],
         },
 
