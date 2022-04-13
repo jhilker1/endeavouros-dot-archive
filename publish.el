@@ -48,6 +48,16 @@
 (with-eval-after-load 'ox
   (require 'ox-hugo))
 
+(with-eval-after-load 'ol
+  (add-to-list 'org-link-abbrev-alist '("github" . "https://github.com/")))
+
+(with-eval-after-load 'ox-hugo
+  (setq org-hugo-paired-shortcodes "warning"))
+
+(with-eval-after-load 'ox-hugo
+  (setq org-export-global-macros '(("srcstart" . "@@hugo:<details><summary class=\"font-bold underline\">$1</summary>@@")
+                                   ("srcend" . "@@hugo:</details>@@"))))
+
 (defun build/export-configs ()
   (dolist (org-file (directory-files-recursively ".config" "\.org$"))
     (with-current-buffer (find-file org-file)
