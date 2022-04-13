@@ -40,7 +40,6 @@
 (with-eval-after-load 'ox
   (require 'ox-hugo))
 
-
 (defun build/export-configs ()
   (dolist (org-file (directory-files-recursively ".config" "\.org$"))
     (with-current-buffer (find-file org-file)
@@ -63,3 +62,4 @@
 
 (provide 'publish)
 ;;; publish.el ends here
+
