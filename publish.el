@@ -33,7 +33,15 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-(straight-use-package '(org :type built-in))
+(straight-use-package '(org :type git
+       :repo "https://code.orgmode.org/bzg/org-mode.git"
+       :local-repo "org"
+       :depth full
+       :pre-build (straight-recipes-org-elpa--build)
+       :build (:not autoloads)
+       :files (:defaults "lisp/*.el" ("etc/styles/" "etc/styles/*"))))
+
+(straight-use-package '(org-contrib))
 (straight-use-package '(ox-hugo
                         :host github :repo "kaushalmodi/ox-hugo"))
 
