@@ -38,7 +38,7 @@ html {
   -moz-tab-size: 4; /* 3 */
   -o-tab-size: 4;
      tab-size: 4; /* 3 */
-  font-family: "Josevka Sans Web", ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"; /* 4 */
+  font-family: "Josevka Sans", ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"; /* 4 */
 }
 
 /*
@@ -113,7 +113,7 @@ code,
 kbd,
 samp,
 pre {
-  font-family: "Josevka Web", ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace; /* 1 */
+  font-family: "Josevka", ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -822,7 +822,7 @@ pre, code{
   text-align: right;
 }
 .font-mono{
-  font-family: "Josevka Web", ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  font-family: "Josevka", ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 }
 .text-sm{
   font-size: 0.875rem;
