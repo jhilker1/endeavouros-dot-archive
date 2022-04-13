@@ -1,0 +1,6 @@
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+{{ $mainJs := resources.Get "js/main.js"}}
+  <script src="{{$mainJs.RelPermalink}}"></script>
+
+{{ $prismJs := resources.Get "js/prism.js"}}
+  <script src="{{$prismJs.RelPermalink}}"></script>

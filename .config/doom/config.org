@@ -6,6 +6,8 @@
 #+hugo_section: emacs
 #+hugo_bundle: doom
 #+hugo_draft: false
+#+macro: srcstart @@hugo:<details><summary class="font-bold underline">$1</summary>@@
+#+macro: srcend @@hugo:</details>@@
 #+export_file_name: index
 
 This is my doom emacs literate configuration, containing everything necessary for my setup.
