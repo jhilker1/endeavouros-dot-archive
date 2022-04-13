@@ -1,5 +1,6 @@
 #+title: Jmacs
 #+subtitle: Jacob's Literate Emacs Config
+#+hugo_custom_front_matter: :subtitle "Jacob's Literate Emacs Config"
 #+author: Jacob Hilker
 #+startup: fold
 #+property: header-args:elisp :tangle jmacs.el 
@@ -9,7 +10,12 @@
 #+hugo_type: config
 #+hugo_bundle: jmacs
 #+hugo_draft: false
+#+hugo_paired_shortcodes: warning
 #+export_file_name: index
+
+#+begin_warning
+This config file is no longer being updated. I am currently using [[github:hlissner/doom-emacs][Doom Emacs]] for my emacs config.
+#+end_warning
 
 * Initialization
 ** Early Initialization

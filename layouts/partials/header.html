@@ -11,9 +11,8 @@
         </button>
         <nav class="items-center hidden h-full space-x-3 lg:flex">
                 {{ $currentPage := .}}
-                {{ range .Site.Menus.main }}
-                {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .)
-                ($currentPage.IsMenuCurrent "main" .) (eq $currentPage.RelPermalink .URL)) }}
+            {{ range .Site.Menus.main }}
+                {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .) (eq $currentPage.RelPermalink .URL)) }}
                 {{ if .HasChildren}}
                 <div class="relative inline-block h-full items-center p-3 2xl:p-4 hover:bg-gray-400 dark:hover:bg-navy-600 {{if $active}}border-b-2 border-royal-600 dark:border-royal-400{{end}}"
                     x-data="{ open: false }">
@@ -94,6 +93,7 @@
             x-transition:leave="transition ease-in-out duration-200"
             x-transition:leave-end="opacity-0 transform -translate-y-2"
           >
+
               {{ range .Children }}
             <a href="{{.URL}}" class="block text-sm px-4 py-2 hover:text-royal-600 dark:hover:text-royal-400"
               >{{.Name}}</a

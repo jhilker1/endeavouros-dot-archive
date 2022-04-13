@@ -24,7 +24,7 @@
     }
 
     pre,code {
-        @apply text-[12px];
+        @apply !text-[12px];
     }
 
     #TableOfContents ul {
@@ -50,5 +50,6 @@
     .btn-secondary {
         @apply text-white transition-colors duration-150 transform bg-brown-600 hover:bg-brown-700 dark:hover:bg-brown-400 no-underline;
     }
+
 
 }

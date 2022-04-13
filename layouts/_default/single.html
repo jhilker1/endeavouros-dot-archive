@@ -2,7 +2,7 @@
 {{ if eq .Type "config" }}
 <div class="grid grid-cols-1 lg:grid-cols-3 h-screen">
     <article class="col-span-2">
-        <h1>{{.Title}}</h1>
+        <h1>{{.Title}}{{if .Params.subtitle}}: {{.Params.Subtitle}}{{end}}</h1>
         <details class="lg:hidden text-sm">
             <summary>Table of Contents</summary>
             {{.TableOfContents}}

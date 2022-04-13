@@ -66,9 +66,9 @@ module.exports = {
       },
 
       fontFamily: {
-        sans: ['"Josevka Sans Web"', defaultTheme.fontFamily.sans],
-        serif: ['"Josevka Book Web"', defaultTheme.fontFamily.serif],
-        mono: ['"Josevka Web"', defaultTheme.fontFamily.mono],
+        sans: ['"Josevka Sans"', defaultTheme.fontFamily.sans],
+        serif: ['"Josevka Book"', defaultTheme.fontFamily.serif],
+        mono: ['"Josevka"', defaultTheme.fontFamily.mono],
         },
 
       },
