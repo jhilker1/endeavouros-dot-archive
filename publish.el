@@ -40,8 +40,6 @@
 (with-eval-after-load 'ox
   (require 'ox-hugo))
 
-(with-eval-after-load 'ox-hugo
-  (setq org-hugo-paired-shortcodes "warning"))
 
 (defun build/export-configs ()
   (dolist (org-file (directory-files-recursively ".config" "\.org$"))
