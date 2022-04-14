@@ -54,6 +54,9 @@ jobs:
       - name: Publish Site
         run: hugo --minify -b "https://jhilker1.github.io/dots/"
 
+      - name: Print Index Page
+        run: cat content/_index.md
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
