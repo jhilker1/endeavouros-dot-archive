@@ -68,10 +68,15 @@ menus:
       url: /
       weight: 1
 
+    - name: Workflow
+      identifier: workflow
+      url: /workflow/
+      weight: 2
+
     - name: Emacs
       identifier: emacs
       url: /emacs/
-      weight:  2
+      weight:  3
 
     - name: Doom Emacs
       identifier: doom

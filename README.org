@@ -5,14 +5,3 @@
 
 These are my (mostly) literate dotfiles and the sourcecode for them. I am currently using GNU Stow to manage my dotfiles.
 
-
-
-* What I Use
-** Editors
-*** Emacs
-:PROPERTIES:
-:EXPORT_HUGO_SECTION: emacs
-:EXPORT_FILE_NAME: _index
-:END:
-
-Emacs is an incredible editor, and my go-to editor of choice for larger software projects. While I had been using my own personal configuration for a while, I've primarily swapped over to [[github:hlissner/doom-emacs][Doom Emacs]] as my base.

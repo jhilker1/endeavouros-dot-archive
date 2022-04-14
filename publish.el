@@ -33,30 +33,23 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-(straight-use-package '(org :type git
-       :repo "https://code.orgmode.org/bzg/org-mode.git"
-       :local-repo "org"
-       :depth full
-       :pre-build (straight-recipes-org-elpa--build)
-       :build (:not autoloads)
-       :files (:defaults "lisp/*.el" ("etc/styles/" "etc/styles/*"))))
+(straight-use-package '(org :type built-in))
 
-(straight-use-package '(org-contrib))
 (straight-use-package '(ox-hugo
                         :host github :repo "kaushalmodi/ox-hugo"))
 
 (with-eval-after-load 'ox
   (require 'ox-hugo))
 
-(with-eval-after-load 'ol
+(with-eval-after-load 'org
   (add-to-list 'org-link-abbrev-alist '("github" . "https://github.com/")))
 
 (with-eval-after-load 'ox-hugo
-  (setq org-hugo-paired-shortcodes "warning"))
+  (setq org-hugo-paired-shortcodes "warning mermaid"
+        org-export-global-macros '(("srcstart" . "@@hugo:<details><summary class=\"font-bold underline\">$1</summary>@@")
+                                   ("srcend" . "@@hugo:</details>@@")))
+  (add-to-list 'org-hugo-special-block-type-properties '("mermaid" :raw t)))
 
-(with-eval-after-load 'ox-hugo
-  (setq org-export-global-macros '(("srcstart" . "@@hugo:<details><summary class=\"font-bold underline\">$1</summary>@@")
-                                   ("srcend" . "@@hugo:</details>@@"))))
 
 (defun build/export-configs ()
   (dolist (org-file (directory-files-recursively ".config" "\.org$"))

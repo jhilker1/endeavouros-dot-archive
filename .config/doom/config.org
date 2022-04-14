@@ -3,19 +3,27 @@
 #+date: 2022-03-19
 #+hugo_base_dir: ../../
 #+hugo_type: config
+#+hugo_draft: false
+#+hugo_custom_front_matter: :mermaid true
 #+hugo_section: emacs
 #+hugo_bundle: doom
-#+hugo_draft: false
 #+export_file_name: index
 
 This is my doom emacs literate configuration, containing everything necessary for my setup.
+
+* Why Emacs?
+Emacs allows me to combine multiple workflows I have with one program, whereas with another editor I would need different programs for each workflow I have.
+#+begin_mermaid
+flowchart LR
+    todo[Task Management] --- editor[Code Editor]
+    todo[Task Management] --- Email
+#+end_mermaid
 
 * Modules
 :PROPERTIES:
 :header-args:emacs-lisp: :tangle init.el
 :END:
 My init is pretty basic.
-{{{srcstart(Emacs-Lisp)}}}
 #+begin_src emacs-lisp +n 1 :noweb noexport
 ;;; init.el -*- lexical-binding: t; -*-
 
@@ -212,31 +220,20 @@ My init is pretty basic.
        literate
        (default +bindings +smartparens))
 #+end_src
-{{{srcend}}}
 * Rudimentary Configuration
 ** Personal Info
-#+begin_details
-#+begin_summary
-Emacs-Lisp
-#+end_summary
 #+begin_src emacs-lisp
 (setq user-full-name "Jacob Hilker"
       user-mail-address "jacob.hilker2@gmail.com"
       auth-sources '("~/.authinfo.gpg"))
 #+end_src
-#+end_details
 
 * UI
 I like to use gruvbox, along with a customized build of Iosevka I've patched for nerd-fonts.
-#+begin_details
-#+begin_summary
-Emacs-Lisp
-#+end_summary
 #+begin_src emacs-lisp
 (setq doom-theme 'doom-gruvbox
       doom-font (font-spec :family "Iosevka Mono Nerd Font" :size 14))
 #+end_src
-#+end_details
 
 
 

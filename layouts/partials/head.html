@@ -4,9 +4,12 @@
     <title>{{ if .IsHome }} {{.Site.Title}} {{ else }}{{ if .Page.Title}} {{ .Page.Title}} | {{.Site.Title}}{{end}}{{end}}</title>
 
     {{ partialCached "cached/css" .}}
-  <!-- AlpineJS -->
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-   <!-- Dark Mode -->
+    <!-- Cached JS -->
+    {{ partialCached "cached/js" .}}
+
+    <script src="https://unpkg.com/mermaid@8.8.0/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+    <!-- Dark Mode -->
   <script>
     if (localStorage.darkMode === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark')
@@ -14,7 +17,5 @@
       document.documentElement.classList.remove('dark')
     }
   </script>
-  {{ $mainJs := resources.Get "js/main.js"}}
-  <script src="{{$mainJs.RelPermalink}}"></script>
 
 </head>
