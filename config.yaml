@@ -1,7 +1,6 @@
-baseURL: https://config.jhilker.com
+baseURL: https://config.jhilker.com/
 languageCode: en-us
 title: /home/jhilker/.dotfiles
-relativeURLs: true
 
 build:
   writeStats: true
