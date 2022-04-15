@@ -8,10 +8,8 @@ test:
     - npm ci --cache .npm --prefer-offline
     - mkdir content
     - emacs -Q --batch --script publish.el
-    - hugo --minify -b "https://config.jhilker.com"
-  artifacts:
-    paths:
-      - public
+    - hugo --gc --minify
+
   except:
     - main
 
@@ -22,7 +20,7 @@ pages:
     - npm ci --cache .npm --prefer-offline
     - mkdir content
     - emacs -Q --batch --script publish.el
-    - hugo --minify -b "https://config.jhilker.com"
+    - hugo --gc --minify
   artifacts:
     paths:
       - public
