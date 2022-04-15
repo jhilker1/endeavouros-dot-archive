@@ -2,14 +2,11 @@
 #+hugo_base_dir: .
 #+hugo_section: /
 #+hugo_draft: true
-#+hugo_custom_front_matter: :mermaid true
 #+hugo_bundle: workflow
 #+export_file_name: index
 
 The core of my workflow revolves around using [[https:orgmode.org][Org-mode]] to keep track of tasks, habits, etc. I personally use org-mode for a variety of different things:
 
-#+attr_shortcode: :caption The main ways I use org-mode.
-#+begin_mermaid
-flowchart LR
-task(Task Management) --- Writing
-#+end_mermaid
+- Task Management
+- Note-taking
+- Writing

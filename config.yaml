@@ -1,6 +1,7 @@
 baseURL: https://config.jhilker.com/
 languageCode: en-us
 title: /home/jhilker/.dotfiles
+canonifyURLs: true
 
 build:
   writeStats: true
@@ -68,15 +69,10 @@ menus:
       url: /
       weight: 1
 
-    - name: Workflow
-      identifier: workflow
-      url: /workflow/
-      weight: 2
-
     - name: Emacs
       identifier: emacs
       url: /emacs/
-      weight:  3
+      weight:  2
 
     - name: Doom Emacs
       identifier: doom
