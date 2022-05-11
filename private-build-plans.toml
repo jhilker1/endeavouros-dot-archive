@@ -1,16 +1,16 @@
-# v15.0.2
-
-[buildPlans.jhiosevka]
-family = "Jhiosevka"
+# v15.3.0
+# v1.0.0
+[buildPlans.josevka]
+family = "Josevka"
 spacing = "normal"
 serifs = "sans"
 no-cv-ss = false
 
-  [buildPlans.jhiosevka.variants]
+  [buildPlans.josevka.variants]
   inherits = "ss03"
 
-    [buildPlans.jhiosevka.variants.design]
-    a = "single-storey-serifless"
+    [buildPlans.josevka.variants.design]
+    a = "double-storey-tailed"
     b = "toothed"
     f = "serifless-crossbar-at-x-height"
     k = "symmetric-connected-serifless"
@@ -23,36 +23,64 @@ no-cv-ss = false
     percent = "rings-continuous-slash"
     question = "corner"
 
-    [buildPlans.jhiosevka.variants.italic]
+    [buildPlans.josevka.variants.italic]
+    f = "flat-hook-tailed-crossbar-at-x-height"
     l = "tailed-serifed"
     q = "diagonal-tailed"
 
-  [buildPlans.jhiosevka.ligations]
+  [buildPlans.josevka.ligations]
   inherits = "dlig"
 
-[buildPlans.jhiosevka.widths.normal]
-shape = 600
+[buildPlans.josevka.weights.light]
+shape = 300
+menu = 300
+css = 300
+
+[buildPlans.josevka.weights.regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.josevka.weights.bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.josevka.slopes.upright]
+angle = 0
+shape = "upright"
+menu = "upright"
+css = "normal"
+
+[buildPlans.josevka.slopes.italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"
+
+[buildPlans.josevka.widths.normal]
+shape = 550
 menu = 5
 css = "normal"
 
-[buildPlans.jhiosevka-sans]
-family = "Jhiosevka Sans"
+[buildPlans.josevka-sans]
+family = "Josevka Book Sans"
 spacing = "quasi-proportional"
 serifs = "sans"
 no-cv-ss = false
 
-  [buildPlans.jhiosevka-sans.variants]
+ [buildPlans.josevka-sans.variants]
   inherits = "ss03"
 
-    [buildPlans.jhiosevka-sans.variants.design]
-    a = "single-storey-serifless"
-    b = "toothed"
-    f = "serifless-crossbar-at-x-height"
+    [buildPlans.josevka-sans.variants.design]
+    f = "flat-hook-crossbar-at-x-height"
+    g = "single-storey-serifless"
+    i = "serifless"
     k = "symmetric-connected-serifless"
     l = "serifless"
-    q = "tailed"
     t = "flat-hook-short-neck"
-    capital-j = "serifed-symmetric"
+    capital-j = "serifless"
+    lower-alpha = "crossing"
     four = "semi-open-non-crossing"
     dollar = "open"
     cent = "open"
@@ -60,11 +88,60 @@ no-cv-ss = false
     question = "corner"
 
 
-  [buildPlans.jhiosevka-sans.ligations]
+  [buildPlans.josevka-sans.ligations]
   inherits = "dlig"
 
-[buildPlans.jhiosevka-sans.widths.normal]
+[buildPlans.josevka-sans.widths.normal]
 shape = 600
 menu = 5
 css = "normal"
 
+[buildPlans.josevka-sans.slopes.upright]
+angle = 0
+shape = "upright"
+menu = "upright"
+css = "normal"
+
+[buildPlans.josevka-sans.slopes.italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"
+
+
+[buildPlans.josevka-book]
+family = "Josevka Book Slab"
+spacing = "quasi-proportional"
+serifs = "slab"
+no-cv-ss = false
+
+  [buildPlans.josevka-book.variants]
+  inherits = "ss03"
+
+    [buildPlans.josevka-book.variants.design]
+    a = "single-storey-tailed"
+    b = "toothed-motion-serifed"
+    c = "bilateral-serifed"
+    d = "tailed-serifed"
+    g = "single-storey-flat-hook-serifed"
+    t = "flat-hook"
+    capital-a = "curly-base-serifed"
+    capital-j = "serifed-both-sides"
+    capital-t = "serifed"
+    one = "base"
+    three = "flat-top"
+    ascii-single-quote = "raised-comma"
+    #ascii-grave = "raised-turn-comma"
+
+    [buildPlans.josevka-book.variants.italic]
+    e = "rounded"
+    k = "symmetric-touching-serifed"
+    x = "straight-serifed"
+
+  [buildPlans.josevka-book.ligations]
+  inherits = "dlig"
+
+[buildPlans.josevka-book.widths.normal]
+shape = 600
+menu = 5
+css = "normal"

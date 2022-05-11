@@ -1,0 +1,95 @@
+name: Build Font
+on:
+  push:
+    paths:
+      - 'private-build-plans.toml'
+  workflow_dispatch:
+
+jobs:
+ check_release_exists:
+    runs-on: ubuntu-latest
+    steps:
+      - id: check
+        run: |
+          VER=$(curl -sL https://api.github.com/repos/jhilker1/josevka/releases/latest | jq -r ".tag_name")
+          [[ $VER != "josevka-$(awk 'NR==2{print $2}')" ]]
+ build_font:
+  needs: check_release_exists
+  runs-on: ubuntu-latest
+  # only build if release hasn't been built yet
+  if: needs.check_release_exists.result == 'success'
+  steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Nerd Font Dependencies
+      run: |
+        sudo apt-get update --yes
+        sudo apt install ttfautohint python3-fontforge
+
+
+    - name: Create Patch Output Directories
+      run: |
+        mkdir -p dist/josevka/linux dist/josevka/windows
+
+
+    - name: Download Iosevka Source and Install NPM Packages
+      run: |
+        VER=$(awk 'NR==1{print $2}' private-build-plans.toml)
+        DIRNAME=$(echo $VER | sed 's/v//g')
+        curl -Lo "$VER.zip" "https://github.com/be5invis/Iosevka/archive/refs/tags/$VER.zip"
+        unzip "$VER.zip"
+        cd Iosevka-$DIRNAME
+        cp ../private-build-plans.toml .
+        npm install
+        cd ..
+
+    - name: Checkout Nerd Fonts Patcher
+      uses: actions/checkout@v3
+      with:
+        repository: betaboon/nerd-fonts-patcher
+        path: nerd-fonts-patcher
+
+    - name: Build Josevka
+      run: |
+        cd Iosevka-*
+        npm run build -- ttf::josevka
+        npm run build -- ttf::josevka-sans
+        npm run build -- ttf::josevka-book
+        cd ..
+
+    - name: Patch Josevka
+      run: |
+        FONTVER=$(awk 'NR==1{print $2}' private-build-plans.toml | grep -Po '^.{1}\K.*')
+        find Iosevka-$FONTVER/dist/josevka/ttf -name "*.ttf" -exec ./nerd-fonts-patcher/font-patcher -c -l -q {} -out dist/josevka/linux --careful --no-progressbars \;
+        find Iosevka-$FONTVER/dist/josevka/ttf -name "*.ttf" -exec ./nerd-fonts-patcher/font-patcher -c -w -l -q {} -out dist/josevka/windows --careful --no-progressbars \;
+
+    - name: Create Font Zips
+      run: |
+        FONTVER=$(awk 'NR==1{print $2}' private-build-plans.toml | grep -Po '^.{1}\K.*')
+        cd dist/josevka/linux
+        zip -r josevka.zip *
+        mv josevka.zip ../../../
+        cd ../windows
+        zip -r josevkaWindows.zip *
+        mv josevkaWindows.zip ../../../
+        cd ../../../
+        zip josevkaBookSans.zip Iosevka-$FONTVER/dist/josevka-sans/ttf/*
+        zip josevkaBookSlab.zip Iosevka-$FONTVER/dist/josevka-book/ttf/*
+
+    - name: Get timestamp
+      id: timestamp
+      run: echo "::set-output name=relver::$(awk 'NR==2{print $2}' private-build-plans.toml)"
+
+    - name: Release Font
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: josevka.zip,josevkaWindows.zip,josevkaBookSans.zip,josevkaBookSlab.zip
+        tag: josevka-${{ steps.timestamp.outputs.relver }}
+        body: ${{ env.VER }}
+        commit: ${{ github.event.head_commit.id }}
+        token: ${{ secrets.GH_TOKEN }}
