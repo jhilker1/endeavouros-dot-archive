@@ -58,8 +58,8 @@ jobs:
       run: |
         cd Iosevka-*
         npm run build -- ttf::josevka
-        npm run build -- ttf::josevka-sans
-        npm run build -- ttf::josevka-book
+        npm run build -- ttf::josevka-book-sans
+        npm run build -- ttf::josevka-book-slab
         cd ..
 
     - name: Patch Josevka
@@ -71,6 +71,15 @@ jobs:
     - name: Create Font Zips
       run: |
         FONTVER=$(awk 'NR==1{print $2}' private-build-plans.toml | grep -Po '^.{1}\K.*')
+        cp -r Iosevka-$FONTVER/dist/josevka-book-sans/ttf dist/josevkaBookSans
+        cp -r Iosevka-$FONTVER/dist/josevka-book-slab/ttf dist/josevkaBookSlab
+        cd dist/josevkaBookSans
+        zip -r josevkaBookSans.zip *
+        mv josevkaBookSans.zip ../../
+        cd ../josevkaBookSlab
+        zip -r josevkaBookSlab.zip *
+        mv josevkaBookSlab.zip ../../
+        cd ../../
         cd dist/josevka/linux
         zip -r josevka.zip *
         mv josevka.zip ../../../
@@ -78,8 +87,6 @@ jobs:
         zip -r josevkaWindows.zip *
         mv josevkaWindows.zip ../../../
         cd ../../../
-        zip josevkaBookSans.zip Iosevka-$FONTVER/dist/josevka-sans/ttf/*
-        zip josevkaBookSlab.zip Iosevka-$FONTVER/dist/josevka-book/ttf/*
 
     - name: Get timestamp
       id: timestamp
