@@ -22,3 +22,12 @@
 [submodule "themes/omniscient"]
 	path = themes/omniscient
 	url = https://github.com/jhilker1/hugo-omniscient.git
+[submodule "emacs-rpgdm"]
+	path = .local/lisp/emacs-rpgdm
+	url = https://gitlab.com/howardabrams/emacs-rpgdm.git
+[submodule "emacs-ironsworn"]
+	path = .local/lisp/emacs-ironsworn
+	url = https://gitlab.com/howardabrams/emacs-ironsworn.git
+[submodule "org-cv"]
+	path = .local/lisp/org-cv
+	url = https://gitlab.com/jhilker/org-cv.git
