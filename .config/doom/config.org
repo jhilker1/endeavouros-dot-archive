@@ -232,7 +232,7 @@ My init is pretty basic.
 I like to use gruvbox, along with a customized build of Iosevka I've patched for nerd-fonts.
 #+begin_src emacs-lisp
 (setq doom-theme 'doom-gruvbox
-      doom-font (font-spec :family "Iosevka Mono Nerd Font" :size 14))
+      doom-font (font-spec :family "Josevka" :size 14))
 #+end_src
 
 

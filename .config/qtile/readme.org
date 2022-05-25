@@ -80,10 +80,10 @@ my_scheme = {}
 #+end_src
 
 ** Fonts
-I have 2 main font I like to use - Iosevka Nerd Font for my text font, and Material Material for my material.
+I have 2 main fonts I like to use - a custom build of Iosevka for my text font, and Material Icons for my icons.
 #+begin_src python
 fonts = {
-    "text": "Iosevka Mono Nerd Font",
+    "text": "Josevka Mono",
     "material": "Material Icons",
     "fa": "FontAwesome"
 }
@@ -281,6 +281,7 @@ mainbar = bar.Bar([
     draw_arrow_left(colors['orange'],
                     colors['purple']),
     widget.TextBox(text="",
+                   font = fonts['material'],
                    fontsize=16,
                    background=colors['purple']),
 

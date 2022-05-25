@@ -1,5 +1,6 @@
 \.git
 \.gitignore
+\.gitmodules
 .+~
 \#.*\#
 ^/README.*
@@ -21,4 +22,9 @@
 ^/static
 ^/package-lock.json
 ^/package.json
-^/.gitmodules
+.gitmodules
+\.nojekyll
+workflow.org
+tailwind.config.js
+postcss.config.js
+

@@ -174,6 +174,7 @@ mainbar = bar.Bar([
     draw_arrow_left(colors['orange'],
                     colors['purple']),
     widget.TextBox(text="",
+                   font = fonts['material'],
                    fontsize=16,
                    background=colors['purple']),
 
