@@ -3,10 +3,6 @@
 #+hugo_section: /
 #+export_file_name: _index
 
-#+HTML: <a href="https://github.com/jhilker1/dots/actions/workflows/build-font.yml"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/jhilker1/dots/Build%20Font?label=Font%20Build&style=flat-square"></a>
-
-#+HTML: <a href="https://github.com/jhilker1/dots/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/jhilker1/dots?label=Josevka%20Version&style=flat-square"></a>
-
 
 These are my (mostly) literate dotfiles and the sourcecode for them. I am currently using GNU Stow to manage my dotfiles.
 
