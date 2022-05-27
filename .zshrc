@@ -62,7 +62,7 @@ source ~/.aliases
 alias ref="source ~/.zshrc"
 
 ## plugin sourcing
-source $HOME/.zshplugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source $HOME/.zshplugins/fast-syntax-highlighting/F-Sy-H.plugin.zsh
 source $HOME/.zshplugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh 
 source $HOME/.zshplugins/fzf-marks/fzf-marks.plugin.zsh 
 
