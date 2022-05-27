@@ -6,4 +6,4 @@ picom -b
 feh --bg-center ~/Pictures/wallpapers/gruvbox/pacman.png
 redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | jq -r '"\(.location.lat):\(.location.lng)"') &
 emacs --daemon &
-emacs --with-profile=doom --daemon &
+emacs --with-profile=jmacs --daemon &

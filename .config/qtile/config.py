@@ -65,14 +65,14 @@ keys = [
     Key("M-S-<Return>", lazy.spawn(browser), desc="Open Firefox"),
     
     KeyChord([mod], "e", [
-        Key("c", lazy.spawn("emacsclient -cs 'jmacs' -e '(erc)'"), desc="Spawn erc with emacs client"),
-        Key("e", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs'"), desc="Spawn emacs client"),
-        Key("n", lazy.spawn("emacsclient -cs 'jmacs' -e '(elfeed)'"), desc="Spawn elfeed with emacs client"),
+        Key("c", lazy.spawn("emacsclient -cs 'doom -e '(erc)'"), desc="Spawn erc with emacs client"),
+        Key("e", lazy.spawn("emacsclient -cs 'doom' -a 'emacs'"), desc="Spawn emacs client"),
+        Key("n", lazy.spawn("emacsclient -cs 'doom' -e '(elfeed)'"), desc="Spawn elfeed with emacs client"),
     ], mode="Emacs Apps"),
 
     KeyChord([mod, "shift"], "e", [
-        Key("d", lazy.spawn("emacsclient -cs 'doom' -a 'emacs --with-profile=doom'"), desc="Spawn Doom Emacs client"),
-        Key("j", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs'"), desc="Spawn Jmacs client"),
+        Key("d", lazy.spawn("emacsclient -cs 'doom' -a 'emacs'"), desc="Spawn Doom Emacs client"),
+        Key("j", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs --with-profile=jmacs'"), desc="Spawn Jmacs client"),
     ], mode="Emacs Profiles"),
 
 
