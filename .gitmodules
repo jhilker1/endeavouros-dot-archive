@@ -2,13 +2,13 @@
 	path = .config/emacs
 	url = https://github.com/plexus/chemacs2.git
 [submodule ".zshplugins/fzf-marks"]
-	path = .zshplugins/fzf-marks
+	path = .local/zsh/plugins/fzf-marks
 	url = https://github.com/urbainvaes/fzf-marks
 [submodule ".zshplugins/fast-syntax-highlighting"]
-	path = .zshplugins/fast-syntax-highlighting
+	path = .local/zsh/plugins/fast-syntax-highlighting
 	url = https://github.com/z-shell/fast-syntax-highlighting
 [submodule ".zshplugins/zsh-autosuggestions"]
-	path = .zshplugins/zsh-autosuggestions
+	path = .local/zsh/plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
 [submodule "fzf"]
 	path = .fzf
