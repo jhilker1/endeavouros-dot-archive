@@ -6,3 +6,11 @@
 
 These are my (mostly) literate dotfiles and the sourcecode for them. I am currently using GNU Stow to manage my dotfiles.
 
+* Installation
+#+begin_src bash
+git clone https://github.com/jhilker1/dots.git ~/.dotfiles ## or https://gitlab.com/jhilker/dots.github
+cd ~/.dotfiles
+git submodule init
+git submodule update
+stow .
+#+end_src
