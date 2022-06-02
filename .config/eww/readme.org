@@ -1,0 +1,98 @@
+#+title: Elkowar's Wacky Widgets
+#+property: header-args :mkdirp yes
+#+property: header-args:lisp :tangle eww.yuck
+#+property: header-args:sass :tangle eww.scss
+
+These widgets contain miscellaneous information and shortcuts that I wouldn't be able to fit into my main Qtile bars - things such as a todo list, agenda, etc.
+
+
+* Main Imports
+First, I need to import my utility widgets and sass - I'll explain more on those in a bit.
+#+begin_src lisp
+(include "./utils/eww.yuck")
+#+end_src
+
+* Utilities
+:PROPERTIES:
+:header-args:lisp: :tangle utils/eww.yuck
+:header-args:sass: :tangle utils/eww.scss
+:END:
+I quickly want to be able to create cards or color schemes without having to redefine each and every widget and color.
+** Colors
+*** Gruvbox
+#+begin_src sass
+
+#+end_src
+
+** Cards
+I want to quickly be able to create a card for a particular "thing".
+#+begin_src lisp
+(defwidget card [title body ?titlecolor]
+           (box :orientation "v" :class "eww-card-container" :hexpand false :space-evenly false
+                     (label :text title :class "eww-card-title")
+                     (label :text body :wrap "true")))
+#+end_src
+
+
+* Right Sidebar
+This part of the document contains the code for my "right sidebar", which contains an agenda and calendar.
+#+begin_src lisp
+(defwindow example
+           :monitor 0
+           :geometry (geometry :x "1%"
+                               :y "3%"
+                               :width "22%"
+                               :height "85%"
+                               :anchor "center right")
+           :stacking "overlay"
+           :reserve (struts :distance "5%" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+           (bg
+            (label :text " Agenda" :class "agenda-label" :xalign 0.5)))
+#+end_src
+
+** Variables and Polls
+Here is where I keep my variables and polls (aka scripts to listen to).
+#+begin_src lisp
+(defpoll agendatext :interval "30s" `gcalcli --nocolor agenda --nostarted`)
+#+end_src
+
+** Widgets
+*** Background Widget
+#+begin_src lisp
+(defwidget bg []
+    (box :class "bg"
+    (children)))
+#+end_src
+
+
+** SASS
+#+begin_src sass
+.agenda-label {
+text-align: center;
+}
+#+end_src
+
+** Scripts
+*** Toggle Script
+This script simply toggles the sidebar.
+#+begin_src bash :shebang "#!/usr/bin/env bash\n" :tangle "scripts/toggle-rightbar.sh"
+EWW=`which eww`
+FILE="$HOME/.cache/eww_launch.sb"
+CFG="$HOME/.config/eww/rightbar"
+SB_NAME="example"
+
+if [[ ! `pidof eww` ]]; then
+    eww daemon
+    sleep 1
+fi
+
+if [[ ! -f "$FILE" ]]; then
+    touch "$FILE"
+    $EWW open "$SB_NAME"
+else
+   $EWW close "$SB_NAME"
+   rm -rf "$FILE"
+fi
+#+end_src

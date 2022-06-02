@@ -63,7 +63,7 @@ keys = [
     Key("M-s", lazy.spawn("alacritty -t 'ncspot' -e 'ncspot'")),
     Key("M-<Return>", lazy.spawn(terminal), desc="Launch terminal"),
     Key("M-S-<Return>", lazy.spawn(browser), desc="Open Firefox"),
-    
+
     KeyChord([mod], "e", [
         Key("c", lazy.spawn("emacsclient -cs 'doom -e '(erc)'"), desc="Spawn erc with emacs client"),
         Key("e", lazy.spawn("emacsclient -cs 'doom' -a 'emacs'"), desc="Spawn emacs client"),
@@ -75,12 +75,9 @@ keys = [
         Key("j", lazy.spawn("emacsclient -cs 'jmacs' -a 'emacs --with-profile=jmacs'"), desc="Spawn Jmacs client"),
     ], mode="Emacs Profiles"),
 
-
-        
-
-    
-
     Key("C-<grave>", lazy.spawn("dunstctl close")),
+
+    Key("M-S-<bracketright>",lazy.spawn(os.path.expanduser("~/.config/eww/scripts/toggle-rightbar.sh"))),
 ]
 
 for group in groups:
