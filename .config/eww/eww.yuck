@@ -12,9 +12,9 @@
            :windowtype "dock"
            :wm-ignore true
            (bg
-            (label :text "${agendapoll}")))
+            (label :text " Agenda" :class "agenda-label" :xalign 0.5)))
 
-(defpoll agendapoll :interval "5s" `~/.config/eww/scripts/agenda.sh`)
+(defpoll agendatext :interval "30s" `gcalcli --nocolor agenda --nostarted`)
 
 (defwidget bg []
     (box :class "bg"
