@@ -2,6 +2,7 @@
 #+property: header-args :mkdirp yes
 #+property: header-args:lisp :tangle eww.yuck
 #+property: header-args:sass :tangle eww.scss
+#+property: header-args:scss :tangle eww.scss
 
 These widgets contain miscellaneous information and shortcuts that I wouldn't be able to fit into my main Qtile bars - things such as a todo list, agenda, etc.
 
@@ -21,7 +22,7 @@ I quickly want to be able to create cards or color schemes without having to red
 ** Colors
 *** Gruvbox
 #+begin_src sass
-
+$bg: rgb(40,40,40)
 #+end_src
 
 ** Cards
@@ -49,13 +50,13 @@ This part of the document contains the code for my "right sidebar", which contai
            :windowtype "dock"
            :wm-ignore true
            (bg
-            (label :text " Agenda" :class "agenda-label" :xalign 0.5)))
+            (label :text "${agendapoll}")))
 #+end_src
 
 ** Variables and Polls
 Here is where I keep my variables and polls (aka scripts to listen to).
 #+begin_src lisp
-(defpoll agendatext :interval "30s" `gcalcli --nocolor agenda --nostarted`)
+(defpoll agendapoll :interval "5s" `~/.config/eww/scripts/agenda.sh`)
 #+end_src
 
 ** Widgets
@@ -66,13 +67,6 @@ Here is where I keep my variables and polls (aka scripts to listen to).
     (children)))
 #+end_src
 
-
-** SASS
-#+begin_src sass
-.agenda-label {
-text-align: center;
-}
-#+end_src
 
 ** Scripts
 *** Toggle Script
@@ -95,4 +89,32 @@ else
    $EWW close "$SB_NAME"
    rm -rf "$FILE"
 fi
+#+end_src
+
+*** Agenda Script
+#+begin_src bash :tangle "scripts/agenda.sh"
+DATEFORMAT='%a. %d %b, %I:%M %p' ## day_name day_num mon 12hr clock
+GCAL="$HOME/.cache/eww/rightbar_gcal"
+AGENDA="$HOME/.cache/eww/rightbar_agenda"
+
+if [[ ! -f "$GCAL" ]] || [[ ! -f "$AGENDA" ]]; then
+    mkdir -p "$HOME/.cache/eww"
+    touch "$GCAL"; touch "$AGENDA"
+fi
+
+if [[ -s "$AGENDA" ]]; then
+    > "$AGENDA"
+fi
+
+gcalcli --refresh --nocolor agenda --nostarted --tsv --details=calendar > "$GCAL"
+
+while read line; do
+    d=$(awk -F'\t' '{print $1,$2}' <<< $line)
+    d=$(date -d "$d" "+$DATEFORMAT")
+    e=$(awk -F'\t' '{print $5}' <<< $line)
+    c=$(awk -F'\t' '{print $6}' <<< $line)
+    printf '%s - %s (%s)\n' "$d" "$e" "$c" >> "$AGENDA"
+done  < $GCAL
+
+cat "$AGENDA"
 #+end_src
