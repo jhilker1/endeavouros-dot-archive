@@ -1,4 +1,0 @@
-(defwidget card [title body ?titlecolor]
-           (box :orientation "v" :class "eww-card-container" :hexpand false :space-evenly false
-                     (label :text title :class "eww-card-title")
-                     (label :text body :wrap "true")))

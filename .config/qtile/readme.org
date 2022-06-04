@@ -339,8 +339,6 @@ feh --bg-center ~/Pictures/wallpapers/gruvbox/pacman.png
 redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | jq -r '"\(.location.lat):\(.location.lng)"') &
 emacs --daemon &
 emacs --with-profile=jmacs --daemon &
-chmod +x ~/.config/eww/scripts/toggle-rightbar.sh
-eww daemon
 #+end_src
 
 ** Volume
