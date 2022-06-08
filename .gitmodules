@@ -13,9 +13,6 @@
 [submodule "fzf"]
 	path = .fzf
 	url = https://github.com/junegunn/fzf.git
-[submodule "doom-emacs"]
-	path = .doomemacs
-	url = https://github.com/doomemacs/doomemacs.git
 [submodule "omniscient"]
 	path = omniscient
 	url = https://github.com/jhilker1/hugo-omniscient.git
